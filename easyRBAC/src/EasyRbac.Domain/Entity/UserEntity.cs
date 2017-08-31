@@ -24,5 +24,6 @@ namespace EasyRbac.Domain.Entity
 
         public List<AppResourceEntity> Resources { get; set; }
 
+        public List<ResourceScope> ResourceScopes { get; set; }
     }
 }

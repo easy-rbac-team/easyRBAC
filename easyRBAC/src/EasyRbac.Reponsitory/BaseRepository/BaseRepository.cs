@@ -36,18 +36,6 @@ namespace EasyRbac.Reponsitory.BaseRepository
             return this.Connection.ExecuteAsync(sqlCmd, sql.Parameters);
         }
 
-        public Task DeleteById(object key)
-        {
-            var sql = new SQLinq<T>().ToSQL() as SQLinqSelectResult;
-            var cmd = $"DELETE FROM {sql.Table} WHERE ID= {this.SqlDialect.ParameterPrefix}id";
-            return this.Connection.ExecuteAsync(
-               cmd,
-               new
-               {
-                   id = key
-               });
-        }
-
         public Task<IEnumerable<T>> QueryAsync(Expression<Func<T,bool>> condition)
         {
             var sql = new SQLinq<T>().Where(condition).ToSQL();

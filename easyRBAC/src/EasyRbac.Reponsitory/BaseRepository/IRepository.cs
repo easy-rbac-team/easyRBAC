@@ -11,9 +11,7 @@ namespace EasyRbac.Reponsitory.BaseRepository
     {
         Task InsertAsync(T obj);
 
-        Task DeleteAsync(Expression<Func<T, bool>> expression);
-
-        Task DeleteById(object key);
+        Task DeleteAsync(Expression<Func<T, bool>> expression);        
 
         Task<IEnumerable<T>> QueryAsync(Expression<Func<T, bool>> condition);
 

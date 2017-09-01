@@ -17,9 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AF3FD709-E65
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A78A9DDC-2CD5-4AB9-98BC-981C83950DDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyRbac.Test", "EasyRbac.Test\EasyRbac.Test.csproj", "{29F532B6-40A4-4D28-AA73-9AFA47455FC3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyRbac.Test", "src\EasyRbac.Test\EasyRbac.Test.csproj", "{29F532B6-40A4-4D28-AA73-9AFA47455FC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyRbac.Dto", "EasyRbac.Dto\EasyRbac.Dto.csproj", "{67608D53-4226-4C4F-B20B-80E00B43F1CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyRbac.Dto", "src\EasyRbac.Dto\EasyRbac.Dto.csproj", "{67608D53-4226-4C4F-B20B-80E00B43F1CF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solutionItems", "solutionItems", "{9ECF7E92-A1BE-43BE-B964-71BC45C402A5}"
 	ProjectSection(SolutionItems) = preProject

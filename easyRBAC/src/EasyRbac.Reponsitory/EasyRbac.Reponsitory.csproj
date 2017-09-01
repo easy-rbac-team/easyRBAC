@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\EasyRbac.Dto\EasyRbac.Dto.csproj" />
+    <ProjectReference Include="..\..\src\EasyRbac.Dto\EasyRbac.Dto.csproj" />
   </ItemGroup>
 
 </Project>

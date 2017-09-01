@@ -12,7 +12,7 @@ namespace EasyRbac.Web.Controllers
     {
         [HttpPost]
         public CreateUserDto CreateUser([FromBody]CreateUserDto dto)
-        {            
+        {
             return dto;
         }
 

@@ -37,9 +37,7 @@ namespace EasyRbac.Web
                 option =>
                 {
                     option.Filters.Add(new ModelVerifyFilter());
-                }).AddFluentValidation();
-
-            services.AddTransient<IValidator<CreateUserDto>, CreateUserDtoVerify>();
+                }).AddFluentValidation(fv=>fv.RegisterValidatorsFromAssemblyContaining<CreateUserDtoVerify>());            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -17,9 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AF3FD709-E65
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A78A9DDC-2CD5-4AB9-98BC-981C83950DDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyRbac.Test", "src\EasyRbac.Test\EasyRbac.Test.csproj", "{29F532B6-40A4-4D28-AA73-9AFA47455FC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyRbac.Test", "src\EasyRbac.Test\EasyRbac.Test.csproj", "{29F532B6-40A4-4D28-AA73-9AFA47455FC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyRbac.Dto", "src\EasyRbac.Dto\EasyRbac.Dto.csproj", "{67608D53-4226-4C4F-B20B-80E00B43F1CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyRbac.Dto", "src\EasyRbac.Dto\EasyRbac.Dto.csproj", "{67608D53-4226-4C4F-B20B-80E00B43F1CF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solutionItems", "solutionItems", "{9ECF7E92-A1BE-43BE-B964-71BC45C402A5}"
 	ProjectSection(SolutionItems) = preProject
@@ -30,6 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B51DD6
 	ProjectSection(SolutionItems) = preProject
 		NuGet.Config = NuGet.Config
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyRbac.Utils", "src\EasyRbac.Utils\EasyRbac.Utils.csproj", "{FC6DC59B-0CD4-4D81-BCFB-AAA3E8584DE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +67,10 @@ Global
 		{67608D53-4226-4C4F-B20B-80E00B43F1CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67608D53-4226-4C4F-B20B-80E00B43F1CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67608D53-4226-4C4F-B20B-80E00B43F1CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC6DC59B-0CD4-4D81-BCFB-AAA3E8584DE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC6DC59B-0CD4-4D81-BCFB-AAA3E8584DE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC6DC59B-0CD4-4D81-BCFB-AAA3E8584DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC6DC59B-0CD4-4D81-BCFB-AAA3E8584DE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,6 +83,7 @@ Global
 		{6F75497F-16C5-48A0-94A0-CF2C725A3363} = {AF3FD709-E65B-49E7-B960-F96D5368361A}
 		{29F532B6-40A4-4D28-AA73-9AFA47455FC3} = {A78A9DDC-2CD5-4AB9-98BC-981C83950DDD}
 		{67608D53-4226-4C4F-B20B-80E00B43F1CF} = {AF3FD709-E65B-49E7-B960-F96D5368361A}
+		{FC6DC59B-0CD4-4D81-BCFB-AAA3E8584DE3} = {AF3FD709-E65B-49E7-B960-F96D5368361A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F74244F4-27C0-4CE5-A262-4D312C150854}

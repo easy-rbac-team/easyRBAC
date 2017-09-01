@@ -4,4 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EasyRbac.Domain\EasyRbac.Domain.csproj" />
+    <ProjectReference Include="..\EasyRbac.Reponsitory\EasyRbac.Reponsitory.csproj" />
+  </ItemGroup>
+
 </Project>

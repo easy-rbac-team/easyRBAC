@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyRbac.Web.WebServices;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using EasyRbac.Dto.User;
+using EasyRbac.Dto.FluentValidate;
 
 namespace EasyRbac.Web
 {
@@ -28,7 +33,13 @@ namespace EasyRbac.Web
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc(
+                option =>
+                {
+                    option.Filters.Add(new ModelVerifyFilter());
+                }).AddFluentValidation();
+
+            services.AddTransient<IValidator<CreateUserDto>, CreateUserDtoVerify>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

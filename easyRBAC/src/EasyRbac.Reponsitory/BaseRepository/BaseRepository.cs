@@ -11,9 +11,7 @@ using SQLinq.Dialect;
 
 namespace EasyRbac.Reponsitory.BaseRepository
 {
-    
-
-    public abstract class BaseRepository<T> : IBaseRepository<T>
+    public class BaseRepository<T> : IRepository<T>
     {
         protected IDbConnection Connection;
         protected ISqlDialect SqlDialect;

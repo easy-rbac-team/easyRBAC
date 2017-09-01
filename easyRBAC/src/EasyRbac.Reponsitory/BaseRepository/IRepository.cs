@@ -7,7 +7,7 @@ using EasyRbac.Dto;
 
 namespace EasyRbac.Reponsitory.BaseRepository
 {
-    public interface IBaseRepository<T>
+    public interface IRepository<T>
     {
         Task InsertAsync(T obj);
 

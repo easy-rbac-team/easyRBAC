@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EasyRbac.Web.WebServices;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using EasyRbac.Dto.User;
 using EasyRbac.Dto.FluentValidate;
+using EasyRbac.Web.WebExtentions;
 
 namespace EasyRbac.Web
 {
@@ -47,6 +47,16 @@ namespace EasyRbac.Web
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            if (env.IsDevelopment())
+            {
+                //app.UseDeveloperExceptionPage();
+                app.UseMiddleware<ExceptionHandlerMiddleware>();
+            }
+            else
+            {
+                app.UseMiddleware<ExceptionHandlerMiddleware>();
+            }
 
             app.UseMvc();
         }

@@ -1,7 +1,9 @@
 ﻿// Copyright (c) GZNB. All rights reserved.
 
+using System.IO;
 using EasyRbac.Dto.User;
 using Microsoft.AspNetCore.Mvc;
+using EasyRbac.Dto.Exceptions;
 
 namespace EasyRbac.Web.Controllers
 {
@@ -9,10 +11,16 @@ namespace EasyRbac.Web.Controllers
     public class UserController : Controller
     {
         [HttpPost]
-        public CreateUserDto CreateUser(CreateUserDto dto)
-        {
+        public CreateUserDto CreateUser([FromBody]CreateUserDto dto)
+        {            
             return dto;
+        }
 
+        [HttpGet]
+        public string GetUser()
+        {
+            throw new EasyRbacException("ggg");
+            return "111";
         }
     }
 }

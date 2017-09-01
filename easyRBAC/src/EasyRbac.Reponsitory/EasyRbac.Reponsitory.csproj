@@ -9,4 +9,8 @@
     <PackageReference Include="SQLinq.Standard" Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\EasyRbac.Dto\EasyRbac.Dto.csproj" />
+  </ItemGroup>
+
 </Project>

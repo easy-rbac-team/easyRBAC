@@ -18,5 +18,9 @@ namespace EasyRbac.Domain.Entity
         public string Descript { get; set; }
 
         public List<AppResourceEntity> AppResouce {get;set;}
+
+        public string CallbackUrl { get; set; }
+
+        public string AppScret { get; set; }
     }
 }

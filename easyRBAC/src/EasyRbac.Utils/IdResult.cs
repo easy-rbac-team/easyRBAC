@@ -36,7 +36,7 @@ namespace EasyRbac.Utils
 
         public override string ToString()
         {
-            return $"ID:{this.GenerateId()},{nameof(Timestamp)}:{Timestamp}|{nameof(Sequence)}:{Sequence}|{nameof(NodeId)}:{NodeId}|{nameof(CreateTime)}:{this.CreateTime}";
+            return $"ID:{this.GenerateId()},{nameof(Timestamp)}:{Timestamp}|{nameof(Sequence)}:{Sequence}|{nameof(NodeId)}:{NodeId}|{nameof(CreateTime)}:{this.CreateTime.ToString("mm:ss.fff")}";
         }
     }
 }

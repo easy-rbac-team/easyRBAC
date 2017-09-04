@@ -27,22 +27,23 @@ namespace EasyRbac.Utils
 
                 long oldTimestamp = Interlocked.Exchange(ref this._moment, nowTimeStamp);
 
-
-
                 //long sequence = nowTimeStamp == oldTimestamp ? Interlocked.Increment(ref _sequence) : Interlocked.Exchange(ref _sequence, 0);
 
                 long sequence;
+
+                
                 if(nowTimeStamp == oldTimestamp)
                 {
                     sequence = Interlocked.Increment(ref _sequence);
                 }
                 else
                 {
-                    var result = Interlocked.Exchange(ref _sequence, 0);
-                    sequence = Interlocked.Increment(ref _sequence);
+                    //sequence = Interlocked.Increment(ref _sequence);
+                    Interlocked.Exchange(ref _sequence, 0);
+                    sequence = 0;
                 }
 
-                if (sequence < 1048574)
+                if (sequence < 1048575)
                 {
                     var idresult = new IdResult()
                     {

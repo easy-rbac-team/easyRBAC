@@ -4,7 +4,8 @@ using System.Text;
 
 namespace EasyRbac.Utils
 {
-    public class Snowflake
+    public interface IIdGenerator
     {
+        long NewId();
     }
 }

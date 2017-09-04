@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading;
+using EasyRbac.Utils.Configs;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace EasyRbac.Utils
 {
@@ -12,6 +16,10 @@ namespace EasyRbac.Utils
         private long _nodeId;
         private long _sequence;
         private long _moment;
+        private int roll;
+        private ConcurrentDictionary<long,IdSeed> idDic = new ConcurrentDictionary<long, IdSeed>();
+
+        public EasyGenerator(IOptions<IdGenerateConfig> ops) : this(ops.Value.NodeId) { }
 
         public EasyGenerator(short nodeId)
         {
@@ -25,23 +33,26 @@ namespace EasyRbac.Utils
                 var secons = (DateTime.Now - _startTime).TotalSeconds;
                 long nowTimeStamp = (long)secons;
 
-                long oldTimestamp = Interlocked.Exchange(ref this._moment, nowTimeStamp);
-
-                //long sequence = nowTimeStamp == oldTimestamp ? Interlocked.Increment(ref _sequence) : Interlocked.Exchange(ref _sequence, 0);
-
-                long sequence;
-
+                //long oldTimestamp = Interlocked.Exchange(ref this._moment, nowTimeStamp);
                 
-                if(nowTimeStamp == oldTimestamp)
-                {
-                    sequence = Interlocked.Increment(ref _sequence);
-                }
-                else
-                {
-                    //sequence = Interlocked.Increment(ref _sequence);
-                    Interlocked.Exchange(ref _sequence, 0);
-                    sequence = 0;
-                }
+                //long sequence;
+
+
+                //if (nowTimeStamp == oldTimestamp)
+                //{
+                //    sequence = Interlocked.Increment(ref _sequence);
+                //}
+                //else
+                //{
+                //    //sequence = Interlocked.Increment(ref _sequence);
+                //    Interlocked.Exchange(ref _sequence, 0);
+                //    Interlocked.Increment(ref roll);
+                //    sequence = 0;
+                //}
+                var seed = this.idDic.GetOrAdd(nowTimeStamp, new IdSeed());
+                //TODO:清理过期key
+                
+                var sequence = Interlocked.Increment(ref seed.Seed);
 
                 if (sequence < 1048575)
                 {
@@ -49,7 +60,8 @@ namespace EasyRbac.Utils
                     {
                         Timestamp = nowTimeStamp,
                         NodeId = _nodeId,
-                        Sequence = sequence
+                        Sequence = sequence,
+                        Roll = this.roll
                     };
                     return idresult;
                 }

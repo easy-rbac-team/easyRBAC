@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EasyRbac.Utils
 {
-    public class EncryptHelper
+    public class EncryptHelper : IEncryptHelper
     {
         public string GenerateSalt()
         {

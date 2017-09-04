@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using EasyRbac.Utils.Configs;
@@ -32,6 +33,7 @@ namespace EasyRbac.Utils
             {
                 var secons = (DateTime.Now - _startTime).TotalSeconds;
                 long nowTimeStamp = (long)secons;
+                
 
                 //long oldTimestamp = Interlocked.Exchange(ref this._moment, nowTimeStamp);
                 
@@ -53,6 +55,15 @@ namespace EasyRbac.Utils
                 //TODO:清理过期key
                 
                 var sequence = Interlocked.Increment(ref seed.Seed);
+                //if (sequence == 1 && this.idDic.Count>1)
+                //{
+                //    var keys = this.idDic.Keys.ToList();
+                //    var orderdKeys = keys.OrderByDescending(x => x).ToList();
+                //    for (int i = 1; i < orderdKeys.Count; i++)
+                //    {
+                //        this.idDic.TryRemove(orderdKeys[i], out IdSeed _);
+                //    }
+                //}
 
                 if (sequence < 1048575)
                 {

@@ -6,6 +6,7 @@ namespace EasyRbac.Utils
 {
     class IdSeed
     {
+        internal long Timestamp;
         internal long Seed;
     }
 }

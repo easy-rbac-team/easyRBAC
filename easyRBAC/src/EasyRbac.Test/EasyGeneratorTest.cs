@@ -14,24 +14,25 @@ namespace EasyRbac.Test
         [Fact]
         public void Generate_test_success()
         {
-            for (int index = 0; index < 10; index++)
-            {
+            //for (int index = 0; index < 10; index++)
+            //{
                 var g = new EasyGenerator(10);
                 var queue = new ConcurrentDictionary<long, IdResult>();
-                var queue1 = new ConcurrentQueue<IdResult>();
+                var queue1 = new ConcurrentQueue<long>();
                 Enumerable.Range(0, 5097159).AsParallel().WithDegreeOfParallelism(10).ForAll(x =>
                 {
                     var idg = g.GetIdResult();
                     var newId = idg.GenerateId();
                     //Assert.False(queue.ContainsKey(newId),$"{newId}:{idg}||{queue.TryGetValue(newId,out IdResult value)}{value} ");
-                    var has = queue.TryGetValue(newId, out IdResult value);
-                    queue1.Enqueue(idg);
-                    Assert.False(has, $"{newId}:{idg}||{value}");
-                    queue.TryAdd(newId, idg);
+                    //var has = queue.TryGetValue(newId, out IdResult value);
+                    queue1.Enqueue(newId);
+                    //Assert.False(has, $"{newId}:{idg}||{value}");
+                    //queue.TryAdd(newId, idg);
+
 
                 });
-                Assert.Equal(queue.Count, 5097159);
-            }
+                Assert.Equal(queue1.Count, queue1.ToDictionary(x=>x,x=>x).Count);
+            //}
         }
             
 

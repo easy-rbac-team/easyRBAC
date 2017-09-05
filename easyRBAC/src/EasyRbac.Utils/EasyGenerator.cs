@@ -34,33 +34,17 @@ namespace EasyRbac.Utils
                 var secons = (DateTime.Now - _startTime).TotalSeconds;
                 long nowTimeStamp = (long)secons;
                 
-
-                //long oldTimestamp = Interlocked.Exchange(ref this._moment, nowTimeStamp);
-                
-                //long sequence;
-
-
-                //if (nowTimeStamp == oldTimestamp)
-                //{
-                //    sequence = Interlocked.Increment(ref _sequence);
-                //}
-                //else
-                //{
-                //    //sequence = Interlocked.Increment(ref _sequence);
-                //    Interlocked.Exchange(ref _sequence, 0);
-                //    Interlocked.Increment(ref roll);
-                //    sequence = 0;
-                //}
-                var seed = this.idDic.GetOrAdd(nowTimeStamp, new IdSeed());
-                
-                //清理过期key                
+                var seed = this.idDic.GetOrAdd(nowTimeStamp, new IdSeed());                
+                               
                 var sequence = Interlocked.Increment(ref seed.Seed);
+
+                //清理过期key 
                 if (sequence == 1 && this.idDic.Count > 1)
                 {
                     var keys = this.idDic.Keys.ToList();
                     var orderdKeys = keys.OrderByDescending(x => x);
                     int i = 0;
-                    foreach(var timestamp in orderdKeys)
+                    foreach (var timestamp in orderdKeys)
                     {
                         if (i == 0)
                         {

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyRbac.Reponsitory", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyRbac.Domain", "src\EasyRbac.Domain\EasyRbac.Domain.csproj", "{9EFDC826-5491-45A4-ADF3-2FD555CAFAE5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyRbac.Service", "src\EasyRbac.Service\EasyRbac.Service.csproj", "{844C8BFE-ED44-4AFC-8831-8B82280BEFF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyRbac.DomainService", "src\EasyRbac.Service\EasyRbac.DomainService.csproj", "{844C8BFE-ED44-4AFC-8831-8B82280BEFF7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyRbac.Application", "src\EasyRbac.Application\EasyRbac.Application.csproj", "{6F75497F-16C5-48A0-94A0-CF2C725A3363}"
 EndProject
@@ -24,6 +24,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solutionItems", "solutionItems", "{9ECF7E92-A1BE-43BE-B964-71BC45C402A5}"
 	ProjectSection(SolutionItems) = preProject
 		..\.gitignore = ..\.gitignore
+		DbScript.sql = DbScript.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B51DD6EA-A938-480E-9799-DF1C38B79DDE}"

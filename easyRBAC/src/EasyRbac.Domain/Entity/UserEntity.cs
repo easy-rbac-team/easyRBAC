@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using EasyRbac.Utils;
+using SQLinq;
 
 namespace EasyRbac.Domain.Entity
 {
+    [SQLinqTable("user")]
     public class UserEntity
     {
         public long Id { get; set; }
@@ -17,16 +19,22 @@ namespace EasyRbac.Domain.Entity
 
         public string RealName { get; set; }
 
-        public bool Enable { get; set; }
+        public bool Enable { get; set; } = true;
 
         public string MobilePhone { get; set; }
 
+        public DateTime CreateTime { get; set; } = DateTime.Now;
+
+        [SQLinqColumn(Ignore = true)]
         public List<RoleEntity> Roles { get; set; }
 
+        [SQLinqColumn(Ignore = true)]
         public List<ApplicationEntity> Applications { get; set; }
 
+        [SQLinqColumn(Ignore = true)]
         public List<AppResourceEntity> Resources { get; set; }
 
+        [SQLinqColumn(Ignore = true)]
         public List<ResourceScope> ResourceScopes { get; set; }
 
         public static UserEntity NewUser(long id,string userName,string encryptedPwd,string salt,string realName)

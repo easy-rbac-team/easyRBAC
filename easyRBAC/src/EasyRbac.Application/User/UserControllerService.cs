@@ -28,6 +28,7 @@ namespace EasyRbac.Application.User
             var salt = this._encryptHelper.GenerateSalt();
             var encryptedPwd = this._encryptHelper.Sha256Encrypt($"{user.Password}-{salt}");
             var userEntity = UserEntity.NewUser(this._idGenerate.NewId(), user.UserName, encryptedPwd, salt, user.RealName);
+            userEntity.MobilePhone = user.MobilePhone;
             return this._userRepository.InsertAsync(userEntity);
         }
     }

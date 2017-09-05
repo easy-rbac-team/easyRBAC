@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="SQLinq.Standard" Version="1.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EasyRbac.Utils\EasyRbac.Utils.csproj" />
   </ItemGroup>
 

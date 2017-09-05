@@ -52,18 +52,23 @@ namespace EasyRbac.Utils
                 //    sequence = 0;
                 //}
                 var seed = this.idDic.GetOrAdd(nowTimeStamp, new IdSeed());
-                //TODO:清理过期key
                 
+                //清理过期key                
                 var sequence = Interlocked.Increment(ref seed.Seed);
-                //if (sequence == 1 && this.idDic.Count>1)
-                //{
-                //    var keys = this.idDic.Keys.ToList();
-                //    var orderdKeys = keys.OrderByDescending(x => x).ToList();
-                //    for (int i = 1; i < orderdKeys.Count; i++)
-                //    {
-                //        this.idDic.TryRemove(orderdKeys[i], out IdSeed _);
-                //    }
-                //}
+                if (sequence == 1 && this.idDic.Count > 1)
+                {
+                    var keys = this.idDic.Keys.ToList();
+                    var orderdKeys = keys.OrderByDescending(x => x);
+                    int i = 0;
+                    foreach(var timestamp in orderdKeys)
+                    {
+                        if (i == 0)
+                        {
+                            continue;
+                        }
+                        this.idDic.TryRemove(timestamp, out IdSeed _);
+                    }
+                }
 
                 if (sequence < 1048575)
                 {

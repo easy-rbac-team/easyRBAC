@@ -16,8 +16,7 @@ namespace EasyRbac.Utils
         private DateTime _startTime = new DateTime(2000, 1, 1);
         private long _nodeId;
         private long _sequence;
-        private long _moment;
-        private int roll;
+        private long _moment;        
         private ConcurrentDictionary<long,IdSeed> idDic = new ConcurrentDictionary<long, IdSeed>();
 
         public EasyGenerator(IOptions<IdGenerateConfig> ops) : this(ops.Value.NodeId) { }
@@ -46,7 +45,7 @@ namespace EasyRbac.Utils
                     int i = 0;
                     foreach (var timestamp in orderdKeys)
                     {
-                        if (i == 0)
+                        if (i < 2)
                         {
                             continue;
                         }
@@ -54,14 +53,13 @@ namespace EasyRbac.Utils
                     }
                 }
 
-                if (sequence < 1048575)
+                if (sequence < 1048574)
                 {
                     var idresult = new IdResult()
                     {
                         Timestamp = nowTimeStamp,
                         NodeId = _nodeId,
-                        Sequence = sequence,
-                        Roll = this.roll
+                        Sequence = sequence                       
                     };
                     return idresult;
                 }

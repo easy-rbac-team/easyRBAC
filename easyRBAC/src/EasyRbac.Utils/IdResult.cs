@@ -27,8 +27,6 @@ namespace EasyRbac.Utils
 
         public DateTime CreateTime => this.createTime;
 
-        public int Roll { get; set; }
-
         public long GenerateId()
         {
             //|--1位符号--|--32位时间戳--|--21位序列--|--10位机器码--|
@@ -38,7 +36,7 @@ namespace EasyRbac.Utils
 
         public override string ToString()
         {
-            return $"ID:{this.GenerateId()},{nameof(Roll)}:{Roll}|{nameof(Timestamp)}:{Timestamp}|{nameof(Sequence)}:{Sequence}|{nameof(NodeId)}:{NodeId}|{nameof(CreateTime)}:{this.CreateTime.ToString("mm:ss.fff")}";
+            return $"ID:{this.GenerateId()},{nameof(Timestamp)}:{Timestamp}|{nameof(Sequence)}:{Sequence}|{nameof(NodeId)}:{NodeId}|{nameof(CreateTime)}:{this.CreateTime.ToString("mm:ss.fff")}";
         }
     }
 }

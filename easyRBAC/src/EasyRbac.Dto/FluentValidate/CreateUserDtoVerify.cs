@@ -11,8 +11,10 @@ namespace EasyRbac.Dto.FluentValidate
         public CreateUserDtoVerify()
         {
             RuleFor(x => x.UserName).NotEmpty();
-            RuleFor(x => x.Password).NotEmpty();
+            RuleFor(x => x.Password).NotEmpty().MinimumLength(8);
             RuleFor(customer => customer.Password).Equal(customer => customer.ConfirmPassword);
+            RuleFor(x => x.RealName).NotEmpty();
+           
         }
     }
 }

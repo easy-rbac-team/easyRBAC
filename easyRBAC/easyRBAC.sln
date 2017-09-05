@@ -31,7 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B51DD6
 		NuGet.Config = NuGet.Config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyRbac.Utils", "src\EasyRbac.Utils\EasyRbac.Utils.csproj", "{FC6DC59B-0CD4-4D81-BCFB-AAA3E8584DE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyRbac.Utils", "src\EasyRbac.Utils\EasyRbac.Utils.csproj", "{FC6DC59B-0CD4-4D81-BCFB-AAA3E8584DE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

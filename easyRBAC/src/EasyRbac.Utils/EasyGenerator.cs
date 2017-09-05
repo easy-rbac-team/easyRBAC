@@ -30,11 +30,28 @@ namespace EasyRbac.Utils
         {
             do
             {
+                //lock (this)
+                //{
+                //    var secons = (DateTime.Now - _startTime).TotalSeconds;
+                //    long nowTimeStamp = (long)secons;
+                //    this._sequence++;
+                //    if (this._sequence  < 1048574)
+                //    {
+                //        var idresult = new IdResult()
+                //        {
+                //            Timestamp = nowTimeStamp,
+                //            NodeId = _nodeId,
+                //            Sequence = _sequence
+                //        };
+                //        return idresult;
+                //    }
+                //    Thread.Sleep(100);
+                //}
                 var secons = (DateTime.Now - _startTime).TotalSeconds;
                 long nowTimeStamp = (long)secons;
-                
-                var seed = this.idDic.GetOrAdd(nowTimeStamp, new IdSeed());                
-                               
+
+                var seed = this.idDic.GetOrAdd(nowTimeStamp, new IdSeed());
+
                 var sequence = Interlocked.Increment(ref seed.Seed);
 
                 //清理过期key 
@@ -59,10 +76,11 @@ namespace EasyRbac.Utils
                     {
                         Timestamp = nowTimeStamp,
                         NodeId = _nodeId,
-                        Sequence = sequence                       
+                        Sequence = sequence
                     };
                     return idresult;
                 }
+                throw new Exception("hahah ");
                 Thread.Sleep(100);
             } while (true);
         }

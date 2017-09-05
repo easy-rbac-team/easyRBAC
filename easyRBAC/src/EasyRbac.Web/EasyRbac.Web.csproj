@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="7.1.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
@@ -22,6 +23,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\EasyRbac.Dto\EasyRbac.Dto.csproj" />
+    <ProjectReference Include="..\EasyRbac.Application\EasyRbac.Application.csproj" />
+    <ProjectReference Include="..\EasyRbac.Domain\EasyRbac.Domain.csproj" />
+    <ProjectReference Include="..\EasyRbac.Reponsitory\EasyRbac.Reponsitory.csproj" />
+    <ProjectReference Include="..\EasyRbac.Test\EasyRbac.Test.csproj" />
+    <ProjectReference Include="..\EasyRbac.Utils\EasyRbac.Utils.csproj" />
   </ItemGroup>
 
 </Project>

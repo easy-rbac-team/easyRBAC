@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Autofac.Extensions.DependencyInjection;
 
 namespace EasyRbac.Web
 {
@@ -12,8 +13,9 @@ namespace EasyRbac.Web
     {
         public static void Main(string[] args)
         {
-            var host = new WebHostBuilder()
+            var host = new WebHostBuilder()                
                 .UseKestrel()
+                .ConfigureServices(services => services.AddAutofac())
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()

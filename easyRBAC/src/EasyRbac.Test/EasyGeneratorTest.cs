@@ -19,7 +19,7 @@ namespace EasyRbac.Test
                 var g = new EasyGenerator(10);
 
                 var queue1 = new ConcurrentQueue<long>();
-                Enumerable.Range(0, 20000).AsParallel().WithDegreeOfParallelism(100).ForAll(x =>
+                Enumerable.Range(0, 5097159).AsParallel().WithDegreeOfParallelism(100).ForAll(x =>
                 {
                     var idg = g.GetIdResult();
                     var newId = idg.GenerateId();

@@ -10,7 +10,7 @@ namespace EasyRbac.Utils
         {
             using(var rngCsp = new RNGCryptoServiceProvider())
             {
-                var bytes = new byte[256];
+                var bytes = new byte[64];
                 rngCsp.GetBytes(bytes);
                 return this.ToHex(bytes);
             }            

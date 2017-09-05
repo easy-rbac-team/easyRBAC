@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EasyRbac.Domain\EasyRbac.Domain.csproj" />
     <ProjectReference Include="..\EasyRbac.Dto\EasyRbac.Dto.csproj" />
+    <ProjectReference Include="..\EasyRbac.Reponsitory\EasyRbac.Reponsitory.csproj" />
     <ProjectReference Include="..\EasyRbac.Utils\EasyRbac.Utils.csproj" />
   </ItemGroup>
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -17,6 +18,9 @@ using EasyRbac.Dto.FluentValidate;
 using EasyRbac.Web.WebExtentions;
 using EasyRbac.Utils.Denpendency;
 using EasyRbac.Reponsitory.BaseRepository;
+using MySql.Data.MySqlClient;
+using SQLinq;
+using SQLinq.Dialect;
 
 namespace EasyRbac.Web
 {
@@ -43,7 +47,8 @@ namespace EasyRbac.Web
                 {
                     option.Filters.Add(new ModelVerifyFilter());
                 }).AddFluentValidation(fv=>fv.RegisterValidatorsFromAssemblyContaining<CreateUserDtoVerify>());
-            services.AddUtils();
+            services.AddUtils(this.Configuration);
+            //services.AddSingleton<ISqlDialect, MySqlDialect>();
         }
 
         // ConfigureContainer is where you can register things directly
@@ -56,6 +61,9 @@ namespace EasyRbac.Web
         {
             builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(UserControllerService))).AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
+            var connStr = this.Configuration.GetConnectionString("easyRBAc");
+            builder.RegisterType<MySqlDialect>().As<ISqlDialect>().InstancePerLifetimeScope();
+            builder.Register(c => new MySqlConnection(connStr)).As<IDbConnection>().InstancePerLifetimeScope();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

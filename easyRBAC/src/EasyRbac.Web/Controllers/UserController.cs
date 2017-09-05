@@ -1,6 +1,7 @@
 ﻿// Copyright (c) GZNB. All rights reserved.
 
 using System.IO;
+using System.Threading.Tasks;
 using EasyRbac.Application.User;
 using EasyRbac.Dto.User;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,9 @@ namespace EasyRbac.Web.Controllers
         }
 
         [HttpPost]
-        public void CreateUser([FromBody]CreateUserDto dto)
+        public Task CreateUser([FromBody]CreateUserDto dto)
         {
-            this._userService.AddUser(dto);
+           return this._userService.AddUser(dto);
         }
 
         [HttpGet]

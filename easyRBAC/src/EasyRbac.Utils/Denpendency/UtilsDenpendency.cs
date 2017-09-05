@@ -9,13 +9,15 @@ namespace EasyRbac.Utils.Denpendency
 {
     public static class UtilsDenpendency
     {
-        public static IServiceCollection AddUtils(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddUtils(this IServiceCollection services, IConfiguration configuration)
         {
-            serviceCollection.AddSingleton<IEncryptHelper, EncryptHelper>();
-            serviceCollection.Configure<IdGenerateConfig>("IdGenerate",opt=>{});
-            serviceCollection.AddSingleton<IIdGenerator, EasyGenerator>();
+            services.AddSingleton<IEncryptHelper, EncryptHelper>();
+            //serviceCollection.Configure<IdGenerateConfig>("IdGenerate", opt=>{});
+            var IdGenerateConfiguration = (configuration.GetSection("IdGenerate") as IConfiguration) ?? new ConfigurationBuilder().Build();
+            services.Configure<IdGenerateConfig>(IdGenerateConfiguration);
+            services.AddSingleton<IIdGenerator, EasyGenerator>();
 
-            return serviceCollection;
+            return services;
         }
     }
 }

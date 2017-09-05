@@ -16,7 +16,7 @@ namespace EasyRbac.Reponsitory.BaseRepository
         protected IDbConnection Connection;
         protected ISqlDialect SqlDialect;
 
-        protected BaseRepository(IDbConnection connection, ISqlDialect sqlDialect)
+        public BaseRepository(IDbConnection connection, ISqlDialect sqlDialect)
         {
             this.Connection = connection;
             this.SqlDialect = sqlDialect;

@@ -18,6 +18,7 @@ using EasyRbac.Dto.FluentValidate;
 using EasyRbac.Web.WebExtentions;
 using EasyRbac.Utils.Denpendency;
 using EasyRbac.Reponsitory.BaseRepository;
+using EasyRbac.Reponsitory.Helper;
 using MySql.Data.MySqlClient;
 using SQLinq;
 using SQLinq.Dialect;
@@ -64,6 +65,7 @@ namespace EasyRbac.Web
             var connStr = this.Configuration.GetConnectionString("easyRBAc");
             builder.RegisterType<MySqlDialect>().As<ISqlDialect>().InstancePerLifetimeScope();
             builder.Register(c => new MySqlConnection(connStr)).As<IDbConnection>().InstancePerLifetimeScope();
+            builder.RegisterType<MySqlIdGenerate>().As<IKeyedIdGenerate>().InstancePerLifetimeScope();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

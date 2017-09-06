@@ -6,7 +6,7 @@ namespace EasyRbac.Domain.Entity
     {
         public long Id { get; set; }
 
-        public long ParentId { get; set; }
+        public string FullId { get; set; }
 
         public long ApplicationId { get; set; }
 

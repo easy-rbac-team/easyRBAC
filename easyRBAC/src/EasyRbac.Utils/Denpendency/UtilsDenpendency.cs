@@ -13,9 +13,10 @@ namespace EasyRbac.Utils.Denpendency
         {
             services.AddSingleton<IEncryptHelper, EncryptHelper>();
             //serviceCollection.Configure<IdGenerateConfig>("IdGenerate", opt=>{});
-            var IdGenerateConfiguration = (configuration.GetSection("IdGenerate") as IConfiguration) ?? new ConfigurationBuilder().Build();
-            services.Configure<IdGenerateConfig>(IdGenerateConfiguration);
+            IConfiguration idGenerateConfiguration = (configuration.GetSection("IdGenerate") as IConfiguration) ?? new ConfigurationBuilder().Build();
+            services.Configure<IdGenerateConfig>(idGenerateConfiguration);
             services.AddSingleton<IIdGenerator, EasyGenerator>();
+            services.AddSingleton<INumberConvert, NumberConvert>();
 
             return services;
         }

@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\EasyRbac.Dto\EasyRbac.Dto.csproj" />
+    <ProjectReference Include="..\EasyRbac.Utils\EasyRbac.Utils.csproj" />
   </ItemGroup>
 
 </Project>

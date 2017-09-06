@@ -81,7 +81,7 @@ namespace EasyRbac.Utils
                     };
                     return idresult;
                 }
-                throw new Exception("hahah ");
+                
                 Thread.Sleep(100);
             } while (true);
         }

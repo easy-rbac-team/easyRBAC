@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EasyRbac.Domain.Entity;
+using EasyRbac.Dto.Exceptions;
 using EasyRbac.Dto.User;
 using EasyRbac.Reponsitory.BaseRepository;
 using EasyRbac.Utils;
@@ -30,6 +32,30 @@ namespace EasyRbac.Application.User
             var userEntity = UserEntity.NewUser(this._idGenerate.NewId(), user.UserName, encryptedPwd, salt, user.RealName);
             userEntity.MobilePhone = user.MobilePhone;
             return this._userRepository.InsertAsync(userEntity);
+        }
+
+        public async Task ChangePwd(long userId, ChangePwd change)
+        {
+            var userQueryResult = await this._userRepository.QueryAsync(x => x.Id == userId);
+
+            var user = userQueryResult.FirstOrDefault();
+            if (user == null)
+            {
+                throw new EasyRbacException("用户ID错误");
+            }
+            if (!user.PasswordIsMatch(change.Password, _encryptHelper))
+            {
+                throw new EasyRbacException("旧密码错误");
+            }
+
+            var salt = this._encryptHelper.GenerateSalt();
+            var encryptedPwd = this._encryptHelper.Sha256Encrypt($"{change.Password}-{salt}");
+
+            await this._userRepository.UpdateAsync(() => new UserEntity()
+            {
+                Password = encryptedPwd,
+                Salt = salt
+            }, x => x.Id == userId);
         }
     }
 }

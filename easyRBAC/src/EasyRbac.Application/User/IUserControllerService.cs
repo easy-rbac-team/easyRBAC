@@ -6,5 +6,7 @@ namespace EasyRbac.Application.User
     public interface IUserControllerService
     {
         Task AddUser(CreateUserDto user);
+
+        Task ChangePwd(long userId, ChangePwd change);
     }
 }

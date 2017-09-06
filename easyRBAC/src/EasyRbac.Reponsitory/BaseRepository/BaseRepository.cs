@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using EasyRbac.Dto;
+using Microsoft.Extensions.Logging;
 using SQLinq;
 using SQLinq.Dialect;
 
@@ -15,42 +16,62 @@ namespace EasyRbac.Reponsitory.BaseRepository
     {
         protected IDbConnection Connection;
         protected ISqlDialect SqlDialect;
+        protected ILogger Logger;
 
-        public BaseRepository(IDbConnection connection, ISqlDialect sqlDialect)
+        public BaseRepository(IDbConnection connection, ISqlDialect sqlDialect, ILoggerFactory loggerFactory)
         {
             this.Connection = connection;
             this.SqlDialect = sqlDialect;
+            this.Logger = loggerFactory.CreateLogger<BaseRepository<T>>();
         }
 
         public Task InsertAsync(T obj)
         {
             var sql = obj.ToSQLinqInsert(dialect: this.SqlDialect).ToSQL();
+            this.Logger.LogDebug($"SQL:{sql.ToQuery()}{Environment.NewLine}Params:{sql.Parameters}");
             return this.Connection.ExecuteAsync(sql.ToQuery(), sql.Parameters);
         }
 
         public Task DeleteAsync(Expression<Func<T, bool>> expression)
         {
-            ISQLinqResult sql = new SQLinq<T>().Where(expression).ToSQL();
+            ISQLinqResult sql = new SQLinq<T>(this.SqlDialect).Where(expression).ToSQL();
             var selectSQL = (SQLinqSelectResult)sql;
             var sqlCmd = $"DELETE FROM {selectSQL.Table} WHERE {selectSQL.Where}";
+            this.Logger.LogDebug($"SQL:{sqlCmd}{Environment.NewLine}Params:{sql.Parameters}");
             return this.Connection.ExecuteAsync(sqlCmd, sql.Parameters);
         }
 
         public Task<IEnumerable<T>> QueryAsync(Expression<Func<T,bool>> condition)
         {
-            var sql = new SQLinq<T>().Where(condition).ToSQL();
+            var sql = new SQLinq<T>(this.SqlDialect).Where(condition).ToSQL();
+            this.Logger.LogDebug($"SQL:{sql.ToQuery()}{Environment.NewLine}Params:{sql.Parameters}");
             return this.Connection.QueryAsync<T>(sql.ToQuery(), sql.Parameters);
         }
 
         public async Task<PagingList<T>> QueryByPagingAsync(Expression<Func<T, bool>> condition, int pageIndex, int pageSize)
         {
-            var sql = new SQLinq<T>().Where(condition).ToSQL();
+            var sql = new SQLinq<T>(this.SqlDialect).Where(condition).ToSQL();
             var allQuery = sql.ToQuery();
+            this.Logger.LogDebug($"SQL:{sql.ToQuery()}{Environment.NewLine}Params:{sql.Parameters}");
             var totalCount = await this.Connection.ExecuteScalarAsync<int>(allQuery, sql.Parameters);
-            var pageSql = new SQLinq<T>().Where(condition).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToSQL();
+
+
+            var pageSql = new SQLinq<T>(this.SqlDialect).Where(condition).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToSQL();
+            this.Logger.LogDebug($"SQL:{pageSql.ToQuery()}{Environment.NewLine}Params:{pageSql.Parameters}");
             var items = await this.Connection.QueryAsync<T>(pageSql.ToQuery(), pageSql.Parameters);
             return new PagingList<T>(totalCount,pageIndex,pageSize,items);
         }
 
+        public async Task UpdateAsync(Expression<Func<T>> update,Expression<Func<T,bool>> condition)
+        {
+            var updateSql = new SQLinqUpdate<T>(this.SqlDialect);
+            updateSql.Where(condition);
+            updateSql.UpdateSet(update);
+            var queryRst = updateSql.ToSQL();
+
+            this.Logger.LogDebug($"SQL:{queryRst.ToQuery()}{Environment.NewLine}Params:{queryRst.Parameters}");
+            await this.Connection.ExecuteAsync(queryRst.ToQuery(), queryRst.Parameters);
+
+        }
     }
 }

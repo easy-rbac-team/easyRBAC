@@ -6,10 +6,11 @@ using FluentValidation;
 
 namespace EasyRbac.Dto.FluentValidate
 {
-    class ChangePwdDtoVerify:AbstractValidator<ChangePwdDto>
+    class ChangePwdDtoVerify:AbstractValidator<ChangePwd>
     {
         public ChangePwdDtoVerify()
         {
+            RuleFor(x => x.CurrentPassword).NotEmpty();
             RuleFor(x => x.Password).MinimumLength(8);
             RuleFor(x => x.Password).Equal(x => x.ConfirmPassword);
         }

@@ -24,6 +24,12 @@ namespace EasyRbac.Web.Controllers
         {
            return this._userService.AddUser(dto);
         }
+       
+        [HttpPut("{userId:long}/pwd")]
+        public Task ChangePassword(long userId,[FromBody]ChangePwd dto)
+        {
+            return this._userService.ChangePwd(userId, dto);
+        }
 
         [HttpGet]
         public string GetUser()

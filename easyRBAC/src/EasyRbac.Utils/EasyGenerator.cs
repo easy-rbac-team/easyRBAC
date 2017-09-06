@@ -62,7 +62,8 @@ namespace EasyRbac.Utils
                     int i = 0;
                     foreach (var timestamp in orderdKeys)
                     {
-                        if (i < 2)
+                        // 存60s的seed，防止时钟回拨
+                        if (i < 60)
                         {
                             continue;
                         }

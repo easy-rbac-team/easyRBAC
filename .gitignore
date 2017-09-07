@@ -5,3 +5,8 @@
 .vs/
 obj/
 bin/
+.DS_Store
+node_modules/
+dist/
+**/*.log
+.idea

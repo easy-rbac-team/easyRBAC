@@ -18,5 +18,6 @@ namespace EasyRbac.Application.Role
         Task<RoleDto> GetRoleInfoAsync(long roleId);
 
         Task ChangeMember(long roleId, List<long> memberList);
+        Task ChangeResouces(long roleId, List<long> resouceList);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SQLinq;
 
 namespace EasyRbac.Domain.Entity
 {
@@ -14,8 +15,9 @@ namespace EasyRbac.Domain.Entity
 
         public bool Enable { get; set; }
 
-        public DateTime CreateTime { get; set; }
+        public DateTime CreateTime { get; set; } = DateTime.Now;
 
+        [SQLinqColumn(Ignore = true)]
         public List<ApplicationEntity> Applications { get; set; }
     }
 }

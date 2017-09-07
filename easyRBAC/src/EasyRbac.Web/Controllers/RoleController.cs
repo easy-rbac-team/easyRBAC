@@ -54,5 +54,11 @@ namespace EasyRbac.Web.Controllers
         {
             return this._roleService.ChangeMember(roleId, memberList);
         }
+
+        [HttpPut("{roleId}/user")]
+        public Task ChangeResouces(long roleId, [FromBody]List<long> resouceList)
+        {
+            return this._roleService.ChangeResouces(roleId, resouceList);
+        }
     }
 }

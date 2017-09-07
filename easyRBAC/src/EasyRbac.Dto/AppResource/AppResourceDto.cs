@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using EasyRbac.Domain.Enums;
+using SQLinq;
 
 namespace EasyRbac.Dto.AppResource
 {
+    [SQLinqTable("app_resouce")]
     public class AppResourceDto
     {
         public long Id { get; set; }
@@ -27,6 +29,7 @@ namespace EasyRbac.Dto.AppResource
 
         public string Describe { get; set; }
 
+        [SQLinqColumn(Ignore = true)]
         public List<AppResourceDto> Children { get; set; }
     }
 }

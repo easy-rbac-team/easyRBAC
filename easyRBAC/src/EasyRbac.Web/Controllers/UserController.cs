@@ -1,5 +1,6 @@
 ﻿// Copyright (c) GZNB. All rights reserved.
 
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using EasyRbac.Application.User;
@@ -41,6 +42,12 @@ namespace EasyRbac.Web.Controllers
         public Task<UserInfoDto> GetUserInfo(long userId)
         {
             return this._userService.GetUserInfo(userId);
+        }
+
+        [HttpPut("{roleId}/user")]
+        public Task ChangeResouces(long userId, [FromBody]List<long> resouceList)
+        {
+            return this._userService.ChangeResouces(userId, resouceList);
         }
     }
 }

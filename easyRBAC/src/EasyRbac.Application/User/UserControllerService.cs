@@ -76,5 +76,10 @@ namespace EasyRbac.Application.User
             return user.ToUserInfoDto();
 
         }
+
+        public Task ChangeResouces(long userId, List<long> resouceList)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

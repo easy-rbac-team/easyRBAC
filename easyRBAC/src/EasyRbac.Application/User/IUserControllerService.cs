@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using EasyRbac.Dto.User;
 
 namespace EasyRbac.Application.User
@@ -12,5 +13,6 @@ namespace EasyRbac.Application.User
         Task DisableUser(long userId);
 
         Task<UserInfoDto> GetUserInfo(long userId);
+        Task ChangeResouces(long userId, List<long> resouceList);
     }
 }

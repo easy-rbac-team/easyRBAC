@@ -38,5 +38,10 @@ namespace EasyRbac.Application.Role
         {
             throw new NotImplementedException();
         }
+
+        public Task ChangeResouces(long roleId, List<long> resouceList)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

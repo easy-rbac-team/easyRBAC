@@ -1,14 +1,14 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <el-button @click.native="startHacking">Yes!</el-button>
-    <test></test>
+  <div id="app">    
+    <nav-header></nav-header>    
+    <left-menu></left-menu>
   </div>
 </template>
 
 <script>
 import test from "./component/test.vue"
+import navHeader from './component/navHead.vue'
+import leftMenu from './component/leftMenu.vue'
 
 export default {
   data () {
@@ -28,7 +28,9 @@ export default {
   },
 
   components:{
-    test
+    test,
+    navHeader,
+    leftMenu
   }
 }
 </script>

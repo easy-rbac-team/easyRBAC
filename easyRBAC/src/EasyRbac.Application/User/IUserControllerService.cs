@@ -8,5 +8,9 @@ namespace EasyRbac.Application.User
         Task AddUser(CreateUserDto user);
 
         Task ChangePwd(long userId, ChangePwd change);
+
+        Task DisableUser(long userId);
+
+        Task<UserInfoDto> GetUserInfo(long userId);
     }
 }

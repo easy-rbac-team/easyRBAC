@@ -62,7 +62,7 @@ namespace EasyRbac.Test
               {
                   var newId = g.GetIdResult();
                   long id = newId.GenerateId();
-                  var idResult = new IdResult(id);
+                  var idResult = new IdResult().Resolve(id);
 
                 //Assert.Equal(newId.Timestamp, idResult.Timestamp);
                 //Assert.Equal(newId.NodeId, idResult.NodeId);

@@ -9,7 +9,7 @@ using EasyRbac.Dto.Exceptions;
 
 namespace EasyRbac.Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class UserController : Controller
     {
         private IUserControllerService _userService;
@@ -31,11 +31,16 @@ namespace EasyRbac.Web.Controllers
             return this._userService.ChangePwd(userId, dto);
         }
 
-        [HttpGet]
-        public string GetUser()
+        [HttpDelete("{userId}")]
+        public Task DisableUser(long userId)
         {
-            throw new EasyRbacException("ggg");
-            return "111";
+            return this._userService.DisableUser(userId);
+        }
+
+        [HttpGet("{userId}")]
+        public Task<UserInfoDto> GetUserInfo(long userId)
+        {
+            return this._userService.GetUserInfo(userId);
         }
     }
 }

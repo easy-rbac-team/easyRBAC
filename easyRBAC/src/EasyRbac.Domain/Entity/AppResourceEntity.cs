@@ -4,13 +4,11 @@ namespace EasyRbac.Domain.Entity
 {
     public class AppResourceEntity
     {
-        public long Id { get; set; }
-
-        public string FullId { get; set; }
+        public string Id { get; set; }
 
         public long ApplicationId { get; set; }
 
-        public bool Enable { get; set; }
+        public bool Enable { get; set; } = true;
 
         public string ResourceName { get; set; }
 
@@ -24,6 +22,6 @@ namespace EasyRbac.Domain.Entity
 
         public string Parameters { get; set; }
 
-        public string Descrypt { get; set; }
+        public string Describe { get; set; }
     }
 }

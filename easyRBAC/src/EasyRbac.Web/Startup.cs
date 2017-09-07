@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using EasyRbac.Dto.User;
 using EasyRbac.Dto.FluentValidate;
+using EasyRbac.Dto.Mapper;
 using EasyRbac.Web.WebExtentions;
 using EasyRbac.Utils.Denpendency;
 using EasyRbac.Reponsitory.BaseRepository;
@@ -49,6 +50,7 @@ namespace EasyRbac.Web
                     option.Filters.Add(new ModelVerifyFilter());
                 }).AddFluentValidation(fv=>fv.RegisterValidatorsFromAssemblyContaining<CreateUserDtoVerify>());
             services.AddUtils(this.Configuration);
+            services.UseDtoAutoMapper();
             //services.AddSingleton<ISqlDialect, MySqlDialect>();
         }
 

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace EasyRbac.Domain.Entity
+namespace EasyRbac.Dto.Role
 {
-    public class RoleEntity
+    public class RoleDto
     {
         public long Id { get; set; }
 
@@ -15,7 +13,5 @@ namespace EasyRbac.Domain.Entity
         public bool Enable { get; set; }
 
         public DateTime CreateTime { get; set; }
-
-        public List<ApplicationEntity> Applications { get; set; }
     }
 }

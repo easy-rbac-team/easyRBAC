@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EasyRbac.Domain.Entity;
 using EasyRbac.Dto.Exceptions;
+using EasyRbac.Dto.Mapper;
 using EasyRbac.Dto.User;
 using EasyRbac.Reponsitory.BaseRepository;
 using EasyRbac.Utils;
@@ -56,6 +57,24 @@ namespace EasyRbac.Application.User
                 Password = encryptedPwd,
                 Salt = salt
             }, x => x.Id == userId);
+        }
+
+        public Task DisableUser(long userId)
+        {
+            return this._userRepository.UpdateAsync(
+                 () => new UserEntity()
+                 {
+                     Enable = false
+                 },
+                 x => x.Id == userId);
+        }
+
+        public async Task<UserInfoDto> GetUserInfo(long userId)
+        {
+            var users = await this._userRepository.QueryAsync(x => x.Id == userId);
+            var user = users.FirstOrDefault();
+            return user.ToUserInfoDto();
+
         }
     }
 }

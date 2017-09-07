@@ -1,7 +1,9 @@
 <template>
   <div id="app">    
-    <nav-header></nav-header>    
-    <left-menu></left-menu>
+    <nav-header></nav-header>  
+    <el-row>
+      <left-menu></left-menu>
+    </el-row>      
   </div>
 </template>
 

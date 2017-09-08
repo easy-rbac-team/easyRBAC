@@ -3,6 +3,7 @@
     header.header
         div.container
             h1 Easy-RBAC
+            el-button(type="warning") LogOut
 </template>
 
 <style>
@@ -20,22 +21,23 @@
 }
 
 .container {
-    width: 1140px;
-    padding: 0 30px;
-    margin: 0 auto;
+    width: 100%;
+    padding: 0 20px;
     height: 100%;
     box-sizing: border-box;
 }
 
-h1{
-    display: block;
-    font-size: 2em;
-    -webkit-margin-before: 0.67em;
-    -webkit-margin-after: 0.67em;
-    -webkit-margin-start: 0px;
-    -webkit-margin-end: 0px;
+h1 {
+    font-size: 2em; 
     font-weight: bold;
     margin: 0px 0px;
+    text-align: left;
+    float: left;
+}
+
+header .el-button {
+    float: right;
+    margin-top: 20px;
 }
 </style>
 

@@ -14,7 +14,7 @@ namespace EasyRbac.Dto.FluentValidate
             RuleFor(x => x.Password).NotEmpty().MinimumLength(8);
             RuleFor(customer => customer.Password).Equal(customer => customer.ConfirmPassword);
             RuleFor(x => x.RealName).NotEmpty();
-           
+            RuleFor(x => x.MobilePhone).Matches("^1\\d{10}").WithMessage("手机格式不正确");
         }
     }
 }

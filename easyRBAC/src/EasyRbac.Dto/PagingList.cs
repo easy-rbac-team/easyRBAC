@@ -16,6 +16,8 @@ namespace EasyRbac.Dto
             this.PageSize = pageSize;
         }
 
+        public PagingList() { }
+
         public int TotalCount { get; set; }
 
         public int PageIndex { get; set; }

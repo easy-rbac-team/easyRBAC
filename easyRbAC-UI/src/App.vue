@@ -2,20 +2,21 @@
   <div id="app">
     <nav-header></nav-header>
     <el-row>
-      <left-menu></left-menu>
-    </el-row>
+      <left-menu></left-menu>     
+      <el-col :span="20">
+        <router-view></router-view>
+      </el-col> 
+    </el-row>    
   </div>
 </template>
 
 <script>
-import test from "./component/test.vue"
 import navHeader from './component/navHead.vue'
 import leftMenu from './component/leftMenu.vue'
 
 export default {
   data() {
-    return {
-      msg: 'Want something new?'
+    return {      
     }
   },
 
@@ -30,7 +31,6 @@ export default {
   },
 
   components: {
-    test,
     navHeader,
     leftMenu
   }

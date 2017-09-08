@@ -48,9 +48,15 @@ namespace EasyRbac.Web
                 option =>
                 {
                     option.Filters.Add(new ModelVerifyFilter());
-                }).AddFluentValidation(fv=>fv.RegisterValidatorsFromAssemblyContaining<CreateUserDtoVerify>());
+                }).AddJsonOptions(
+                    options =>
+                    {
+                        options.SerializerSettings.Converters.Add(new LongToStringConverter());
+                    })
+                .AddFluentValidation(fv=>fv.RegisterValidatorsFromAssemblyContaining<CreateUserDtoVerify>());
             services.AddUtils(this.Configuration);
             services.UseDtoAutoMapper();
+            services.AddCors();
             //services.AddSingleton<ISqlDialect, MySqlDialect>();
         }
 
@@ -85,6 +91,15 @@ namespace EasyRbac.Web
             {
                 app.UseMiddleware<ExceptionHandlerMiddleware>();
             }
+
+            app.UseCors(
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:8010")
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
 
             app.UseMvc();
         }

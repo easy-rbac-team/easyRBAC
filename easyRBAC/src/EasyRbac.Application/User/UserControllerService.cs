@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using EasyRbac.Domain.Entity;
+using EasyRbac.Dto;
 using EasyRbac.Dto.Exceptions;
 using EasyRbac.Dto.Mapper;
 using EasyRbac.Dto.User;
@@ -14,16 +16,18 @@ namespace EasyRbac.Application.User
 {
     public class UserControllerService : IUserControllerService
     {
-        private IIdGenerator _idGenerate;
-        private IEncryptHelper _encryptHelper;
-        private IRepository<UserEntity> _userRepository;
+        private readonly IIdGenerator _idGenerate;
+        private readonly IEncryptHelper _encryptHelper;
+        private readonly IRepository<UserEntity> _userRepository;
+        private IMapper _mapper;
 
         /// <summary>Initializes a new instance of the <see cref="T:System.Object"></see> class.</summary>
-        public UserControllerService(IIdGenerator idGenerate, IEncryptHelper encryptHelper, IRepository<UserEntity> userRepository)
+        public UserControllerService(IIdGenerator idGenerate, IEncryptHelper encryptHelper, IRepository<UserEntity> userRepository, IMapper mapper)
         {
             this._idGenerate = idGenerate;
             this._encryptHelper = encryptHelper;
             this._userRepository = userRepository;
+            this._mapper = mapper;
         }
 
         public Task AddUser(CreateUserDto user)
@@ -80,6 +84,13 @@ namespace EasyRbac.Application.User
         public Task ChangeResouces(long userId, List<long> resouceList)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<PagingList<UserInfoDto>> SearchUser(string userName, int pageIndex, int pageSize)
+        {
+            PagingList<UserEntity> users = await this._userRepository.QueryByPagingAsync(x => x.UserName.StartsWith(userName) || x.RealName.StartsWith(userName)&&x.Enable == true, x=>x.UserName, pageIndex, pageSize);
+            var result = this._mapper.Map<PagingList<UserInfoDto>>(users);
+            return result;
         }
     }
 }

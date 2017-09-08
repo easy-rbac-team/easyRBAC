@@ -54,7 +54,7 @@ namespace EasyRbac.Web.Controllers
             return this._resouceService.GetResouceTreeAsync(parentResouceId);
         }
 
-        [HttpGet("{userId}/resouces/{userId}")]
+        [HttpGet("{userId}/resouces/{appId}")]
         public Task<List<AppResourceDto>> GetUserResouce(long appId,long userId)
         {
             return this._resouceService.GetUserResouceAsync(appId, userId);

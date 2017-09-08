@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using EasyRbac.Application.User;
+using EasyRbac.Dto;
 using EasyRbac.Dto.User;
 using Microsoft.AspNetCore.Mvc;
 using EasyRbac.Dto.Exceptions;
@@ -48,6 +49,12 @@ namespace EasyRbac.Web.Controllers
         public Task ChangeResouces(long userId, [FromBody]List<long> resouceList)
         {
             return this._userService.ChangeResouces(userId, resouceList);
+        }
+
+        [HttpGet]
+        public Task<PagingList<UserInfoDto>> SearchUsers(string userName,int pageIndex,int pageSize)
+        {
+            return this._userService.SearchUser(userName, pageIndex, pageSize);
         }
     }
 }

@@ -1,6 +1,6 @@
 <template lang="pug">
     el-col(:span="4")
-       el-menu.left-menu(default-active="2", @open="handleOpen", @close="handleClose")
+       el-menu.left-menu(default-active="2")
             el-submenu(index="1")
                 template(slot="title")
                     i.el-icon-message

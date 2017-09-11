@@ -77,7 +77,7 @@ namespace EasyRbac.Application.User
         {
             var users = await this._userRepository.QueryAsync(x => x.Id == userId);
             var user = users.FirstOrDefault();
-            return user.ToUserInfoDto();
+            return this._mapper.Map<UserInfoDto>(user);
 
         }
 

@@ -13,7 +13,7 @@
                 el-input(v-model='form.mobilePhone')            
             el-form-item
                 el-button(type='primary', @click='onSubmit') 立即创建
-                el-button 取消
+                el-button(@click="cancel") 取消
 </template>
 <script>
 import {userService} from '../../service/userService.ts'
@@ -63,14 +63,21 @@ export default {
         }
     },
     methods: {
-        onSubmit() {
-            this.$refs["form"].validate((valid) => {
+        async onSubmit() {
+            this.$refs["form"].validate(async (valid) => {
                 if (valid) {
-                    userService.createUser(this.$data.form)
+                    await userService.createUser(this.$data.form)
+                    this.$emit("addedUserFinish",true)
                 } else {                    
-                    return false;
+                    this.$message({
+                        message: '表单验证不通过',
+                        type: 'warning'
+                    })
                 }
             });
+        },
+        cancel(){
+            this.$emit("addedUserFinish",false)
         }
     }
 }

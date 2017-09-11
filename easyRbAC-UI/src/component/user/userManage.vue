@@ -3,45 +3,79 @@
     el-col(:span="5")
         el-card.box-card                  
             .clearfix(slot="header")
-                el-button(type="success",icon="plus",size="small",style="float:left;margin:4px 5px") 添加      
+                el-button(type="success",icon="plus",size="small",style="float:left;margin:4px 5px",@click="addUser") 添加      
                 div(style="line-height: 36px;") 
                     el-input(placeholder="用户名",icon="search",:on-icon-click="iconClickHandler",v-model="userName", @keyup.enter.native="iconClickHandler")
-                |     
-                // el-button(style="float: right;", type="primary") 搜索
+                |
             |   
-            .text.item(v-for="o in 20", :key="o")
-                | {{'列表内容 ' + o }}
+            .text.item(v-for="(u,index) in users", :key="u.id")                
+                    | {{u.userName}}
+                    el-button-group
+                        el-button(icon="delete",size="mini",type="danger",@click="deleteUser(index,u.id)")
+                        el-button(icon="edit",size="mini",type="warning",@click="editUser(u.id)")
+                        el-button(icon="information",size="mini",type="info")
     el-col(:span="8")
-        add-page
+        add-page(v-if="showAddUser",v-on:addedUserFinish="addedUserHandle")
+        router-view
 </template>
 
 <script>
-import {userService} from '../../service/userService.ts'
+import { userService } from '../../service/userService.ts'
 import addPage from './addPage.vue'
 
 export default {
     data() {
         return {
             userName: "",
-            users:[],
-            page:{}
+            users: [],
+            page: {},
+            showAddUser: false
         }
     },
     methods: {
-        iconClickHandler() {
-            console.log("click")
-            userService.getUsers()
+        iconClickHandler() {            
+            userService.getUsers(this.userName,1,20)
+        },
+        addUser() {
+            this.$router.push({ path: "/user" })
+            this.showAddUser = !this.showAddUser;
+        },
+        editUser(userId) {
+            this.$router.push({ path: `/user/edit/${userId}` })
+        },
+        async getUserLst() {
+            let users = await userService.getUsers("", 1, 20);
+            this.users = users.items;
+            this.page = {
+                pageIndex: users.pageIndex,
+                totalPage: users.totalPage
+            }
+        },
+        addedUserHandle(refresh) {
+            if (refresh) {
+                this.getUserLst();
+            }
+            this.showAddUser = false;
+        },
+        async deleteUser(index, userId) {
+            this.$confirm('确定删除此用户?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(async () => {
+                await userService.deleteUser(userId);
+                this.users.splice(index, 1)
+                this.$message({
+                    type: 'success',
+                    message: '删除成功!'
+                });
+            }).catch();
         }
     },
-    mounted:async function(){
-        let users = await userService.getUsers("",1,20);
-        this.users= users.items;
-        this.page={
-            pageIndex: users.pageIndex,
-            totalPage: users.totalPage
-        }
+    mounted: async function() {
+        await this.getUserLst();
     },
-    components:{
+    components: {
         addPage
     }
 }
@@ -73,6 +107,10 @@ export default {
 
 .el-input {
     width: 180px;
+}
+
+.el-button-group {
+    margin-left: 10px;
 }
 </style>
 

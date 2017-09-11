@@ -50,7 +50,7 @@ namespace EasyRbac.Reponsitory.BaseRepository
 
         public async Task<PagingList<T>> QueryByPagingAsync(Expression<Func<T, bool>> condition, Expression<Func<T, object>> orderBy, int pageIndex, int pageSize)
         {
-            var sql = new SQLinq<T>(this.SqlDialect).Where(condition).ToSQL();
+            var sql = new SQLinq<T>(this.SqlDialect).Where(condition).Count().ToSQL();
             var allQuery = sql.ToQuery();
             this.Logger.LogDebug($"SQL:{sql.ToQuery()}{Environment.NewLine}Params:{sql.Parameters}");
             var totalCount = await this.Connection.ExecuteScalarAsync<int>(allQuery, sql.Parameters);

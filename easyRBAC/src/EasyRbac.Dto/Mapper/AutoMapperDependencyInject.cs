@@ -18,6 +18,7 @@ namespace EasyRbac.Dto.Mapper
                 x.CreateMap<UserEntity, UserInfoDto>();
                 x.CreateMap(typeof(PagingList<>), typeof(PagingList<>));
                 x.CreateMap<RoleEntity, RoleDto>();
+                x.CreateMap<RoleDto,RoleEntity>();
             });
             var mapper = new AutoMapper.Mapper(config);
             serviceCollection.AddSingleton<IMapper>(mapper);

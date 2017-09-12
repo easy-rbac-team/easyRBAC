@@ -33,8 +33,8 @@ export default {
         }
     },
     methods: {
-        iconClickHandler() {            
-            userService.getUsers(this.userName,1,20)
+        iconClickHandler() {
+            userService.getUsers(this.userName, 1, 20)
         },
         addUser() {
             this.$router.push({ path: "/user" })
@@ -46,10 +46,7 @@ export default {
         async getUserLst() {
             let users = await userService.getUsers("", 1, 20);
             this.users = users.items;
-            this.page = {
-                pageIndex: users.pageIndex,
-                totalPage: users.totalPage
-            }
+            this.page = users.page;
         },
         addedUserHandle(refresh) {
             if (refresh) {

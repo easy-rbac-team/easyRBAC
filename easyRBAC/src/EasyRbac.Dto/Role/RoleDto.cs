@@ -10,8 +10,8 @@ namespace EasyRbac.Dto.Role
 
         public string Descript { get; set; }
 
-        public bool Enable { get; set; }
+        public bool Enable { get; set; } = true;
 
-        public DateTime CreateTime { get; set; }
+        public DateTime CreateTime { get; set; } = DateTime.Now;
     }
 }

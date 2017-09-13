@@ -2,7 +2,9 @@
       div.form-border
         el-form(ref='form', :model='form',:rules="rules", label-width='80px')
             el-form-item(label='角色名',prop="roleName")
-                el-input(v-model='form.roleName')            
+                el-input(v-model='form.roleName')         
+            el-form-item(label="描述",prop="descript")
+                el-input(v-model="form.descript",type="textarea")   
             el-form-item
                 el-button(type='primary', @click='onSubmit') 立即创建
                 el-button(@click="cancel") 取消
@@ -15,7 +17,8 @@ export default {
   data(){
       return{
           form:{
-              roleName:""
+              roleName:"",
+              descript:""
           },
           rules:{
               roleName:[
@@ -30,7 +33,7 @@ export default {
            this.$refs["form"].validate(async (valid) => {
                 if (valid) {
                     await roleService.createRole(this.$data.form)
-                    this.$emit("addedRoleFinish",true)
+                    this.$emit("showFinish",true)
                 } else {                    
                     this.$message({
                         message: '表单验证不通过',
@@ -40,9 +43,14 @@ export default {
             });
       },
       cancel(){
-          
+          this.$emit("showFinish",false)
       }
   }
 }
 </script>
+<style>
+.form-border{
+    margin: 10px;
+}
+</style>
 

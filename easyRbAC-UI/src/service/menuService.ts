@@ -3,12 +3,12 @@ export let menuService = {
         let result = [
             {
                 id:"1",
-                name: '用户管理',
+                name: '用户',
                 path: '/user'                
             },
             {
                 id:"3",
-                name: '用户角色管理',
+                name: '角色',
                 children: [
                     {
                         id:"9",
@@ -24,7 +24,7 @@ export let menuService = {
             },
             {
                 id:"5",
-                name: '应用管理',
+                name: '应用',
                 path: '/app',
                 children: [
                     {

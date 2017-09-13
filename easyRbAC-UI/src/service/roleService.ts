@@ -15,16 +15,21 @@ export let roleService = {
         let httpResult = await axios.get(path);
         return httpResult.data as PagingList<Role>
     },
-    async createRole(user:Role){
+    async createRole(role:Role){
         let path =`${Config.BaseUrl}/Role`
-        let httpResult = await axios.post(path,user)
+        let httpResult = await axios.post(path,role)
     },
-    async deleteRole(userId:string){
-        let path = `${Config.BaseUrl}/Role/${userId}`
+    async deleteRole(roleId:string){
+        let path = `${Config.BaseUrl}/Role/${roleId}`
         await axios.delete(path);
     },
-    async editRole(userId:string,user:Role){
-        let path = `${Config.BaseUrl}/Role/${userId}`
-        await axios.put(path,user);
+    async editRole(roleId:string,role:Role){
+        let path = `${Config.BaseUrl}/Role/${roleId}`
+        await axios.put(path,role);
+    },
+    async getRole(roleId:string):Promise<Role>{
+        let path = `${Config.BaseUrl}/Role/${roleId}`
+        let httpResult = await axios.get(path);
+        return httpResult.data
     }
 }

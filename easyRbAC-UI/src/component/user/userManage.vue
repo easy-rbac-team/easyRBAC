@@ -41,6 +41,7 @@ export default {
             this.showAddUser = !this.showAddUser;
         },
         editUser(userId) {
+            this.showAddUser = false;
             this.$router.push({ path: `/user/edit/${userId}` })
         },
         async getUserLst() {

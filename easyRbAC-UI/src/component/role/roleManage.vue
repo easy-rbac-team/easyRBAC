@@ -43,7 +43,8 @@ export default {
          this.roles = pageResult.items;
          this.page = pageResult.page;
       },
-      async deleteRole(index,id){         
+      async deleteRole(index,id){
+          this.showEditRole = false;
           this.$confirm('确定删除此角色?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',

@@ -3,8 +3,19 @@ export let menuService = {
         let result = [
             {
                 id:"1",
-                name: '用户',
-                path: '/user'                
+                name: '用户',               
+                children: [
+                    {
+                        id:"10",
+                        name:"用户管理",
+                        path:"/user"
+                    },
+                    {
+                        id:"11",
+                        name: '用户资源管理',
+                        path: '/role/resouce'
+                    }
+                ]             
             },
             {
                 id:"3",
@@ -27,6 +38,11 @@ export let menuService = {
                 name: '应用',
                 path: '/app',
                 children: [
+                    {
+                        id:"12",
+                        name:"应用管理",
+                        path:'/application'
+                    },
                     {
                         id:"6",
                         name: '应用资源管理',

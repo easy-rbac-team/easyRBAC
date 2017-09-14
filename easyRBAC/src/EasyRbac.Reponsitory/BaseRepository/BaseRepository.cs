@@ -73,5 +73,13 @@ namespace EasyRbac.Reponsitory.BaseRepository
             await this.Connection.ExecuteAsync(queryRst.ToQuery(), queryRst.Parameters);
 
         }
+
+        public Task<T> QueryFirstAsync(Expression<Func<T, bool>> condition)
+        {
+            var sql = new SQLinq<T>(this.SqlDialect).Where(condition).ToSQL();
+            this.Logger.LogDebug($"SQL:{sql.ToQuery()}{Environment.NewLine}Params:{sql.Parameters}");
+
+            return this.Connection.QueryFirstAsync<T>(sql.ToQuery(),sql.Parameters);
+        }
     }
 }

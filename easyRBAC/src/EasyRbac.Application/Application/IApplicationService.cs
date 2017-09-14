@@ -14,5 +14,10 @@ namespace EasyRbac.Application.Application
         Task<ApplicationInfoDto> AddAppAsync(ApplicationInfoDto app);
         Task<ApplicationInfoDto> GetOneAsync(long id);
         Task<PagingList<ApplicationInfoDto>> SearchAppAsync(string appName, int pageIndex, int pageSize);
+
+        Task<string> GetAppScretAsync(long appId);
+
+
+        Task EditAppScretAsync(long appId);
     }
 }

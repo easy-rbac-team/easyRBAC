@@ -18,5 +18,7 @@ namespace EasyRbac.Reponsitory.BaseRepository
         Task<PagingList<T>> QueryByPagingAsync(Expression<Func<T, bool>> condition, Expression<Func<T, object>> orderBy, int pageIndex, int pageSize);
 
         Task UpdateAsync(Expression<Func<T>> update, Expression<Func<T, bool>> condition);
+
+        Task<T> QueryFirstAsync(Expression<Func<T, bool>> condition);
     }
 }

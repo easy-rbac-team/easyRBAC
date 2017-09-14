@@ -14,6 +14,7 @@
                         el-button(icon="delete",size="mini",type="danger",@click="deleteUser(index,u.id)")
                         el-button(icon="edit",size="mini",type="warning",@click="editUser(u.id)")
                         el-button(icon="information",size="mini",type="info")
+            el-pagination(small,layout="prev, pager, next",:total="page.totalCount",:page-size="page.pageSize")
     el-col(:span="8")
         add-page(v-if="showAddUser",v-on:addedUserFinish="addedUserHandle")
         router-view

@@ -19,14 +19,7 @@ namespace EasyRbac.Web.Controllers
         {
             this._applicationService = applicationService;
         }
-
-        // GET: api/Application
-        [HttpGet]
-        public Task<PagingList<ApplicationInfoDto>> Get(string appName,int pageIndex,int pageSize)
-        {
-            return this._applicationService.SearchAppAsync(appName, pageIndex, pageSize);
-        }
-
+        
         // GET: api/Application/5
         [HttpGet("{id}", Name = "Get")]
         public Task<ApplicationInfoDto> Get(long id)

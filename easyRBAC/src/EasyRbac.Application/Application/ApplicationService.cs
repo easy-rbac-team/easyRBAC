@@ -50,7 +50,7 @@ namespace EasyRbac.Application.Application
         {
             var applicationEntity = this._mapper.Map<ApplicationEntity>(app);
             applicationEntity.Id = this._idGenerator.NewId();
-            applicationEntity.AppScret = this._encryptHelper.GenerateSalt();
+            applicationEntity.AppScret = this._encryptHelper.GenerateSalt(10);
             await this._appRepository.InsertAsync(applicationEntity);
             return app;
         }
@@ -63,7 +63,7 @@ namespace EasyRbac.Application.Application
 
         public async Task<PagingList<ApplicationInfoDto>> SearchAppAsync(string appName, int pageIndex, int pageSize)
         {
-            PagingList<ApplicationEntity> rsult = await this._appRepository.QueryByPagingAsync(x => x.Enable == true && (x.AppName == appName || x.AppCode == appName), x => x.Id, pageIndex, pageSize);
+            PagingList<ApplicationEntity> rsult = await this._appRepository.QueryByPagingAsync(x => x.Enable == true && (x.AppName.StartsWith(appName) || x.AppCode.StartsWith(appName)), x => x.Id, pageIndex, pageSize);
             return this._mapper.Map<PagingList<ApplicationInfoDto>>(rsult);
         }
 
@@ -75,7 +75,7 @@ namespace EasyRbac.Application.Application
 
         public Task EditAppScretAsync(long appId)
         {
-            string newSecuret = this._encryptHelper.GenerateSalt();
+            string newSecuret = this._encryptHelper.GenerateSalt(10);
             return this._appRepository.UpdateAsync(
                 () => new ApplicationEntity
                 {

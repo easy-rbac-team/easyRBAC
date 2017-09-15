@@ -28,5 +28,6 @@ namespace EasyRbac.Test
             var result = convert.ToString(value);
             Assert.Equal(value,convert.FromString(result));
         }
-    }
+
+      }
 }

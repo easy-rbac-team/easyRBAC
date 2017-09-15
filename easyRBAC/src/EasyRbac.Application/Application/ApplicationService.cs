@@ -6,6 +6,7 @@ using AutoMapper;
 using EasyRbac.Domain.Entity;
 using EasyRbac.Dto;
 using EasyRbac.Dto.Application;
+using EasyRbac.Reponsitory;
 using EasyRbac.Reponsitory.BaseRepository;
 using EasyRbac.Utils;
 
@@ -13,12 +14,12 @@ namespace EasyRbac.Application.Application
 {
     public class ApplicationService : IApplicationService
     {
-        private readonly IRepository<ApplicationEntity> _appRepository;
+        private readonly IApplicationRepository _appRepository;
         private readonly IMapper _mapper;
         private readonly IIdGenerator _idGenerator;
         private readonly IEncryptHelper _encryptHelper;
 
-        public ApplicationService(IRepository<ApplicationEntity> appRepository, IIdGenerator idGenerator, IMapper mapper, IEncryptHelper encryptHelper)
+        public ApplicationService(IApplicationRepository appRepository, IIdGenerator idGenerator, IMapper mapper, IEncryptHelper encryptHelper)
         {
             this._appRepository = appRepository;
             this._idGenerator = idGenerator;
@@ -67,10 +68,11 @@ namespace EasyRbac.Application.Application
             return this._mapper.Map<PagingList<ApplicationInfoDto>>(rsult);
         }
 
-        public async Task<string> GetAppScretAsync(long appId)
+        public Task<string> GetAppScretAsync(long appId)
         {
-            var result = await this._appRepository.QueryFirstAsync(x => x.Id == appId);
-            return result.AppScret;
+            var t = new SQLinq.SQLinq<ApplicationEntity>().Where(x => x.Id == appId).Select(x => x.AppScret);
+
+            return this._appRepository.GetAppSecuret(appId);
         }
 
         public Task EditAppScretAsync(long appId)

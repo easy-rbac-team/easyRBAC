@@ -70,6 +70,7 @@ namespace EasyRbac.Web
         {
             builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(UserControllerService))).AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
+            builder.RegisterAssemblyTypes(Assembly.Load("EasyRbac.Reponsitory")).AsImplementedInterfaces();
             var connStr = this.Configuration.GetConnectionString("easyRBAc");
             builder.RegisterType<MySqlDialect>().As<ISqlDialect>().InstancePerLifetimeScope();
             builder.Register(c => new MySqlConnection(connStr)).As<IDbConnection>().InstancePerLifetimeScope();

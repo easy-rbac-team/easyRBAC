@@ -48,13 +48,13 @@ namespace EasyRbac.Web.Controllers
             return this._applicationService.DisableApp(id);
         }
 
-        [HttpGet("/appSecret/{appId}")]
+        [HttpGet("appSecret/{appId}")]
         public Task<string> GetAppSecret(long appId)
         {
             return this._applicationService.GetAppScretAsync(appId);
         }
 
-        [HttpPut("/appSecret/{appId}")]
+        [HttpPut("appSecret/{appId}")]
         public Task ChangeAppSecret(long appId)
         {
             return this._applicationService.EditAppScretAsync(appId);

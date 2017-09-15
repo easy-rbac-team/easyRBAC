@@ -44,14 +44,23 @@ export default {
     },
     methods: {
         showAppInfo(appId){
+            let oldApp = this.appInfoOp.appId;
             this.appInfoOp.appId = appId;
-            this.appInfoOp.showAppInfo= true;
+
+            if(oldApp == appId){
+                this.appInfoOp.showAppInfo= false;
+                this.appInfoOp.appId = undefined;
+            }else{
+                this.appInfoOp.showAppInfo = true;                
+            }          
+            this.showAddApp = false;
         },
         iconClickHandler() {
             
         },
         addApp() {
            this.showAddApp = true;
+           this.appInfoOp.showAddApp = false;
         },
         editApp(AppId) {
             
@@ -64,8 +73,7 @@ export default {
             this.apps = pageResult.items;
             this.page = pageResult.page;
         },
-        addedAppHandle(refresh) {
-            
+        addedAppHandle(refresh) {            
             if(refresh){
                 this.getAppLst()
             }

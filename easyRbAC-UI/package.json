@@ -11,7 +11,8 @@
         "axios": "^0.16.2",
         "element-ui": "^1.4.4",
         "vue": "^2.4.2",
-        "vue-router": "^2.7.0"
+        "vue-router": "^2.7.0",
+        "vue-clipboard": "*"
     },
     "engines": {
         "node": ">=6"

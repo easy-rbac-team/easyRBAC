@@ -13,14 +13,16 @@
                     el-button-group
                         el-button(icon="delete",size="mini",type="danger",@click="deleteApp(index,u.id)")
                         el-button(icon="edit",size="mini",type="warning",@click="editApp(u.id)")
-                        el-button(icon="information",size="mini",type="info")
+                        el-button(icon="information",size="mini",type="info",@click="showAppInfo(u.id)")
             el-pagination(small,layout="prev, pager, next",:total="page.totalCount",:page-size="page.pageSize")
     el-col(:span="8")
          add-app(v-if="showAddApp",v-on:showFinish="addedAppHandle")
+         app-info(v-if="appInfoOp.showAppInfo",:appId="appInfoOp.appId")
 </template>
 
 <script>
 import { appService } from '../../service/appService.ts'
+import appInfo from './appInfo.vue'
 import addApp from './addApp.vue'
 
 export default {
@@ -33,10 +35,18 @@ export default {
             },            
             apps: [],
             page: {},
-            showAddApp: false
+            showAddApp: false,
+            appInfoOp:{
+                showAppInfo : false,
+                appId:""
+            }
         }
     },
     methods: {
+        showAppInfo(appId){
+            this.appInfoOp.appId = appId;
+            this.appInfoOp.showAppInfo= true;
+        },
         iconClickHandler() {
             
         },
@@ -80,7 +90,8 @@ export default {
         this.getAppLst();
     },
     components: {
-        addApp
+        addApp,
+        appInfo
     }
 }
 </script>

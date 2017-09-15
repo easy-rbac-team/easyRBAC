@@ -7,9 +7,11 @@ import { routerCfg } from './router.js'
 import userManage from './component/user/userManage.vue'
 import axios from 'axios'
 import treeMenu from './component/treeMenu.vue'
+import VueClipboard from 'vue-clipboard'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter);
+Vue.use(VueClipboard)
 
 Vue.component("tree-menu", treeMenu);
 let v = new Vue({

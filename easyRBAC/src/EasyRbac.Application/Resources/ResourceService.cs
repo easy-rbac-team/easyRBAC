@@ -2,12 +2,30 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using EasyRbac.Domain.Entity;
+using EasyRbac.Domain.Relations;
 using EasyRbac.Dto.AppResource;
+using EasyRbac.Reponsitory.BaseRepository;
+using EasyRbac.Reponsitory.Helper;
+using EasyRbac.Utils;
 
 namespace EasyRbac.Application.Resources
 {
     public class ResourceService : IAppResourceService
     {
+        private IKeyedIdGenerate _keyedIdGenerate;
+        private IRepository<AppResourceRelation> _appResouceRel;
+        private IRepository<AppResourceEntity> _resouceRepository;
+        private IIdGenerator _idGenerator;
+
+        public ResourceService(IRepository<AppResourceRelation> appResouceRel, IIdGenerator idGenerator, IRepository<AppResourceEntity> resouceRepository, IKeyedIdGenerate keyedIdGenerate)
+        {
+            this._appResouceRel = appResouceRel;
+            this._idGenerator = idGenerator;
+            this._resouceRepository = resouceRepository;
+            this._keyedIdGenerate = keyedIdGenerate;
+        }
+
         public Task<List<AppAndResouceDto>> GetUserManagedResouceAsync(long userId)
         {
             throw new NotImplementedException();

@@ -61,3 +61,10 @@ CREATE TABLE IF NOT EXISTS `easyrbac`.`role` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 
+CREATE TABLE `easyrbac`.`app_resource_rel` (
+  `id` BIGINT NOT NULL,
+  `appId` BIGINT NOT NULL,
+  `resourceId` VARCHAR(200) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `appId` (`appId` ASC));
+

@@ -41,8 +41,8 @@ export let appService={
         let httpResult = await axios.get(url);
         return httpResult.data;
     },
-    async changeAppsecrete(appId:string){
+    async changeAppSecret(appId:string){
         let url = `${Config.BaseUrl}/application/appSecret/${appId}`
-        let httpResult = await axios.get(url);        
+        let httpResult = await axios.put(url);        
     }
 }

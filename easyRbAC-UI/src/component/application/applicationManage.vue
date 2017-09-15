@@ -1,5 +1,5 @@
 <template lang="pug">
-  el-row    
+el-row    
     el-col(:span="8")
         el-card.box-card                  
             .clearfix(slot="header")
@@ -16,7 +16,7 @@
                         el-button(icon="information",size="mini",type="info")
             el-pagination(small,layout="prev, pager, next",:total="page.totalCount",:page-size="page.pageSize")
     el-col(:span="8")
-         add-app(v-if="showAddApp",v-on:showFinish="addedAppHandle")
+        add-app(v-if="showAddApp",v-on:showFinish="addedAppHandle")
 </template>
 
 <script>

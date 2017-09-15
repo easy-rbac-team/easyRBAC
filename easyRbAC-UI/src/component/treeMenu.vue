@@ -14,9 +14,9 @@
 
 <script>
 export default {
-  props:["menu"],
-  mounted:function(){
-      console.log(this.menu)
-  }
+    props: ["menu"],
+    mounted: function() {
+        console.log(this.menu)
+    }
 }
 </script>

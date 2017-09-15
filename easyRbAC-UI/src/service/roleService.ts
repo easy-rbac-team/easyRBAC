@@ -1,5 +1,5 @@
-import {Config} from "./baseConfig.ts"
-import {PagingList} from './commons.ts'
+import {Config} from "./baseConfig"
+import {PagingList} from './commons'
 import axios from 'axios'
 
 interface Role{

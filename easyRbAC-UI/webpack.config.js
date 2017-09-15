@@ -16,34 +16,44 @@ module.exports = (options = {}) => ({
         publicPath: options.dev ? '/assets/' : publicPath
     },
     resolve: {
-        // Add `.ts` and `.tsx` as a resolvable extension.
-        extensions: ['.ts', '.tsx', '.js'] // note if using webpack 1 you'd also need a '' in the array as well
+        extensions: ['.js', '.ts', '.vue'],
+        alias: {
+            'vue$': 'vue/dist/vue.common.js',
+            '~': resolve(__dirname, 'src')
+        },
     },
     module: {
         rules: [{
-                test: /\.vue$/,
-                use: ['vue-loader']
-            },
-            {
-                test: /\.js$/,
-                use: ['babel-loader'],
-                exclude: /node_modules/
-            },
-            {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader', 'postcss-loader']
-            },
-            {
-                test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)(\?.+)?$/,
-                use: [{
-                    loader: 'url-loader',
-                    options: {
-                        limit: 10000
-                    }
-                }]
-            },
-            { test: /\.tsx?$/, loader: 'ts-loader' }
-        ]
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader', 'postcss-loader']
+        },
+        {
+            test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)(\?.+)?$/,
+            use: [{
+                loader: 'url-loader',
+                options: {
+                    limit: 10000
+                }
+            }]
+        },
+        {
+            test: /\.ts$/,
+            exclude: /node_modules|vue\/src/,
+            loader: 'ts-loader',
+            options: {
+                appendTsSuffixTo: [/\.vue$/]
+            }
+        }, {
+            test: /\.js$/,
+            exclude: /node_modules/, 
+            loader: 'babel-loader'
+        }, {
+            test: /\.vue$/,
+            loader: "vue-loader",
+            options: {
+                esModule: true
+            }
+        }]
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
@@ -53,11 +63,6 @@ module.exports = (options = {}) => ({
             template: 'src/index.html'
         })
     ],
-    resolve: {
-        alias: {
-            '~': resolve(__dirname, 'src')
-        }
-    },
     devServer: {
         host: '127.0.0.1',
         port: 8010,

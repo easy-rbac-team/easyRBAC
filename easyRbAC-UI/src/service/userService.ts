@@ -1,6 +1,6 @@
 import axios from "axios"
-import {Config} from "./baseConfig.ts"
-import {PagingList} from "./commons.ts"
+import {Config} from "./baseConfig"
+import {PagingList} from "./commons"
 
 interface UserInfo{
     userName:string,

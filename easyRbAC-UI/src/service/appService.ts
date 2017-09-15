@@ -1,6 +1,6 @@
 import axios from 'axios'
-import {PagingList} from './commons.ts';
-import {Config} from './baseConfig.ts'
+import {PagingList} from './commons';
+import {Config} from './baseConfig'
 
 interface Application{
     id:string,

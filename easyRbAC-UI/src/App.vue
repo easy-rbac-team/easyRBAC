@@ -11,12 +11,12 @@
 </template>
 
 <script>
-import navHeader from './component/navHead.vue'
-import leftMenu from './component/leftMenu.vue'
+import navHeader from './component/navHead'
+import leftMenu from './component/leftMenu'
 
 export default {
   data() {
-    return {      
+    return {
     }
   },
 

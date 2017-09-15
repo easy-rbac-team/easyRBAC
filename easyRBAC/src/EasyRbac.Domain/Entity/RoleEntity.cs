@@ -5,6 +5,7 @@ using SQLinq;
 
 namespace EasyRbac.Domain.Entity
 {
+    [SQLinqTable("role")]
     public class RoleEntity
     {
         public long Id { get; set; }
@@ -13,7 +14,7 @@ namespace EasyRbac.Domain.Entity
 
         public string Descript { get; set; }
 
-        public bool Enable { get; set; }
+        public bool Enable { get; set; } = true;
 
         public DateTime CreateTime { get; set; } = DateTime.Now;
 

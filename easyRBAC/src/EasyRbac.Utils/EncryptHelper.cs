@@ -6,11 +6,11 @@ namespace EasyRbac.Utils
 {
     public class EncryptHelper : IEncryptHelper
     {
-        public string GenerateSalt()
+        public string GenerateSalt(int length = 64)
         {
             using(var rngCsp = new RNGCryptoServiceProvider())
             {
-                var bytes = new byte[64];
+                var bytes = new byte[length];
                 rngCsp.GetBytes(bytes);
                 return this.ToHex(bytes);
             }            

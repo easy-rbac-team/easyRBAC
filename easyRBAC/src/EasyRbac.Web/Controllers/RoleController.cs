@@ -19,12 +19,6 @@ namespace EasyRbac.Web.Controllers
             this._roleService = roleService;
         }
 
-        [HttpGet]
-        public Task<PagingList<RoleDto>> Search(string roleName,int pageIndex,int pageSize)
-        {
-            return this._roleService.SearchByPagingAsync(roleName, pageIndex, pageSize);
-        }
-
         [HttpPost]
         public Task AddRole([FromBody]RoleDto role)
         {
@@ -37,8 +31,8 @@ namespace EasyRbac.Web.Controllers
             return this._roleService.DisableRoleAsync(roleId);
         }
 
-        [HttpGet("{roleId}")]
-        public Task EditRoleInfo(long roleId, RoleDto role)
+        [HttpPut("{roleId}")]
+        public Task EditRoleInfo(long roleId,[FromBody] RoleDto role)
         {
             return this._roleService.EditRoleAsync(roleId, role);
         }

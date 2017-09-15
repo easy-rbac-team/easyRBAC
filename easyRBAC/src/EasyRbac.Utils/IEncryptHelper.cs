@@ -6,7 +6,7 @@ namespace EasyRbac.Utils
 {
     public interface IEncryptHelper
     {
-        string GenerateSalt();
+        string GenerateSalt(int length = 64);
         string Sha256Encrypt(string input);
         string ToHex(byte[] input);
     }

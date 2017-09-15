@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS `easyrbac`.`role` (
   `roleName` VARCHAR(45) NOT NULL,
   `enable` BIT(1) NOT NULL,
   `createTime` DATETIME NOT NULL,
+  `descript` VARCHAR(100) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4

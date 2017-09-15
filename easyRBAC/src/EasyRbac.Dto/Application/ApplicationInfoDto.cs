@@ -11,12 +11,14 @@ namespace EasyRbac.Dto.Application
 
         public string AppCode { get; set; }
 
-        public bool Enable { get; set; }
+        public bool Enable { get; set; } = true;
 
         public DateTime CreateTime { get; set; } = DateTime.Now;
 
         public string Descript { get; set; }
 
         public string CallbackUrl { get; set; }
+
+        //public string AppScret { get; set; }
     }
 }

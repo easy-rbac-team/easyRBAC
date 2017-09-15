@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
+using EasyRbac.Domain.Entity;
+using EasyRbac.Dto.Application;
+using EasyRbac.Dto.Role;
+using EasyRbac.Dto.User;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EasyRbac.Dto.Mapper
@@ -10,7 +14,22 @@ namespace EasyRbac.Dto.Mapper
     {
         public static void UseDtoAutoMapper(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddSingleton<IMapper, AutoMapper.Mapper>();
+            var config = new MapperConfiguration(x =>
+            {
+                x.CreateMap<UserEntity, UserInfoDto>();
+                x.CreateMap(typeof(PagingList<>), typeof(PagingList<>));
+                x.DoubleMap<RoleEntity, RoleDto>();
+                x.DoubleMap<ApplicationEntity, ApplicationInfoDto>();
+                
+            });
+            var mapper = new AutoMapper.Mapper(config);
+            serviceCollection.AddSingleton<IMapper>(mapper);
+        }
+
+        private static void DoubleMap<TSource, TDestination>(this IMapperConfigurationExpression ex)
+        {
+            ex.CreateMap<TSource, TDestination>();
+            ex.CreateMap<TDestination, TSource>();
         }
     }
 }

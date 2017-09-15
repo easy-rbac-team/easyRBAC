@@ -19,14 +19,7 @@ namespace EasyRbac.Web.Controllers
         {
             this._applicationService = applicationService;
         }
-
-        // GET: api/Application
-        [HttpGet]
-        public Task<PagingList<ApplicationInfoDto>> Get(string appName,int pageIndex,int pageSize)
-        {
-            return this._applicationService.SearchAppAsync(appName, pageIndex, pageSize);
-        }
-
+        
         // GET: api/Application/5
         [HttpGet("{id}", Name = "Get")]
         public Task<ApplicationInfoDto> Get(long id)
@@ -53,6 +46,18 @@ namespace EasyRbac.Web.Controllers
         public Task Delete(long id)
         {
             return this._applicationService.DisableApp(id);
+        }
+
+        [HttpGet("/appSecret/{appId}")]
+        public Task<string> GetAppSecret(long appId)
+        {
+            return this._applicationService.GetAppScretAsync(appId);
+        }
+
+        [HttpPut("/appSecret/{appId}")]
+        public Task ChangeAppSecret(long appId)
+        {
+            return this._applicationService.EditAppScretAsync(appId);
         }
     }
 }

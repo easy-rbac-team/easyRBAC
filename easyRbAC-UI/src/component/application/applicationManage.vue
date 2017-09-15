@@ -1,5 +1,5 @@
 <template lang="pug">
-  el-row    
+el-row    
     el-col(:span="8")
         el-card.box-card                  
             .clearfix(slot="header")

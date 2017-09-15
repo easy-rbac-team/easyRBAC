@@ -1,6 +1,6 @@
 <template lang="pug">
-    el-col(:span="4")
-       el-menu.left-menu(default-active="2",:router="true")
+el-col(:span="4")
+    el-menu.left-menu(default-active="2",:router="true")
         tree-menu(:menu="menus")
             //- el-submenu(index="1")
             //-     template(slot="title")
@@ -23,28 +23,28 @@
 </template>
 
 <script>
-import {menuService} from '../service/menuService.ts'
+import { menuService } from '../service/menuService.ts'
 
 export default {
-  data(){
-      return{
-          menus :[]
-      }
-  },
-  methods:{
-      getMenu(){
-        let menus = menuService.getMenus();
-        this.menus = menus
-      }
-  },
-  mounted:function(){
-      this.getMenu();
-  }
+    data() {
+        return {
+            menus: []
+        }
+    },
+    methods: {
+        getMenu() {
+            let menus = menuService.getMenus();
+            this.menus = menus
+        }
+    },
+    mounted: function() {
+        this.getMenu();
+    }
 }
 </script>
 
 <style>
-.left-menu{
+.left-menu {
     min-height: 500px;
 }
 </style>

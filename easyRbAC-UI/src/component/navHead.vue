@@ -1,11 +1,13 @@
 <template lang="pug">
-  div
+div
     header.header
         div.container
             h1 Easy-RBAC
             el-button(type="warning") LogOut
 </template>
-
+<script>
+export default {}
+</script>
 <style>
 .header {
     background-color: rgb(32, 160, 255);
@@ -28,7 +30,7 @@
 }
 
 h1 {
-    font-size: 2em; 
+    font-size: 2em;
     font-weight: bold;
     margin: 0px 0px;
     text-align: left;

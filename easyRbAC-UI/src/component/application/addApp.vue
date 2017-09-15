@@ -1,5 +1,5 @@
 <template lang="pug">
-      div.form-border
+div.form-border
         el-form(ref='form', :model='form',:rules="rules", label-width='80px')
             el-form-item(label='应用名',prop="appName")
                 el-input(v-model='form.appName')         

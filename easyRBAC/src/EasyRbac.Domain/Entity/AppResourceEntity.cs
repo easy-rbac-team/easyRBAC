@@ -1,7 +1,9 @@
 ﻿using EasyRbac.Domain.Enums;
+using SQLinq;
 
 namespace EasyRbac.Domain.Entity
 {
+    [SQLinqTable("app_resouce")]
     public class AppResourceEntity
     {
         public string Id { get; set; }

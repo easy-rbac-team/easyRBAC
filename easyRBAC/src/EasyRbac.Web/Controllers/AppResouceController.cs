@@ -9,61 +9,61 @@ using Microsoft.AspNetCore.Mvc;
 namespace EasyRbac.Web.Controllers
 {
     [Route("[controller]")]
-    public class AppResouceController : Controller
+    public class AppResourceController : Controller
     {
-        private IAppResourceService _resouceService;
+        private readonly IAppResourceService _resourceService;
 
-        public AppResouceController(IAppResourceService resouceService)
+        public AppResourceController(IAppResourceService resourceService)
         {
-            this._resouceService = resouceService;
+            this._resourceService = resourceService;
         }
 
-        [HttpPost]
-        public Task AddResouce(AppResourceDto resouce)
+        [HttpPost("{parentId}")]
+        public Task AddResource(string parentId,[FromBody]AppResourceDto resource)
         {
-            return this._resouceService.AddResouceAsync(resouce);
+            return this._resourceService.AddResourceAsync(resource, parentId);
         }
 
         [HttpDelete]
-        public Task DisableResouce(string id)
+        public Task DisableResource(string id)
         {
-            return this._resouceService.DisableResouceAsync(id);
+            return this._resourceService.DisableResourceAsync(id);
         }
 
         [HttpPut("{id}")]
-        public Task EditResouce(string id,[FromBody] AppResourceDto resouce)
+        public Task EditResource(string id,[FromBody] AppResourceDto Resource)
         {
-            return this._resouceService.EditAsync(id, resouce);
+            return this._resourceService.EditAsync(id, Resource);
         }
 
         [HttpGet("{id}")]
-        public Task<AppResourceDto> GetResouceInfo(string id)
+        public Task<AppResourceDto> GetResourceInfo(string id)
         {
-            return this._resouceService.GetOneAsync(id);
+            return this._resourceService.GetOneAsync(id);
         }
 
-        [HttpGet("app/{id}")]
-        public Task<List<AppResourceDto>> GetAppResouce(long appId)
+        [HttpGet("app/{appId}")]
+        public Task<AppResourceDto> GetAppResource(long appId)
         {
-            return this._resouceService.GetAppResouceAsync(appId);
+            return this._resourceService.GetAppResourceAsync(appId);
         }
 
-        [HttpGet("tree/{parentResouceId}")]
-        public Task<List<AppResourceDto>> GetResouceTree(string parentResouceId)
+        [HttpGet("tree/{parentResourceId}")]
+        public Task<List<AppResourceDto>> GetResourceTree(string parentResourceId)
         {
-            return this._resouceService.GetResouceTreeAsync(parentResouceId);
+            return this._resourceService.GetResourceTreeAsync(parentResourceId);
         }
 
-        [HttpGet("{userId}/resouces/{appId}")]
-        public Task<List<AppResourceDto>> GetUserResouce(long appId,long userId)
+        [HttpGet("{userId}/Resources/{appId}")]
+        public Task<List<AppResourceDto>> GetUserResource(long appId,long userId)
         {
-            return this._resouceService.GetUserResouceAsync(appId, userId);
+            return this._resourceService.GetUserResourceAsync(appId, userId);
         }
 
-        [HttpGet("managedresouce/{userId}")]
-        public Task<List<AppAndResouceDto>> GetUserManagedResouce(long userId)
+        [HttpGet("managedResource/{userId}")]
+        public Task<List<AppAndResourceDto>> GetUserManagedResource(long userId)
         {
-            return this._resouceService.GetUserManagedResouceAsync(userId);
+            return this._resourceService.GetUserManagedResourceAsync(userId);
         }
     }
 }

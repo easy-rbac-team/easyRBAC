@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EasyRbac.Dto.AppResource
 {
-    public class AppAndResouceDto
+    public class AppAndResourceDto
     {
         public long AppId { get; set; }
 

@@ -4,6 +4,7 @@ using System.Text;
 using AutoMapper;
 using EasyRbac.Domain.Entity;
 using EasyRbac.Dto.Application;
+using EasyRbac.Dto.AppResource;
 using EasyRbac.Dto.Role;
 using EasyRbac.Dto.User;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,10 +21,11 @@ namespace EasyRbac.Dto.Mapper
                 x.CreateMap(typeof(PagingList<>), typeof(PagingList<>));
                 x.DoubleMap<RoleEntity, RoleDto>();
                 x.DoubleMap<ApplicationEntity, ApplicationInfoDto>();
-                
+                x.DoubleMap<AppResourceEntity,AppResourceDto>();
             });
             var mapper = new AutoMapper.Mapper(config);
             serviceCollection.AddSingleton<IMapper>(mapper);
+            
         }
 
         private static void DoubleMap<TSource, TDestination>(this IMapperConfigurationExpression ex)

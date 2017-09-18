@@ -38,16 +38,16 @@ DEFAULT CHARACTER SET = utf8mb4;
 CREATE TABLE IF NOT EXISTS `easyrbac`.`app_resouce` (
   `id` VARCHAR(200) NOT NULL,
   `applicationId` BIGINT(20) NOT NULL,
-  `resouceCode` VARCHAR(45) NOT NULL,
-  `resouceName` VARCHAR(45) NOT NULL,
+  `resourceCode` VARCHAR(45) NOT NULL,
+  `resourceName` VARCHAR(45) NOT NULL,
   `enable` BIT(1) NOT NULL,
   `url` VARCHAR(100) NULL DEFAULT NULL,
-  `resouceType` TINYINT(4) NOT NULL,
+  `resourceType` TINYINT(4) NOT NULL,
   `iconUrl` VARCHAR(45) NULL DEFAULT NULL,  
   `parameters` VARCHAR(45) NULL DEFAULT NULL,
   `describe` VARCHAR(200) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `app_resouce` (`applicationId` ASC, `resouceCode` ASC))
+  UNIQUE INDEX `app_resouce` (`applicationId` ASC, `resourceCode` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 

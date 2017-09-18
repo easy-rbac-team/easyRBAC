@@ -8,13 +8,20 @@ el-row
                 |
             |   
             .text.item(v-for="(u,index) in apps", :key="u.id")                
-                    | {{u.appName}}                    
+                    span()
+                      | {{u.appName}}                    
+                      el-button(type="success",@click="showTree(u.id,u.appName)") 查看
             el-pagination(small,layout="prev, pager, next",:total="page.totalCount",:page-size="page.pageSize")
-    el-col(:span="8")         
+    el-col(:span="8")
+        resource-tree(:appId="selectAppId",:appName="selectAppName")
+    
 </template>
 
 <script>
 import {appService} from '../../../service/appService'
+import {resourceService} from '../../../service/resourceService'
+import resourceTree from './resourceTree'
+import addResource from './addResource'
 
 export default {
     data() {
@@ -25,25 +32,20 @@ export default {
                 pageSize:20
             },            
             apps: [],
-            page: {}            
+            page: {},
+            isTreeShow:false,
+            selectAppId:"",
+            selectAppName:"",            
         }
     },
     methods: {        
-        showEdit(appId){
-            
-        },
-        showAppInfo(appId){
-            
-        },
-        iconClickHandler() {
+        showTree(appId,appName){
+            this.isTreeShow = true;
+            this.selectAppId = appId;
+            this.selectAppName = appName;
+        }, iconClickHandler() {
             this.getAppLst()
-        },
-        addApp() {
-           
-        },
-        editApp(AppId) {
-            
-        },
+        },       
         async getAppLst() {
             let pageResult = await appService.searchApp(
                 this.search.appName,
@@ -57,6 +59,8 @@ export default {
         this.getAppLst();
     },
     components: {        
+        resourceTree,
+        addResource
     }
 }
 </script>

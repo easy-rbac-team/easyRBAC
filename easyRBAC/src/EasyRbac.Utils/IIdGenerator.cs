@@ -9,3 +9,4 @@ namespace EasyRbac.Utils
         long NewId();
     }
 }
+

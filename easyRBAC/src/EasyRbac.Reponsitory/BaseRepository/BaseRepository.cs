@@ -81,5 +81,7 @@ namespace EasyRbac.Reponsitory.BaseRepository
 
             return this.Connection.QueryFirstAsync<T>(sql.ToQuery(),sql.Parameters);
         }
+
+        public IDbConnection DbConnection => this.Connection;
     }
 }

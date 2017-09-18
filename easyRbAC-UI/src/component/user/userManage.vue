@@ -10,7 +10,7 @@
             |   
             .text.item(v-for="(u,index) in users", :key="u.id")                
                     | {{u.userName}}
-                    el-button-group
+                    el-button-group.right-buttons
                         el-button(icon="delete",size="mini",type="danger",@click="deleteUser(index,u.id)")
                         el-button(icon="edit",size="mini",type="warning",@click="editUser(u.id)")
                         el-button(icon="information",size="mini",type="info")
@@ -86,7 +86,10 @@ export default {
 }
 
 .item {
-    padding: 8px 0;
+    padding: 8px 0;    
+}
+.right-buttons{
+    float: right;
 }
 
 .clearfix:before,

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace EasyRbac.Reponsitory.BaseRepository
     public interface IRepository<T>
     {
         Task InsertAsync(T obj);
-
+        
         Task DeleteAsync(Expression<Func<T, bool>> expression);        
 
         Task<IEnumerable<T>> QueryAsync(Expression<Func<T, bool>> condition);
@@ -20,5 +21,7 @@ namespace EasyRbac.Reponsitory.BaseRepository
         Task UpdateAsync(Expression<Func<T>> update, Expression<Func<T, bool>> condition);
 
         Task<T> QueryFirstAsync(Expression<Func<T, bool>> condition);
+
+        IDbConnection DbConnection { get; }
     }
 }

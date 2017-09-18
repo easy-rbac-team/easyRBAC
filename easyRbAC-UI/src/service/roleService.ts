@@ -15,6 +15,15 @@ export let roleService = {
         let httpResult = await axios.get(path);
         return httpResult.data as PagingList<Role>
     },
+    async changeRoleMember(roleId:string,memberIds:string[]){
+        let path = `${Config.BaseUrl}/Role/${roleId}/user`
+        await axios.put(path,memberIds);
+    },
+    async getRoleMember(roleId:string):Promise<Role>{
+        let path = `${Config.BaseUrl}/Role/${roleId}/user`
+        let httpResult = await axios.get(path);
+        return httpResult.data;
+    },
     async createRole(role:Role){
         let path =`${Config.BaseUrl}/Role`
         let httpResult = await axios.post(path,role)

@@ -68,3 +68,11 @@ CREATE TABLE `easyrbac`.`app_resource_rel` (
   PRIMARY KEY (`id`),
   INDEX `appId` (`appId` ASC));
 
+
+CREATE TABLE `easyrbac`.`role_user_rel` (
+  `id` BIGINT NOT NULL,
+  `userId` BIGINT NOT NULL,
+  `roleId` BIGINT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `userId_ix` (`userId` ASC),
+  INDEX `roleId_ix` (`roleId` ASC));

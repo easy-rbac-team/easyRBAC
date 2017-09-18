@@ -3,7 +3,7 @@ using SQLinq;
 
 namespace EasyRbac.Domain.Entity
 {
-    [SQLinqTable("app_resouce")]
+    [SQLinqTable("app_resource")]
     public class AppResourceEntity
     {
         public string Id { get; set; }

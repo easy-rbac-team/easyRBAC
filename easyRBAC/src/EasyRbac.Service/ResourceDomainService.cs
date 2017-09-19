@@ -18,6 +18,19 @@ namespace EasyRbac.DomainService
         private IKeyedIdGenerate _keyedIdGenerate;
         private IRepository<AppResourceRelation> _appResouceRel;
         private IRepository<AppResourceEntity> _resouceRepository;
+        private IRepository<ApplicationEntity> _appRepository;
         private IIdGenerator _idGenerator;
+
+        /// <summary>Initializes a new instance of the <see cref="T:System.Object"></see> class.</summary>
+        public ResourceDomainService(IKeyedIdGenerate keyedIdGenerate, IRepository<AppResourceRelation> appResouceRel, IRepository<AppResourceEntity> resouceRepository, IIdGenerator idGenerator, IRepository<ApplicationEntity> appRepository)
+        {
+            this._keyedIdGenerate = keyedIdGenerate;
+            this._appResouceRel = appResouceRel;
+            this._resouceRepository = resouceRepository;
+            this._idGenerator = idGenerator;
+            this._appRepository = appRepository;
+        }
+
+
     }
 }

@@ -30,6 +30,24 @@ namespace EasyRbac.Test
         }
 
         [Fact]
+        public void GenerateNolock_test_success()
+        {
+            for (int index = 0; index < 10; index++)
+            {
+                var g = new EasyGenerator(10);
+
+                var queue1 = new ConcurrentQueue<long>();
+                Enumerable.Range(0, 5097159).AsParallel().WithDegreeOfParallelism(100).ForAll(x =>
+                {
+                    var idg = g.GetIdResult();
+                    var newId = idg.GenerateId();
+                    queue1.Enqueue(newId);
+                });
+                Assert.Equal(queue1.Count, queue1.ToDictionary(x => x, x => x).Count);
+            }
+        }
+
+        [Fact]
         public void Genrate_test2_success()
         {
             var generator = new EasyGenerator(10);
@@ -47,6 +65,20 @@ namespace EasyRbac.Test
             IdResult oldIdResult = new IdResult();
             for(int i = 0; i < 5000000; i++)
             {                
+                IdResult newIdResult = g.GetIdResult();
+                Assert.True(newIdResult.GenerateId() > oldIdResult.GenerateId(), $"{newIdResult}>{oldIdResult}???");
+                oldIdResult = newIdResult;
+            };
+        }
+
+
+        [Fact]
+        public void GenerateNolock_grows_success()
+        {
+            var g = new EasyGenerator(10);
+            IdResult oldIdResult = new IdResult();
+            for (int i = 0; i < 5000000; i++)
+            {
                 IdResult newIdResult = g.GetIdResult();
                 Assert.True(newIdResult.GenerateId() > oldIdResult.GenerateId(), $"{newIdResult}>{oldIdResult}???");
                 oldIdResult = newIdResult;

@@ -7,11 +7,11 @@
                             el-input(placeholder="角色名|CODE",icon="search",:on-icon-click="getRoles",v-model="search.condition", @keyup.enter.native="getRoles")
                         |
                     |   
-                    .text.item(v-for="(r,index) in roles", :key="r.id",@click="selectRole(r.id)")                
+                    .text.item(v-for="(r,index) in roles", :key="r.id",@click="selectRole(r)",v-bind:class="{selected:r.active}")                
                             | {{r.roleName}}                        
                     el-pagination(small,layout="prev, pager, next",:total="search.page.totalCount",:page-size="search.page.pageSize")
         el-col(:span=12)
-            .container
+            .container(v-show="selectedRoleId!==''")
                 el-transfer(v-model="userIds",filterable,
                 :titles="['组外', '组内']",
                 :button-texts="['出组','进组']",
@@ -53,10 +53,13 @@ export default {
                 this.$message('修改成功！')
             }
         },
-        async selectRole(roleId){
+        async selectRole(role){
             debugger;
-            this.userIds =await roleService.getRoleMember(roleId);
-            this.selectedRoleId =roleId;
+            this.userIds =await roleService.getRoleMember(role.id);
+            this.roles.forEach(x=>x.active = false);
+            role.active = true;
+
+            this.selectedRoleId =role.id;
         }
     },
     mounted: async function() {
@@ -97,6 +100,11 @@ export default {
     cursor: pointer;
     background: #99A9BF;
     color: #eaeefb
+}
+
+.selected{
+    background:#E5E9F2;
+    color: #5e6d82;
 }
 
 .clearfix:before,

@@ -76,3 +76,11 @@ CREATE TABLE `easyrbac`.`role_user_rel` (
   PRIMARY KEY (`id`),
   INDEX `userId_ix` (`userId` ASC),
   INDEX `roleId_ix` (`roleId` ASC));
+
+
+  CREATE TABLE `easyrbac`.`role_resource_rel` (
+  `id` BIGINT NOT NULL,
+  `role_id` BIGINT NOT NULL,
+  `resource_id` VARCHAR(200) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `role_resouce_IX` (`role_id` ASC, `resource_id` ASC));

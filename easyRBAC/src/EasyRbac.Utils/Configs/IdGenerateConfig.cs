@@ -7,5 +7,7 @@ namespace EasyRbac.Utils.Configs
     public class IdGenerateConfig
     {
         public short NodeId { get; set; }
+
+        public int TimeBack { get; set; }
     }
 }

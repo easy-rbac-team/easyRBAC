@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using EasyRbac.Domain.Entity;
 using EasyRbac.Domain.Relations;
+using EasyRbac.DomainService.Extentions;
 using EasyRbac.Dto.AppResource;
 using EasyRbac.Reponsitory.BaseRepository;
 using EasyRbac.Reponsitory.Helper;
@@ -55,18 +56,7 @@ namespace EasyRbac.Application.Resources
         {
             List<AppResourceEntity> t = await this._resourceRepository.QueryAsync(x => x.ApplicationId == appId && x.Enable).ContinueWith(x => x.Result.ToList());
             var lst = this._mapper.Map<List<AppResourceDto>>(t);
-            foreach (AppResourceDto item in lst)
-            {
-                var subRex = new Regex($"{item.Id}\\d\\d$");
-                List<AppResourceDto> children = lst.Where(x =>
-                    {
-                        subRex.IsMatch(x.Id);
-                        return subRex.IsMatch(x.Id);
-                    }
-                ).ToList();
-                item.Children = children;
-            }
-            AppResourceDto root = lst.FirstOrDefault(x => x.Id == lst.Min(y => y.Id));
+            var root = lst.GenerateTree();
             return root;
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using EasyRbac.Dto.AppResource;
 
 namespace EasyRbac.DomainService.Extentions
@@ -11,8 +12,17 @@ namespace EasyRbac.DomainService.Extentions
     {
         public static AppResourceDto GenerateTree(this IEnumerable<AppResourceDto> source)
         {
+            AppResourceDto root = null;
             foreach (AppResourceDto item in source)
             {
+                if (root == null)
+                {
+                    root = item;
+                }
+                if (string.CompareOrdinal(item.Id,root?.Id) < 0)
+                {
+                    root = item;
+                }
                 var subRex = new Regex($"{item.Id}\\d\\d$");
                 List<AppResourceDto> children = source.Where(x =>
                     {
@@ -22,8 +32,7 @@ namespace EasyRbac.DomainService.Extentions
                 ).ToList();
                 item.Children = children;
             }
-            AppResourceDto root = source.FirstOrDefault(x => x.Id == source.Min(y => y.Id));
-            
+
             return root;
         }
     }

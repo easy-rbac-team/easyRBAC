@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using EasyRbac.Domain.Enums;
 using SQLinq;
 
 namespace EasyRbac.Dto.AppResource
 {
+    [DebuggerDisplay("Id = {Id}")]
     [SQLinqTable("app_resouce")]
     public class AppResourceDto
     {

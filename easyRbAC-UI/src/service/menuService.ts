@@ -29,7 +29,7 @@ export let menuService = {
                     {
                         id:"4",
                         name: '角色资源管理',
-                        path: '/role/resouce'
+                        path: '/role/roleResource'
                     },{
                         id:"15",
                         name:"用户角色管理",

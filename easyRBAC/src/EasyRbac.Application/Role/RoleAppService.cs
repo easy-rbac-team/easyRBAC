@@ -77,14 +77,13 @@ namespace EasyRbac.Application.Role
             using (TransactionScope scop = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 var userIds = await this._userRoleRel.GetUserIdsAsync(roleId);
-                var subUsers = userIds.Except(memberList).ToArray();
-                var addUsers = memberList.Except(userIds).ToList();
+                var (addUsers,subUsers) = userIds.CalcluteChange(memberList);
 
-                if (subUsers.Length > 0)
+                if (subUsers.Any())
                 {
-                    await this._userRoleRel.DeleteRelAsync(roleId, subUsers);
+                    await this._userRoleRel.DeleteRelAsync(roleId, subUsers.ToArray());
                 }
-                if (addUsers.Count > 0)
+                if (addUsers.Any())
                 {
                     var addRels = addUsers.Select(x =>
                         new UserRoleRelation() { Id = this._idGenerator.NewId(), RoleId = roleId, UserId = x });

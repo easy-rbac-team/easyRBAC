@@ -16,5 +16,9 @@ namespace EasyRbac.Application.Resources
         Task EditAsync(string id, AppResourceDto Resource);
         Task AddResourceAsync(AppResourceDto Resource, string parentId);
         Task DisableResourceAsync(string id);
+
+        Task<List<string>> GetRoleResourceIdsAsync(long appId, long roleId);
+
+        Task ChangeRoleResourcesAsync(long roleId, List<string> resourceIds);
     }
 }

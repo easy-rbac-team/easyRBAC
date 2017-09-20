@@ -27,7 +27,6 @@ namespace EasyRbac.Utils
 
         public IdResult GetIdResult()
         {
-            new Dictionary<string, string>();
             do
             {
                 var secons = (DateTime.Now - _startTime).TotalSeconds;
@@ -35,7 +34,7 @@ namespace EasyRbac.Utils
 
                 var sequence = this._circleArray.GenerateSequence(nowTimeStamp);
 
-                if (sequence < 1048574*8)
+                if (sequence < 1048574)
                 {
                     var idresult = new IdResult()
                     {

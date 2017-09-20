@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
   <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
@@ -33,6 +37,7 @@
     <ProjectReference Include="..\EasyRbac.Application\EasyRbac.Application.csproj" />
     <ProjectReference Include="..\EasyRbac.Domain\EasyRbac.Domain.csproj" />
     <ProjectReference Include="..\EasyRbac.Reponsitory\EasyRbac.Reponsitory.csproj" />
+    <ProjectReference Include="..\EasyRbac.Service\EasyRbac.DomainService.csproj" />
     <ProjectReference Include="..\EasyRbac.Test\EasyRbac.Test.csproj" />
     <ProjectReference Include="..\EasyRbac.Utils\EasyRbac.Utils.csproj" />
   </ItemGroup>

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using EasyRbac.Domain.Entity;
 using EasyRbac.Domain.Relations;
+using EasyRbac.DomainService;
 using EasyRbac.DomainService.Extentions;
 using EasyRbac.Dto.AppResource;
 using EasyRbac.Reponsitory.BaseRepository;
@@ -24,8 +25,9 @@ namespace EasyRbac.Application.Resources
         private IIdGenerator _idGenerator;
         private IMapper _mapper;
         private INumberConvert _numberConvert;
+        private IRoleResourceDomainService _roleResourceDomainService;
 
-        public ResourceService(IRepository<AppResourceRelation> appResourceRel, IIdGenerator idGenerator, IRepository<AppResourceEntity> resourceRepository, IKeyedIdGenerate keyedIdGenerate, IMapper mapper, INumberConvert numberConvert)
+        public ResourceService(IRepository<AppResourceRelation> appResourceRel, IIdGenerator idGenerator, IRepository<AppResourceEntity> resourceRepository, IKeyedIdGenerate keyedIdGenerate, IMapper mapper, INumberConvert numberConvert, IRoleResourceDomainService roleResourceDomainService)
         {
             this._appResourceRel = appResourceRel;
             this._idGenerator = idGenerator;
@@ -33,6 +35,7 @@ namespace EasyRbac.Application.Resources
             this._keyedIdGenerate = keyedIdGenerate;
             this._mapper = mapper;
             this._numberConvert = numberConvert;
+            this._roleResourceDomainService = roleResourceDomainService;
         }
 
         public Task<List<AppAndResourceDto>> GetUserManagedResourceAsync(long userId)
@@ -99,6 +102,16 @@ namespace EasyRbac.Application.Resources
             {
                 Enable = false
             }, x => x.Id == id);
+        }
+
+        public Task<List<string>> GetRoleResourceIdsAsync(long appId, long roleId)
+        {
+            return this._roleResourceDomainService.GetRoleResourceIds(appId, roleId);
+        }
+
+        public Task ChangeRoleResourcesAsync(long roleId, List<string> resourceIds)
+        {
+            return this._roleResourceDomainService.ChangeRoleResource(roleId, resourceIds);
         }
     }
 }

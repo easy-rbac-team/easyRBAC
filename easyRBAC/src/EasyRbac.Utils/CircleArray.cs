@@ -30,8 +30,12 @@ namespace EasyRbac.Utils
                     Timestamp = timestamp
                 };
                 Interlocked.CompareExchange(ref this._datas[ix], newSeed, seed);
+                return Interlocked.Increment(ref this._datas[ix].Seed);
             }
-            return Interlocked.Increment(ref this._datas[ix].Seed);
+            else
+            {
+                return Interlocked.Increment(ref seed.Seed);
+            }
         }
 
     }

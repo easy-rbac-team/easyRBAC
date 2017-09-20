@@ -45,7 +45,7 @@ export default {
             if (result === "") {
                 return
             }
-            this.resources = [result]
+            this.resources = result
         },
         async createNewTree() {
             let app = {

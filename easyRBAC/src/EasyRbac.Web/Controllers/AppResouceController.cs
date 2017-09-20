@@ -60,6 +60,18 @@ namespace EasyRbac.Web.Controllers
             return this._resourceService.GetUserResourceAsync(appId, userId);
         }
 
+        [HttpGet("role/{roleId}/{appId}")]
+        public Task<List<string>> GetRoleResourceIds(long roleId,long appId)
+        {
+            return this._resourceService.GetRoleResourceIdsAsync(appId, roleId);
+        }
+
+        [HttpPut("role/{roleId}")]
+        public Task ChangeRoleResources(long roleId, [FromBody]List<string> resourceIds)
+        {
+            return this._resourceService.ChangeRoleResourcesAsync(roleId, resourceIds);
+        }
+
         [HttpGet("managedResource/{userId}")]
         public Task<List<AppAndResourceDto>> GetUserManagedResource(long userId)
         {

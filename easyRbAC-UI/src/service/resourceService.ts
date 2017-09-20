@@ -49,7 +49,16 @@ export let resourceService={
     async getAppResource(appId:string):Promise<AppResource[]>{
         let path = `${Config.BaseUrl}/AppResource/app/${appId}`
         let httpResult = await axios.get(path);
-        return httpResult.data
-    }    
+        return [httpResult.data]
+    },
+    async getRoleResourceIds(roleId:string,appId:string):Promise<string[]>{
+        let path = `${Config.BaseUrl}/AppResource/role/${roleId}/${appId}`
+        let httpResult = await axios.get(path);
+        return httpResult.data as string[]
+    },
+    async changeRoleResources(roleId:string,resourceLst:string[]){
+        let path =`${Config.BaseUrl}/AppResource/role/${roleId}`;
+        let httpResult = await axios.put(path,resourceLst);        
+    }
 }
 

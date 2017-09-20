@@ -68,9 +68,11 @@ namespace EasyRbac.Web
         // "Without ConfigureContainer" mechanism shown later.
         public void ConfigureContainer(ContainerBuilder builder)
         {
+            var sss = Assembly.Load("EasyRbac.DomainService");
+
             builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(UserControllerService))).AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
-            builder.RegisterAssemblyTypes(Assembly.Load("EasyRbac.Reponsitory")).AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(Assembly.Load("EasyRbac.Reponsitory"),sss).AsImplementedInterfaces();
             var connStr = this.Configuration.GetConnectionString("easyRBAc");
             builder.RegisterType<MySqlDialect>().As<ISqlDialect>().InstancePerLifetimeScope();
             builder.Register(c => new MySqlConnection(connStr)).As<IDbConnection>().InstancePerLifetimeScope();

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using EasyRbac.Domain.Enums;
+using EasyRbac.Utils.Collections;
 using SQLinq;
 
 namespace EasyRbac.Dto.AppResource
 {
     [DebuggerDisplay("Id = {Id}")]
     [SQLinqTable("app_resouce")]
-    public class AppResourceDto
+    public class AppResourceDto:IMultiTree<AppResourceDto>
     {
         public string Id { get; set; }
 
@@ -30,7 +31,7 @@ namespace EasyRbac.Dto.AppResource
         public string Describe { get; set; }
 
         [SQLinqColumn(Ignore = true)]
-        public List<AppResourceDto> Children { get; set; } = new List<AppResourceDto>();
+        public List<AppResourceDto> Children { get; set; } 
     }
 }
 

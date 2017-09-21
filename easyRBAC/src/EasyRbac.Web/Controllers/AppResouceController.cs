@@ -43,7 +43,7 @@ namespace EasyRbac.Web.Controllers
         }
 
         [HttpGet("app/{appId}")]
-        public Task<AppResourceDto> GetAppResource(long appId)
+        public Task<List<AppResourceDto>> GetAppResource(long appId)
         {
             return this._resourceService.GetAppResourceAsync(appId);
         }

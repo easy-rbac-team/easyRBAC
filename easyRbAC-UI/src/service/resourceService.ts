@@ -49,7 +49,9 @@ export let resourceService={
     async getAppResource(appId:string):Promise<AppResource[]>{
         let path = `${Config.BaseUrl}/AppResource/app/${appId}`
         let httpResult = await axios.get(path);
-        return [httpResult.data]
+        let result = httpResult.data as AppResource[]
+        return result;
+        
     },
     async getRoleResourceIds(roleId:string,appId:string):Promise<string[]>{
         let path = `${Config.BaseUrl}/AppResource/role/${roleId}/${appId}`

@@ -15,7 +15,10 @@ el-row
                         | {{app.appName}}
                 el-pagination(small,layout="prev, pager, next",:total="appInfo.page.totalCount",:page-size="appInfo.page.pageSize")
     el-col(:span="12")
-        el-tree(:data="resourceInfo.resouceTree",:props="resourceInfo.defaultProps",@node-click="")
+        el-tree(:data="resourceInfo.resouceTree",
+                :props="resourceInfo.defaultProps",
+                node-key="id",show-checkbox,
+                :check-strictly="true",ref="tree",@node-click="")
 </template>
 <script>
 import {roleService} from '../../../service/roleService'
@@ -47,6 +50,11 @@ export default {
             }
         }
     },
+    computed:{
+        checkedKeys:function(){
+            return this.$refs.tree.getCheckedKeys()
+        }
+    },
     methods:{
         appSelect(appId){
             this.appInfo.selectedAppId = appId;
@@ -58,7 +66,7 @@ export default {
         },
         async getResourceTree(){
             if(this.roleInfo.selectedRoleId!=="" && this.appInfo.selectedAppId!==""){
-                let appResourceTree = await resourceService.getAppResource(this.appInfo.selectedAppId);
+                //let appResourceTree = await resourceService.getAppResource(this.appInfo.selectedAppId);
                 this.resourceInfo.resouceTree =await resourceService.getAppResource(this.appInfo.selectedAppId);
                 this.resourceInfo.values = await resourceService.getRoleResourceIds(this.roleInfo.selectedRoleId,this.appInfo.selectedAppId);
             }

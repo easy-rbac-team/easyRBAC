@@ -55,11 +55,12 @@ namespace EasyRbac.Application.Resources
             return this._mapper.Map<List<AppResourceDto>>(t);
         }
 
-        public async Task<AppResourceDto> GetAppResourceAsync(long appId)
+        public async Task<List<AppResourceDto>> GetAppResourceAsync(long appId)
         {
             List<AppResourceEntity> t = await this._resourceRepository.QueryAsync(x => x.ApplicationId == appId && x.Enable).ContinueWith(x => x.Result.ToList());
             var lst = this._mapper.Map<List<AppResourceDto>>(t);
-            var root = lst.GenerateTree();
+            List<AppResourceDto> root = lst.ToToMultiTree(x=>x.Id,x=>x.Id.Substring(0,x.Id.Length-2));
+
             return root;
         }
 

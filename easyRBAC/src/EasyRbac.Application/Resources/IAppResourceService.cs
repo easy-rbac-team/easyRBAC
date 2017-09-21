@@ -11,7 +11,7 @@ namespace EasyRbac.Application.Resources
         Task<List<AppAndResourceDto>> GetUserManagedResourceAsync(long userId);
         Task<List<AppResourceDto>> GetUserResourceAsync(long appId, long userId);
         Task<List<AppResourceDto>> GetResourceTreeAsync(string parentResourceId);
-        Task<AppResourceDto> GetAppResourceAsync(long appId);
+        Task<List<AppResourceDto>> GetAppResourceAsync(long appId);
         Task<AppResourceDto> GetOneAsync(string id);
         Task EditAsync(string id, AppResourceDto Resource);
         Task AddResourceAsync(AppResourceDto Resource, string parentId);

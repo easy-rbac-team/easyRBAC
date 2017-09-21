@@ -28,7 +28,7 @@ namespace EasyRbac.Utils
 
         public NumberConvert()
         {
-            Characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            Characters = "0123456789abcdefghijklmnopqrstuvwxyz";
         }
 
         public NumberConvert(string characters)

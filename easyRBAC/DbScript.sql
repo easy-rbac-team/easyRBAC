@@ -90,7 +90,9 @@ CREATE TABLE `easyrbac`.`role_user_rel` (
   `id` BIGINT(20) NOT NULL,
   `userId` BIGINT(20) NOT NULL,
   `resourceId` VARCHAR(200) NOT NULL,
+  `appId` BIGINT(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `ix_user_resource` (`userId` ASC, `resourceId` ASC))
+  INDEX `ix_userId_appId` (`userId` ASC,`appId` ASC),
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4

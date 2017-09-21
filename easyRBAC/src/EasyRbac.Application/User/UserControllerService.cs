@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using EasyRbac.Domain.Entity;
+using EasyRbac.DomainService;
 using EasyRbac.Dto;
 using EasyRbac.Dto.Exceptions;
 using EasyRbac.Dto.Mapper;
@@ -19,15 +20,17 @@ namespace EasyRbac.Application.User
         private readonly IIdGenerator _idGenerate;
         private readonly IEncryptHelper _encryptHelper;
         private readonly IRepository<UserEntity> _userRepository;
+        private readonly IUserResourceDomainService _userResourceDomainService;
         private IMapper _mapper;
 
         /// <summary>Initializes a new instance of the <see cref="T:System.Object"></see> class.</summary>
-        public UserControllerService(IIdGenerator idGenerate, IEncryptHelper encryptHelper, IRepository<UserEntity> userRepository, IMapper mapper)
+        public UserControllerService(IIdGenerator idGenerate, IEncryptHelper encryptHelper, IRepository<UserEntity> userRepository, IMapper mapper, IUserResourceDomainService userResourceDomainService)
         {
             this._idGenerate = idGenerate;
             this._encryptHelper = encryptHelper;
             this._userRepository = userRepository;
             this._mapper = mapper;
+            this._userResourceDomainService = userResourceDomainService;
         }
 
         public Task AddUser(CreateUserDto user)
@@ -81,9 +84,9 @@ namespace EasyRbac.Application.User
 
         }
 
-        public Task ChangeResouces(long userId, List<long> resouceList)
+        public Task ChangeResouces(long userId, long appId, List<string> resouceList)
         {
-            throw new NotImplementedException();
+            return this._userResourceDomainService.ChangeUserResource(userId, appId, resouceList);
         }
 
         public async Task<PagingList<UserInfoDto>> SearchUser(string userName, int pageIndex, int pageSize)
@@ -91,6 +94,17 @@ namespace EasyRbac.Application.User
             PagingList<UserEntity> users = await this._userRepository.QueryByPagingAsync(x => x.UserName.StartsWith(userName) || x.RealName.StartsWith(userName)&&x.Enable == true, x=>x.UserName, pageIndex, pageSize);
             var result = this._mapper.Map<PagingList<UserInfoDto>>(users);
             return result;
+        }
+
+        public async Task<Dictionary<string, List<string>>> GetUserResourceIds(long userId, long appId)
+        {
+            var userResource = await this._userResourceDomainService.GetUserAssociationResourcesAsync(userId, appId);
+            var roleResource = await this._userResourceDomainService.GetUserAssociationRolseResourcesAsync(userId, appId);
+            return new Dictionary<string, List<string>>
+            {
+                {nameof(userResource),userResource },
+                {nameof(roleResource),roleResource }
+            };
         }
     }
 }

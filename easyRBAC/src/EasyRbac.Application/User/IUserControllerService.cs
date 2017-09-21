@@ -14,8 +14,10 @@ namespace EasyRbac.Application.User
         Task DisableUser(long userId);
 
         Task<UserInfoDto> GetUserInfo(long userId);
-        Task ChangeResouces(long userId, List<long> resouceList);
+        Task ChangeResouces(long userId, long appId, List<string> resouceList);
 
         Task<PagingList<UserInfoDto>> SearchUser(string userName, int pageIndex, int pageSize);
+
+        Task<Dictionary<string,List<string>>> GetUserResourceIds(long userId, long appId);
     }
 }

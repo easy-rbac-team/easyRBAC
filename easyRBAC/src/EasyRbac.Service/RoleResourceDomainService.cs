@@ -44,9 +44,9 @@ namespace EasyRbac.DomainService
             return lst.GenerateTree();
         }
 
-        public async Task<List<string>> GetRoleResourceIds(long appid, long roleId)
+        public async Task<List<string>> GetRoleResourceIds(long appid, params long[] roleId)
         {
-            IEnumerable<RoleResourceRelation> rels = await this._roleResourceRel.QueryAsync(x => x.RoleId == roleId);
+            IEnumerable<RoleResourceRelation> rels = await this._roleResourceRel.QueryAsync(x => roleId.Contains(x.RoleId));
             var ids = rels.Select(x => x.ResourceId);
             var appResourceEntities = await this._appResourceRepository.QueryAsync(x => ids.Contains(x.Id) && x.Enable);
             return appResourceEntities.Select(x => x.Id).ToList();
@@ -59,7 +59,7 @@ namespace EasyRbac.DomainService
                 IEnumerable<RoleResourceRelation> rels = await this._roleResourceRel.QueryAsync(x => x.RoleId == roleId);
                 var resourceIds = rels.Select(x => x.ResourceId);
                 var (addResources,subResources) = resourceIds.CalcluteChange(newResourceIds);
-                await this._roleResourceRel.DeleteAsync(x => subResources.Contains(x.ResourceId));
+                await this._roleResourceRel.DeleteAsync(x => subResources.Contains(x.ResourceId)&&x.RoleId == roleId);
                 foreach (var resourceId in addResources)
                 {
                     var rel = new RoleResourceRelation()

@@ -21,6 +21,16 @@ namespace EasyRbac.Test
 
         }
 
+        [Fact]
+        public void Generate_ParentIdTree_Success()
+        {
+            var source = this.GetParentIdMockData();
+            var result = source.ToToMultiTree(x => x.Id, x => x.ParentId);
+            Assert.Equal(result.Count, 2);
+            Assert.Equal(result[0].Children.Count,3);
+
+        }
+
         private List<PrefixTreeNode> GetMockData()
         {
             var arr = new[]
@@ -43,6 +53,25 @@ namespace EasyRbac.Test
 
             return arr.ToList();
         }
+
+        private List<ParentIdTreeNode> GetParentIdMockData()
+        {
+            var arr = new[]
+            {
+                new ParentIdTreeNode(1, 0),
+                new ParentIdTreeNode(2, 1),
+                new ParentIdTreeNode(3, 1),
+                new ParentIdTreeNode(4, 1),
+                new ParentIdTreeNode(5, 2),
+                new ParentIdTreeNode(6, 5),
+                new ParentIdTreeNode(7, 2),
+                new ParentIdTreeNode(8, 2),
+                new ParentIdTreeNode(9, 6),
+                new ParentIdTreeNode(10, 5),
+                new ParentIdTreeNode(11, 0),
+            };
+            return arr.ToList();
+        }
     }
     [DebuggerDisplay("ID={Id}")]
     class PrefixTreeNode : IMultiTree<PrefixTreeNode>
@@ -56,5 +85,22 @@ namespace EasyRbac.Test
         public string Id { get; set; }
 
         public List<PrefixTreeNode> Children { get; set; }
+    }
+
+    [DebuggerDisplay("ID={Id},ParentId={ParentId}")]
+    class ParentIdTreeNode : IMultiTree<ParentIdTreeNode>
+    {
+        /// <summary>Initializes a new instance of the <see cref="T:System.Object"></see> class.</summary>
+        public ParentIdTreeNode(int id,int parentId)
+        {
+            this.Id = id;
+            this.ParentId = parentId;
+        }
+
+        public int Id { get; set; }
+
+        public int ParentId { get; set; }
+
+        public List<ParentIdTreeNode> Children { get; set; }
     }
 }

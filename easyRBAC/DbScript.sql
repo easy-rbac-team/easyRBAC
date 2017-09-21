@@ -84,3 +84,13 @@ CREATE TABLE `easyrbac`.`role_user_rel` (
   `resource_id` VARCHAR(200) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `role_resouce_IX` (`role_id` ASC, `resource_id` ASC));
+
+
+  CREATE TABLE IF NOT EXISTS `easyrbac`.`user_resource_rel` (
+  `id` BIGINT(20) NOT NULL,
+  `userId` BIGINT(20) NOT NULL,
+  `resourceId` VARCHAR(200) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `ix_user_resource` (`userId` ASC, `resourceId` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4

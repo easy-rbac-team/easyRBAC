@@ -21,6 +21,7 @@ el-row
                 :check-strictly="true",ref="tree",@node-click="")
         el-button(type="success",@click="setUserResource") 保存
         el-button(@click="cancelSetResouce") 还原
+        el-button(@click="getkeys") 获取keys
 </template>
 <script>
 import { userService } from '../../../service/userService'
@@ -66,15 +67,31 @@ export default {
                 let resourceTree = await resourceService.getAppResource(this.appInfo.selectedAppId);
                 let userAllResources = await userService.getUserResourceIds(this.userInfo.selectedUserId, this.appInfo.selectedAppId)
 
-                this.resourceInfo.resourceTree = resourceTree;
                 let allChecked = userAllResources.userResource.concat(userAllResources.roleResource);
-
-                this.$refs.tree.setCheckedKeys(allChecked)
                 resourceService.setResourceDisable(resourceTree, userAllResources.roleResource);
-                console.log(resourceTree)
-                this.keys_temp = allChecked;
-
+                this.resourceInfo.resourceTree = resourceTree;
+                this.keys_temp = allChecked;                
+                this.$refs.tree.setCheckedKeys(allChecked);
+                console.log("set的checked：")
+                console.log(allChecked)
+                
+                this.$nextTick(()=>{
+                    this.$refs.tree.setCheckedKeys(allChecked);
+                    let tt = this.$refs.tree.getCheckedKeys()
+                    console.log("读到的checked:")
+                    console.log(tt);
+                })
             }
+        },
+        getkeys() {
+            let resourceLst = this.$refs.tree.getCheckedKeys();
+            console.log("再来读一发：")
+            console.log(resourceLst)
+        },
+        cancelSetResouce() {
+            this.$refs.tree.setCheckedKeys(this.keys_temp);
+            console.log("重新set一发：")            
+            console.log(this.keys_temp)
         },
         async getUsers() {
             let pageResult = await userService.getUsers(this.userInfo.searchCondition, this.userInfo.page.pageIndex, this.userInfo.page.pageSize);
@@ -93,12 +110,9 @@ export default {
             let userId = this.userInfo.selectedUserId;
             let appId = this.appInfo.selectedAppId;
             let resourceLst = this.$refs.tree.getCheckedNodes();
-            await userService.changeUserResources(userId,appId,resourceLst);
+            await userService.changeUserResources(userId, appId, resourceLst);
             this.$message({ type: "success", message: "设置成功！" })
-            this.keys_temp =resourceLst.map(x=>x.id)            
-        },
-        cancelSetResouce() {
-            this.$refs.tree.setCheckedKeys(this.keys_temp);
+            this.keys_temp = resourceLst.map(x => x.id)
         }
     },
     mounted: function() {

@@ -63,11 +63,11 @@ export let resourceService={
         let path =`${Config.BaseUrl}/AppResource/role/${roleId}`;
         let httpResult = await axios.put(path,resourceLst);        
     },   
-    setResourceDisable(tree:TreeStruct[],roleIds:string[]){
+    setResourceDisable(tree:TreeStruct[],resourceIds:string[]){
         for(let item of tree){            
-            item.disabled = roleIds.some(x=>x===item.id);
+            item.disabled = resourceIds.some(x=>x===item.id);
             if(item.children!=null&&item.children!.length>0){
-                this.setResourceDisable(item.children,roleIds);
+                this.setResourceDisable(item.children,resourceIds);
             }
         }
     }

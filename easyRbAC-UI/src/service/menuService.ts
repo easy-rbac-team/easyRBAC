@@ -13,7 +13,7 @@ export let menuService = {
                     {
                         id:"11",
                         name: '用户资源管理',
-                        path: '/role/resouce'
+                        path: '/user/resource'
                     }
                 ]             
             },
@@ -50,7 +50,7 @@ export let menuService = {
                     {
                         id:"6",
                         name: '应用资源管理',
-                        path: '/app/resouce'
+                        path: '/app/resource'
                     }
                 ]
             }

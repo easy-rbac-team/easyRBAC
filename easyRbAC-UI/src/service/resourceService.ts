@@ -7,7 +7,7 @@ enum ResourceType{
     Public = 4
 }
 
-interface AppResource{
+export interface AppResource{
     id:string,
     applicationId:string,    
     resourceName:string,
@@ -25,6 +25,7 @@ interface AppResource{
 interface TreeStruct{
     id:string;
     label:string;
+    disabled:boolean;
     children:TreeStruct[]
 }
 
@@ -55,12 +56,20 @@ export let resourceService={
     },
     async getRoleResourceIds(roleId:string,appId:string):Promise<string[]>{
         let path = `${Config.BaseUrl}/AppResource/role/${roleId}/${appId}`
-        let httpResult = await axios.get(path);
+        let httpResult = await axios.get(path);        
         return httpResult.data as string[]
     },
     async changeRoleResources(roleId:string,resourceLst:string[]){
         let path =`${Config.BaseUrl}/AppResource/role/${roleId}`;
         let httpResult = await axios.put(path,resourceLst);        
+    },   
+    setResourceDisable(tree:TreeStruct[],roleIds:string[]){
+        for(let item of tree){            
+            item.disabled = roleIds.some(x=>x===item.id);
+            if(item.children!=null&&item.children!.length>0){
+                this.setResourceDisable(item.children,roleIds);
+            }
+        }
     }
 }
 

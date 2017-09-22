@@ -6,6 +6,7 @@ import appManage from './component/application/applicationManage.vue'
 import appResouceManage from './component/application/resources/appResourceManage'
 import roleUser from './component/role/user/roleUser'
 import roleResource from './component/role/resource/roleResourceManage'
+import userResource from './component/user/resource/userResourceManage'
 
 
 export let routerCfg = new Router({
@@ -26,10 +27,13 @@ export let routerCfg = new Router({
         path: "/application",
         component: appManage
     }, {
-        path: "/app/resouce",
+        path: "/app/resource",
         component: appResouceManage
     }, {
         path: "/role/user",
         component: roleUser
+    }, {
+        path: "/user/resource",
+        component: userResource
     }]
 });

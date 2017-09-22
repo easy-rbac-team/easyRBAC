@@ -45,10 +45,10 @@ namespace EasyRbac.Web.Controllers
             return this._userService.GetUserInfo(userId);
         }
 
-        [HttpPut("resource/{userId}")]
-        public Task ChangeResouces(long userId, long appId,[FromBody]List<string> resouceList)
+        [HttpPut("resource/{userId}/{appId}")]
+        public Task ChangeResources(long userId, long appId,[FromBody]List<string> resouceIdList)
         {
-            return this._userService.ChangeResouces(userId, appId, resouceList);
+            return this._userService.ChangeResouces(userId, appId, resouceIdList);
         }
 
         [HttpGet("resource/{userId}/{appId}")]

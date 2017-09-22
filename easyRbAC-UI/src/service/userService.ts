@@ -1,6 +1,7 @@
 import axios from "axios"
 import { Config } from "./baseConfig"
 import { PagingList } from "./commons"
+import {AppResource} from "./resourceService"
 
 interface UserInfo {
     userName: string,
@@ -27,12 +28,20 @@ export let userService = {
     async deleteUser(userId: string) {
         let path = `${Config.BaseUrl}/user/${userId}`
         let httpResult = await axios.delete(path);
-    }, async changeResource(userId: string, appId: string, resourceIdLst: string[]) {
+    }, 
+    async changeResource(userId: string, appId: string, resourceIdLst: string[]) {
         let url = `${Config.BaseUrl}/user/resource/${userId}/${appId}`;
-        let httpResult = await axios.put(url,resourceIdLst);
-    }, async getUserResourceIds(userId: string, appId: string):Promise<{userResource:string[],roleResource:string[]}> {
+        let httpResult = await axios.put(url, resourceIdLst);
+    }, 
+    async changeUserResources(userId:string,appId:string,resourceLst:AppResource[]){
+        let resouce = resourceLst.filter((x)=>(x as any).disabled===false);
+        let resourceIds = resouce.map(x=>x.id);
+        await this.changeResource(userId,appId,resourceIds);
+    },
+    async getUserResourceIds(userId: string, appId: string): Promise<{ userResource: string[], roleResource: string[] }> {
         let url = `${Config.BaseUrl}/user/resource/${userId}/${appId}`;
         let httpResult = await axios.get(url);
-        return httpResult.data;
+        let result = httpResult.data as { userResource: string[], roleResource: string[] };
+        return result;
     }
 }

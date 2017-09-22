@@ -53,6 +53,21 @@ export let menuService = {
                         path: '/app/resource'
                     }
                 ]
+            },{
+                id:"16",
+                name:"负责人管理",
+                path:"/manager",
+                children:[
+                    {
+                        id:"17",
+                        name:"负责人权限管理",
+                        path:"/manager"
+                    },{
+                        id:"18",
+                        name:"人员授权",
+                        path:"/manager/authrication"
+                    }
+                ]
             }
         ]
 

@@ -1,4 +1,80 @@
-﻿CREATE SCHEMA IF NOT EXISTS `easyrbac` DEFAULT CHARACTER SET utf8mb4 ;
+﻿CREATE TABLE IF NOT EXISTS `easyrbac`.`app_resource` (
+  `id` VARCHAR(200) CHARACTER SET 'utf8mb4' NOT NULL,
+  `applicationId` BIGINT(20) NOT NULL,
+  `resourceCode` VARCHAR(45) CHARACTER SET 'utf8mb4' NOT NULL,
+  `resourceName` VARCHAR(45) CHARACTER SET 'utf8mb4' NOT NULL,
+  `enable` BIT(1) NOT NULL,
+  `url` VARCHAR(100) CHARACTER SET 'utf8mb4' NULL DEFAULT NULL,
+  `resourceType` TINYINT(4) NOT NULL,
+  `iconUrl` VARCHAR(45) CHARACTER SET 'utf8mb4' NULL DEFAULT NULL,
+  `parameters` VARCHAR(45) CHARACTER SET 'utf8mb4' NULL DEFAULT NULL,
+  `describe` VARCHAR(200) CHARACTER SET 'utf8mb4' NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `app_resouce` (`applicationId` ASC, `resourceCode` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8mb4_bin；
+
+CREATE TABLE IF NOT EXISTS `easyrbac`.`app_resource_rel` (
+  `id` BIGINT(20) NOT NULL,
+  `appId` BIGINT(20) NOT NULL,
+  `resourceId` VARCHAR(200) CHARACTER SET 'utf8mb4' NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `appId` (`appId` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_bin
+
+CREATE TABLE IF NOT EXISTS `easyrbac`.`application` (
+  `Id` BIGINT(20) NOT NULL,
+  `AppName` VARCHAR(45) NOT NULL,
+  `AppCode` VARCHAR(45) NOT NULL,
+  `Enable` BIT(1) NOT NULL DEFAULT b'1',
+  `CreateTime` DATETIME NOT NULL,
+  `Descript` VARCHAR(200) NULL DEFAULT NULL,
+  `CallbackUrl` VARCHAR(200) NULL DEFAULT NULL,
+  `AppScret` VARCHAR(100) NULL DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  UNIQUE INDEX `AppCode_UNIQUE` (`AppCode` ASC),
+  UNIQUE INDEX `AppName_UNIQUE` (`AppName` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+
+CREATE TABLE IF NOT EXISTS `easyrbac`.`id_generate` (
+  `parentId` VARCHAR(45) NOT NULL,
+  `subId` INT(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`parentId`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+
+CREATE TABLE IF NOT EXISTS `easyrbac`.`role` (
+  `id` BIGINT(20) NOT NULL,
+  `roleName` VARCHAR(45) NOT NULL,
+  `enable` BIT(1) NOT NULL,
+  `createTime` DATETIME NOT NULL,
+  `descript` VARCHAR(200) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+
+CREATE TABLE IF NOT EXISTS `easyrbac`.`role_resource_rel` (
+  `id` BIGINT(20) NOT NULL,
+  `roleId` BIGINT(20) NOT NULL,
+  `resourceId` VARCHAR(200) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `role_resouce_IX` (`roleId` ASC, `resourceId` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+
+CREATE TABLE IF NOT EXISTS `easyrbac`.`role_user_rel` (
+  `id` BIGINT(20) NOT NULL,
+  `userId` BIGINT(20) NOT NULL,
+  `roleId` BIGINT(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `userId_ix` (`userId` ASC),
+  INDEX `roleId_ix` (`roleId` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
 
 CREATE TABLE IF NOT EXISTS `easyrbac`.`user` (
   `Id` BIGINT(20) NOT NULL,
@@ -12,87 +88,26 @@ CREATE TABLE IF NOT EXISTS `easyrbac`.`user` (
   PRIMARY KEY (`Id`),
   UNIQUE INDEX `UserName_UNIQUE` (`UserName` ASC))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+DEFAULT CHARACTER SET = utf8mb4
 
-CREATE TABLE IF NOT EXISTS `easyrbac`.`application` (
-  `Id` BIGINT NOT NULL,
-  `AppName` VARCHAR(45) NOT NULL,
-  `AppCode` VARCHAR(45) NOT NULL,
-  `Enable` BIT NOT NULL DEFAULT 1,
-  `CreateTime` DATETIME NOT NULL,
-  `Descript` VARCHAR(200) NULL,
-  `CallbackUrl` VARCHAR(200) NULL,
-  `AppScret` VARCHAR(100) NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE INDEX `AppCode_UNIQUE` (`AppCode` ASC),
-  UNIQUE INDEX `AppName_UNIQUE` (`AppName` ASC))
-ENGINE = InnoDB;
-
-CREATE TABLE IF NOT EXISTS `easyrbac`.`id_generate` (
-  `parentId` VARCHAR(45) NOT NULL,
-  `subId` INT(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`parentId`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
-
-CREATE TABLE IF NOT EXISTS `easyrbac`.`app_resouce` (
-  `id` VARCHAR(200) NOT NULL,
-  `applicationId` BIGINT(20) NOT NULL,
-  `resourceCode` VARCHAR(45) NOT NULL,
-  `resourceName` VARCHAR(45) NOT NULL,
-  `enable` BIT(1) NOT NULL,
-  `url` VARCHAR(100) NULL DEFAULT NULL,
-  `resourceType` TINYINT(4) NOT NULL,
-  `iconUrl` VARCHAR(45) NULL DEFAULT NULL,  
-  `parameters` VARCHAR(45) NULL DEFAULT NULL,
-  `describe` VARCHAR(200) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `app_resouce` (`applicationId` ASC, `resourceCode` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
-
-CREATE TABLE IF NOT EXISTS `easyrbac`.`role` (
+CREATE TABLE IF NOT EXISTS `easyrbac`.`user_manage_resource_scope` (
   `id` BIGINT(20) NOT NULL,
-  `roleName` VARCHAR(45) NOT NULL,
-  `enable` BIT(1) NOT NULL,
-  `createTime` DATETIME NOT NULL,
-  `descript` VARCHAR(100) NULL,
-  PRIMARY KEY (`id`))
+  `userId` BIGINT(20) NOT NULL,
+  `resourceId` VARCHAR(200) NOT NULL,
+  `appId` BIGINT(20) NOT NULL,
+  `includeChildren` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `user_resource_scop_ix` (`userId` ASC, `resourceId` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 
-CREATE TABLE `easyrbac`.`app_resource_rel` (
-  `id` BIGINT NOT NULL,
-  `appId` BIGINT NOT NULL,
-  `resourceId` VARCHAR(200) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `appId` (`appId` ASC));
-
-
-CREATE TABLE `easyrbac`.`role_user_rel` (
-  `id` BIGINT NOT NULL,
-  `userId` BIGINT NOT NULL,
-  `roleId` BIGINT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `userId_ix` (`userId` ASC),
-  INDEX `roleId_ix` (`roleId` ASC));
-
-
-  CREATE TABLE `easyrbac`.`role_resource_rel` (
-  `id` BIGINT NOT NULL,
-  `role_id` BIGINT NOT NULL,
-  `resource_id` VARCHAR(200) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `role_resouce_IX` (`role_id` ASC, `resource_id` ASC));
-
-
-  CREATE TABLE IF NOT EXISTS `easyrbac`.`user_resource_rel` (
+CREATE TABLE IF NOT EXISTS `easyrbac`.`user_resource_rel` (
   `id` BIGINT(20) NOT NULL,
   `userId` BIGINT(20) NOT NULL,
   `resourceId` VARCHAR(200) NOT NULL,
   `appId` BIGINT(20) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `ix_user_resource` (`userId` ASC, `resourceId` ASC))
-  INDEX `ix_userId_appId` (`userId` ASC,`appId` ASC),
+  UNIQUE INDEX `ix_user_resource` (`userId` ASC, `resourceId` ASC),
+  INDEX `ix_user_app` (`userId` ASC, `appId` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4

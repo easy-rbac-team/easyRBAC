@@ -7,6 +7,7 @@ using EasyRbac.Dto.Application;
 using EasyRbac.Dto.AppResource;
 using EasyRbac.Dto.Role;
 using EasyRbac.Dto.User;
+using EasyRbac.Dto.UserScope;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EasyRbac.Dto.Mapper
@@ -22,6 +23,7 @@ namespace EasyRbac.Dto.Mapper
                 x.DoubleMap<RoleEntity, RoleDto>();
                 x.DoubleMap<ApplicationEntity, ApplicationInfoDto>();
                 x.DoubleMap<AppResourceEntity,AppResourceDto>();
+                x.DoubleMap<UserScopeDto,UserManageResourceScope>();
             });
             var mapper = new AutoMapper.Mapper(config);
             serviceCollection.AddSingleton<IMapper>(mapper);

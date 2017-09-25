@@ -1,20 +1,11 @@
 <template lang="pug">
 el-row    
-    el-col(:span="8")
-        el-card.box-card                  
-            .clearfix(slot="header")                
-                div(style="line-height: 36px;") 
-                    el-input(placeholder="应用名|CODE",icon="search",:on-icon-click="iconClickHandler",v-model="search.appName", @keyup.enter.native="iconClickHandler")
-                |
-            |   
-            .text.item(v-for="(u,index) in apps", :key="u.id")                
-                    span()
-                      | {{u.appName}}                    
-                      el-button(type="success",@click="showTree(u.id,u.appName)") 查看
-            el-pagination(small,layout="prev, pager, next",:total="page.totalCount",:page-size="page.pageSize")
-    el-col(:span="8")
-        resource-tree(:appId="selectAppId",:appName="selectAppName")
-    
+    el-col(:span="8")        
+        search-lst(:searchFun="getAppLst",placeholder="应用名|CODE",@itemClick="itemSelcetHandler")
+            template(scope="props")
+                | {{props.item.appName}}
+    el-col(:span="8")        
+        resource-tree(:appId="selectAppId",:appName="selectAppName")    
 </template>
 
 <script>
@@ -22,6 +13,7 @@ import {appService} from '../../../service/appService'
 import {resourceService} from '../../../service/resourceService'
 import resourceTree from './resourceTree'
 import addResource from './addResource'
+import searchLst from '../../commons/searchLst'
 
 export default {
     data() {
@@ -35,10 +27,21 @@ export default {
             page: {},
             isTreeShow:false,
             selectAppId:"",
-            selectAppName:"",            
+            selectAppName:"",
+            pagingList:{
+                items:[],
+                page:{
+                    totalCount:0,
+                    pageSize:20,
+                }
+            }     
         }
     },
     methods: {        
+        itemSelcetHandler(obj){
+            let app = obj.item;
+            this.showTree(app.id,app.appName);
+        },
         showTree(appId,appName){
             this.isTreeShow = true;
             this.selectAppId = appId;
@@ -46,21 +49,24 @@ export default {
         }, iconClickHandler() {
             this.getAppLst()
         },       
-        async getAppLst() {
+        async getAppLst(appName,pageIndex,pageSize) {
             let pageResult = await appService.searchApp(
-                this.search.appName,
-                this.search.pageIndex,
-                this.search.pageSize);
-            this.apps = pageResult.items;
-            this.page = pageResult.page;
+                appName,
+                pageIndex,
+                pageSize);
+            return pageResult;
+        },
+        getContent(item){
+            return item.appName
         }
     },
     mounted: async function() {
-        this.getAppLst();
+        //this.getAppLst();
     },
     components: {        
         resourceTree,
-        addResource
+        addResource,
+        searchLst
     }
 }
 </script>

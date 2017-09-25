@@ -1,19 +1,13 @@
 <template lang="pug">
 el-row
     el-col(:span="6")
-            el-card.box-card.container  
-                div(style="line-height: 36px;") 
-                    el-input(placeholder="用户名",icon="search",v-model="userInfo.searchCondition", @keyup.enter.native="iconClickHandler")
-                .text.item(v-for="(r,index) in userInfo.users", :key="r.id",@click="userSelect(r.id)",v-bind:class="{selected:r.id===userInfo.selectedUserId}")                
-                        | {{r.userName}}
-                el-pagination(small,layout="prev, pager, next",:total="userInfo.page.totalCount",:page-size="userInfo.page.pageSize")
+        search-lst(:searchFun="getUsers",placeholder="用户名")
+            template(scope="props")
+                | {{props.item.userName}}
     el-col(:span="6")
-        el-card.box-card.container  
-                div(style="line-height: 36px;") 
-                    el-input(placeholder="应用名/code",icon="search",v-model="userInfo.searchCondition", @keyup.enter.native="iconClickHandler")
-                .text.item(v-for="(app,index) in appInfo.apps", :key="app.id",@click="appSelect(app.id)",v-bind:class="{selected:app.id===appInfo.selectedAppId}")                
-                        | {{app.appName}}
-                el-pagination(small,layout="prev, pager, next",:total="appInfo.page.totalCount",:page-size="appInfo.page.pageSize")
+        search-lst(:searchFun="getApps",placeholder="应用名/code")
+            template(scope="props")
+                | {{props.item.appName}}
     el-col(:span="12")
         el-tree(:data="resourceInfo.resourceTree",
                 :props="resourceInfo.defaultProps",
@@ -27,6 +21,7 @@ el-row
 import { userService } from '../../../service/userService'
 import { appService } from '../../../service/appService'
 import { resourceService } from '../../../service/resourceService'
+import searchLst from '../../commons/searchLst'
 
 export default {
     data() {
@@ -93,18 +88,22 @@ export default {
             console.log("重新set一发：")            
             console.log(this.keys_temp)
         },
-        async getUsers() {
+        async getUsers(searchCondition,pageIndex,pageSize) {
             let pageResult = await userService.getUsers(this.userInfo.searchCondition, this.userInfo.page.pageIndex, this.userInfo.page.pageSize);
-            this.userInfo.users = pageResult.items;
-            this.userInfo.page = pageResult.page;
+            // this.userInfo.users = pageResult.items;
+            // this.userInfo.page = pageResult.page;
+            return pageResult;
         },
-        async getApps() {
-            let pageResult = await appService.searchApp(
-                this.appInfo.searchCondition,
-                this.appInfo.page.pageIndex,
-                this.appInfo.page.pageSize);
-            this.appInfo.apps = pageResult.items;
-            this.appInfo.page = pageResult.page;
+        async getApps(searchCondition,pageIndex,pageSize) {
+            // let pageResult = await appService.searchApp(
+            //     this.appInfo.searchCondition,
+            //     this.appInfo.page.pageIndex,
+            //     this.appInfo.page.pageSize);
+            // this.appInfo.apps = pageResult.items;
+            // this.appInfo.page = pageResult.page;
+            
+            let pageResult = await appService.searchApp(searchCondition,pageIndex,pageSize)
+            return pageResult;  
         },
         async setUserResource() {
             let userId = this.userInfo.selectedUserId;
@@ -116,8 +115,11 @@ export default {
         }
     },
     mounted: function() {
-        this.getUsers();
-        this.getApps();
+        // this.getUsers();
+        // this.getApps();
+    },
+    components:{
+        searchLst
     }
 }
 </script>

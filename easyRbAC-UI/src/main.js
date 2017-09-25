@@ -8,6 +8,7 @@ import userManage from './component/user/userManage.vue'
 import axios from 'axios'
 import treeMenu from './component/treeMenu.vue'
 import VueClipboard from 'vue-clipboard2'
+import searchLst from './component/commons/searchLst'
 
 
 Vue.use(ElementUI)
@@ -16,6 +17,9 @@ Vue.use(VueClipboard)
 
 
 Vue.component("tree-menu", treeMenu);
+Vue.component("search-lst", searchLst);
+
+
 let v = new Vue({
     router: routerCfg,
     el: '#app',

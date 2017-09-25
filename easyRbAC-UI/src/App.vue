@@ -14,6 +14,7 @@
 import navHeader from './component/navHead'
 import leftMenu from './component/leftMenu'
 
+
 export default {
   data() {
     return {

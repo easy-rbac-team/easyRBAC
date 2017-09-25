@@ -64,10 +64,19 @@ export let resourceService={
         let httpResult = await axios.put(path,resourceLst);        
     },   
     setResourceDisable(tree:TreeStruct[],resourceIds:string[]){
+        // for(let item of tree){            
+        //     item.disabled = resourceIds.some(x=>x===item.id);
+        //     if(item.children!=null&&item.children!.length>0){
+        //         this.setResourceDisable(item.children,resourceIds);
+        //     }
+        // }
+        this.ergodicTree(tree,x=>x.disabled = resourceIds.some(y=>y===x.id))
+    },
+    ergodicTree(tree:TreeStruct[],action:((x:TreeStruct)=>void)){
         for(let item of tree){            
-            item.disabled = resourceIds.some(x=>x===item.id);
+            action(item)
             if(item.children!=null&&item.children!.length>0){
-                this.setResourceDisable(item.children,resourceIds);
+                this.ergodicTree(item.children,action);
             }
         }
     }

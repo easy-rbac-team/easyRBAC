@@ -32,7 +32,7 @@ namespace EasyRbac.DomainService
         public async Task ChangeScopeAsync(long userId, long appId, List<string> resources)
         {
             var rels = await this._userManageResourceScope.QueryAsync(x => x.UserId == userId && x.AppId == appId).ContinueWith(x=>x.Result.Select(v=>v.ResourceId));
-            var(addIds,subIds) = rels.CalcluteChange(rels);
+            var(addIds,subIds) = rels.CalcluteChange(resources);
             using (var scope = new TransactionScope(
                 TransactionScopeOption.Required,
                 new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted },

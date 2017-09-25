@@ -59,8 +59,10 @@ export default {
             this.$emit("appSelect",arg)
         },
         setDisableKeys(){
-            //TODO:不需要,设置displaed
-            this.$refs.tree.setCheckedKeys(this.disableKeys);
+            let disableKeys = this.disableKeys;
+            resourceService.ergodicTree(
+                this.resourceTree,
+                x=>x.disabled = disableKeys.some(x=>x==x.id))
         },
         setCheckedKeys(){
             this.$refs.tree.setCheckedKeys(this.checkedKeys);

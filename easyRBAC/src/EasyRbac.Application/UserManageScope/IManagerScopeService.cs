@@ -10,7 +10,7 @@ namespace EasyRbac.Application.UserManageScope
     {
         Task<List<string>> GetScopeIdsAsync(long userId, long appId);
 
-        Task ChangeScopeAsync(long userId, long appId, List<UserScopeDto> resources);
+        Task ChangeScopeAsync(long userId, long appId, List<string> resources);
 
     }
 }

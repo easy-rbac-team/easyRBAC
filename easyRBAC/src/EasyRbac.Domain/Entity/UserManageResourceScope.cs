@@ -15,8 +15,6 @@ namespace EasyRbac.Domain.Entity
 
         public long AppId { get; set; }
 
-        public bool IncludeChildren { get; set; }
-
         public string ResourceId { get; set; }
 
         public long UserId { get; set; }

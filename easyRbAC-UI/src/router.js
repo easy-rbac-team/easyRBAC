@@ -7,7 +7,8 @@ import appResouceManage from './component/application/resources/appResourceManag
 import roleUser from './component/role/user/roleUser'
 import roleResource from './component/role/resource/roleResourceManage'
 import userResource from './component/user/resource/userResourceManage'
-
+import managerUser from './component/manager/managerUser'
+import userAuthorization from './component/manager/userAuthorization'
 
 export let routerCfg = new Router({
     routes: [{
@@ -35,5 +36,11 @@ export let routerCfg = new Router({
     }, {
         path: "/user/resource",
         component: userResource
+    }, {
+        path: "/manager",
+        component: managerUser
+    }, {
+        path: "/manager/userAuthorization",
+        component: userAuthorization
     }]
 });

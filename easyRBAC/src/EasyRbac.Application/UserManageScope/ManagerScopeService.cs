@@ -2,20 +2,28 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using EasyRbac.DomainService;
 using EasyRbac.Dto.UserScope;
 
 namespace EasyRbac.Application.UserManageScope
 {
     public class ManagerScopeService:IManagerScopeService
     {
-        public Task<List<string>> GetScopeIdsAsync(long userId, long appId)
+        private IUserManagerScopeDomainService _userManagerScopeDomainService;
+
+        public ManagerScopeService(IUserManagerScopeDomainService userManagerScopeDomainService)
         {
-            throw new NotImplementedException();
+            this._userManagerScopeDomainService = userManagerScopeDomainService;
         }
 
-        public Task ChangeScopeAsync(long userId, long appId, List<UserScopeDto> resources)
+        public Task<List<string>> GetScopeIdsAsync(long userId, long appId)
         {
-            throw new NotImplementedException();
+            return this._userManagerScopeDomainService.GetScopeIdsAsync(userId, appId);
+        }
+
+        public Task ChangeScopeAsync(long userId, long appId, List<string> resources)
+        {
+            return this._userManagerScopeDomainService.ChangeScopeAsync(userId, appId, resources);
         }
     }
 }

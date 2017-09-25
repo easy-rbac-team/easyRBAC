@@ -65,7 +65,7 @@ export let menuService = {
                     },{
                         id:"18",
                         name:"人员授权",
-                        path:"/manager/authrication"
+                        path:"/manager/userAuthorization"
                     }
                 ]
             }

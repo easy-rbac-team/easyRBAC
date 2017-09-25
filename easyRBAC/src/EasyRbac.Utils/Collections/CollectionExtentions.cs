@@ -55,5 +55,15 @@ namespace EasyRbac.Utils
 
             return rootList;
         }
+
+        public static void IndexForeach<T>(this IEnumerable<T> source, Action<int, T> action)
+        {
+            int i = 0;
+            foreach (T item in source)
+            {
+                action(i, item);
+                i++;
+            }
+        }
     }
 }

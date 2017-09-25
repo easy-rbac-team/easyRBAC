@@ -40,7 +40,7 @@ export default {
         async getSelectdId() {
             if (this.selectedUserId !== "" && this.selectedAppId !== "") {
                 let userResoueceIds = await managerScopeService.getManagedScopeIds(this.selectedUserId, this.selectedAppId);
-                
+                debugger;
                 this.userSelectedId = userResoueceIds;
             }
         },

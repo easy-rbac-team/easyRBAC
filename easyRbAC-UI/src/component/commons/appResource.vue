@@ -59,7 +59,11 @@ export default {
             this.$emit("appSelect",arg)
         },
         setDisableKeys(){
+            //TODO:不需要,设置displaed
             this.$refs.tree.setCheckedKeys(this.disableKeys);
+        },
+        setCheckedKeys(){
+            this.$refs.tree.setCheckedKeys(this.checkedKeys);
         },
         saveHandler(){
             let nodes = this.$refs.tree.getCheckedNodes();
@@ -73,6 +77,9 @@ export default {
         disableKeys:function(to,from){
             this.setDisableKeys()
             this.selected_temp = to;
+        },
+        checkedKeys:function(to,from){
+            this.setCheckedKeys();
         }
     },
     components:{

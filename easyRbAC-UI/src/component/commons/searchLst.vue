@@ -21,7 +21,7 @@ export default {
         }
     },
     methods:{
-        async iconClickHandler(){            
+        async iconClickHandler(){                        
             let result = await this.searchFun(this.searchCondition,this.searchPage.pageIndex,this.searchPage.pageSize)
             this.pagingList = result;
         },

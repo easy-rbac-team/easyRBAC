@@ -57,6 +57,7 @@ namespace EasyRbac.Web
             services.AddUtils(this.Configuration);
             services.UseDtoAutoMapper();
             services.AddCors();
+            
             //services.AddSingleton<ISqlDialect, MySqlDialect>();
         }
 
@@ -103,6 +104,7 @@ namespace EasyRbac.Web
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
+            
 
             app.UseMvc();
         }

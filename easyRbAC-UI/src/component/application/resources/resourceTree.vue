@@ -6,7 +6,7 @@
             @click="createNewTree",
             ) 创建资源树
         div(v-show="!showCreatebutton")
-            el-tree(:data="resources",:props="defaultProps",@node-click="",:render-content="renderContent")
+            el-tree(:data="resources",:props="defaultProps",@node-click="",:render-content="renderContent",default-expand-all)
     el-dialog(title="添加资源",:visible.sync="addResource",size="small")
         add-resource(:parentId="add_parentId",:appId="appId",v-on:addResourceComplete="completeResource")
 </template>

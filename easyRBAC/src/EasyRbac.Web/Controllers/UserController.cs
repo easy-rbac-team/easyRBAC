@@ -8,6 +8,7 @@ using EasyRbac.Dto;
 using EasyRbac.Dto.User;
 using Microsoft.AspNetCore.Mvc;
 using EasyRbac.Dto.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EasyRbac.Web.Controllers
 {

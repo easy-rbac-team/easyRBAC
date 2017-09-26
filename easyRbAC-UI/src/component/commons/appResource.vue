@@ -15,18 +15,18 @@
 </template>
 
 <script>
-import {resourceService} from '../../service/resourceService'
-import {appService} from '../../service/appService'
+import { resourceService } from '../../service/resourceService'
+import { appService } from '../../service/appService'
 
 import searchLst from '../commons/searchLst'
 
 export default {
     props: {
-        checkedKeys:{
-            type:Array
+        checkedKeys: {
+            type: Array
         },
-        disableKeys:{
-            type:Array
+        disabledKeys: {
+            type: Array
         }
     },
     data() {
@@ -34,10 +34,10 @@ export default {
             selectedAppId: "",
             resourceTree: [],
             defaultProps: {
-                    children: 'children',
-                    label: 'resourceName',
-                    disabled: 'disabled'
-                }
+                children: 'children',
+                label: 'resourceName',
+                disabled: 'disabled'
+            }
         }
     },
     methods: {
@@ -46,55 +46,59 @@ export default {
             return pageResult;
         },
         async getResourceTree() {
-            if(this.selectedAppId===""){
+            if (this.selectedAppId === "") {
                 return;
             }
             let resourceTree = await resourceService.getAppResource(this.selectedAppId);
             this.resourceTree = resourceTree;
         },
-        itemClickHandler(arg){
+        itemClickHandler(arg) {
             let app = arg.item;
             this.selectedAppId = app.id;
             this.getResourceTree();
-            this.$emit("appSelect",arg)
+            this.$emit("appSelect", arg)
         },
-        setDisableKeys(){
-            let disableKeys = this.disableKeys;
+        setDisableKeys() {
+            
+            let disableKeys = this.disabledKeys;
             resourceService.ergodicTree(
                 this.resourceTree,
-                x=>x.disabled = disableKeys.some(x=>x==x.id))
+                x => x.disabled = disableKeys.some(key => key == x.id))
+            this.$set(this,"resourceTree",this.resourceTree)
         },
-        setCheckedKeys(){
+        setCheckedKeys() {
+            
             this.$refs.tree.setCheckedKeys(this.checkedKeys);
         },
-        saveHandler(){
+        saveHandler() {
             let nodes = this.$refs.tree.getCheckedNodes();
-            this.$emit("setScope",nodes);
+            this.$emit("setScope", nodes);
         },
-        reset(){
+        reset() {
             this.$refs.tree.setCheckedKeys(this.selected_temp);
         }
     },
-    watch:{
-        disableKeys:function(to,from){
+    watch: {
+        disabledKeys: function(to, from) {           
             this.setDisableKeys()
-            this.selected_temp = to;
         },
-        checkedKeys:function(to,from){
+        checkedKeys: function(to, from) {
             this.setCheckedKeys();
+            this.selected_temp = to;
         }
     },
-    components:{
+    components: {
         searchLst
     }
 }
 </script>
 
 <style>
-.buttons{
+.buttons {
     margin-top: 10px;
 }
-.tree-container{
+
+.tree-container {
     margin-top: 10px;
 }
 </style>

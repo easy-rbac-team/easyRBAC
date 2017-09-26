@@ -9,6 +9,7 @@ import axios from 'axios'
 import treeMenu from './component/treeMenu.vue'
 import VueClipboard from 'vue-clipboard2'
 import searchLst from './component/commons/searchLst'
+import appResource from './component/commons/appResource'
 
 
 Vue.use(ElementUI)
@@ -18,6 +19,7 @@ Vue.use(VueClipboard)
 
 Vue.component("tree-menu", treeMenu);
 Vue.component("search-lst", searchLst);
+Vue.component("app-resource", appResource);
 
 
 let v = new Vue({

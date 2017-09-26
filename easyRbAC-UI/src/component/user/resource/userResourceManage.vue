@@ -1,21 +1,22 @@
 <template lang="pug">
 el-row
     el-col(:span="6")
-        search-lst(:searchFun="getUsers",placeholder="用户名")
+        search-lst(:searchFun="getUsers",placeholder="用户名",@itemClick="userSelect")
             template(scope="props")
                 | {{props.item.userName}}
-    el-col(:span="6")
-        search-lst(:searchFun="getApps",placeholder="应用名/code")
-            template(scope="props")
-                | {{props.item.appName}}
-    el-col(:span="12")
-        el-tree(:data="resourceInfo.resourceTree",
-                :props="resourceInfo.defaultProps",
-                node-key="id",show-checkbox,default-expand-all,
-                :check-strictly="true",ref="tree",@node-click="")
-        el-button(type="success",@click="setUserResource") 保存
-        el-button(@click="cancelSetResouce") 还原
-        el-button(@click="getkeys") 获取keys
+    //- el-col(:span="6")
+    //-     search-lst(:searchFun="getApps",placeholder="应用名/code")
+    //-         template(scope="props")
+    //-             | {{props.item.appName}}
+    //- el-col(:span="12")
+    //-     el-tree(:data="resourceInfo.resourceTree",
+    //-             :props="resourceInfo.defaultProps",
+    //-             node-key="id",show-checkbox,default-expand-all,
+    //-             :check-strictly="true",ref="tree",@node-click="")
+    //-     el-button(type="success",@click="setUserResource") 保存
+    //-     el-button(@click="cancelSetResouce") 还原
+    //-     el-button(@click="getkeys") 获取keys
+    app-resource(:checkedKeys="checkedKeys",:disabledKeys="disabledKeys",@appSelect="appSelect",@setScope="saveChange")
 </template>
 <script>
 import { userService } from '../../../service/userService'
@@ -45,38 +46,57 @@ export default {
                     label: 'resourceName',
                     disabled: 'disabled'
                 }
-            }
+            },
+            checkedKeys:[],
+            disabledKeys:[]
         }
     },
     methods: {
-        appSelect(appId) {
+        // appSelect(appId) {
+        //     this.appInfo.selectedAppId = appId;
+        //     this.getResourceTree()
+        // },
+        appSelect(arg) {           
+             
+            let appId = arg.item.id;
             this.appInfo.selectedAppId = appId;
             this.getResourceTree()
         },
-        userSelect(userId) {
+        userSelect(arg) {
+            let userId = arg.item.id
             this.userInfo.selectedUserId = userId;
             this.getResourceTree()
         },
         async getResourceTree() {
-            if (this.userInfo.selectedUserId !== "" && this.appInfo.selectedAppId !== "") {
-                let resourceTree = await resourceService.getAppResource(this.appInfo.selectedAppId);
-                let userAllResources = await userService.getUserResourceIds(this.userInfo.selectedUserId, this.appInfo.selectedAppId)
-
-                let allChecked = userAllResources.userResource.concat(userAllResources.roleResource);
-                resourceService.setResourceDisable(resourceTree, userAllResources.roleResource);
-                this.resourceInfo.resourceTree = resourceTree;
-                this.keys_temp = allChecked;                
-                this.$refs.tree.setCheckedKeys(allChecked);
-                console.log("set的checked：")
-                console.log(allChecked)
-                
-                this.$nextTick(()=>{
-                    this.$refs.tree.setCheckedKeys(allChecked);
-                    let tt = this.$refs.tree.getCheckedKeys()
-                    console.log("读到的checked:")
-                    console.log(tt);
-                })
+            if(this.userInfo.selectedUserId === "" || this.appInfo.selectedAppId === "")
+            {
+                return;
             }
+            //let resourceTree = await resourceService.getAppResource(this.appInfo.selectedAppId);
+            let userAllResources = await userService.getUserResourceIds(this.userInfo.selectedUserId, this.appInfo.selectedAppId)
+            let allChecked = userAllResources.userResource.concat(userAllResources.roleResource);
+            this.checkedKeys = allChecked;
+            
+            this.disabledKeys = userAllResources.roleResource;
+            // if (this.userInfo.selectedUserId !== "" && this.appInfo.selectedAppId !== "") {
+            //     let resourceTree = await resourceService.getAppResource(this.appInfo.selectedAppId);
+            //     let userAllResources = await userService.getUserResourceIds(this.userInfo.selectedUserId, this.appInfo.selectedAppId)
+
+            //     let allChecked = userAllResources.userResource.concat(userAllResources.roleResource);
+            //     resourceService.setResourceDisable(resourceTree, userAllResources.roleResource);
+            //     this.resourceInfo.resourceTree = resourceTree;
+            //     this.keys_temp = allChecked;                
+            //     this.$refs.tree.setCheckedKeys(allChecked);
+            //     console.log("set的checked：")
+            //     console.log(allChecked)
+                
+            //     this.$nextTick(()=>{
+            //         this.$refs.tree.setCheckedKeys(allChecked);
+            //         let tt = this.$refs.tree.getCheckedKeys()
+            //         console.log("读到的checked:")
+            //         console.log(tt);
+            //     })
+            // }
         },
         getkeys() {
             let resourceLst = this.$refs.tree.getCheckedKeys();
@@ -112,6 +132,12 @@ export default {
             await userService.changeUserResources(userId, appId, resourceLst);
             this.$message({ type: "success", message: "设置成功！" })
             this.keys_temp = resourceLst.map(x => x.id)
+        },
+        async saveChange(nodes){
+            let userId = this.userInfo.selectedUserId;
+            let appId = this.appInfo.selectedAppId;            
+            await userService.changeUserResources(userId, appId, nodes);
+            this.$message({ type: "success", message: "设置成功！" })
         }
     },
     mounted: function() {

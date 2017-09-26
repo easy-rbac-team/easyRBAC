@@ -48,7 +48,7 @@ namespace EasyRbac.DomainService
         {
             IEnumerable<RoleResourceRelation> rels = await this._roleResourceRel.QueryAsync(x => roleId.Contains(x.RoleId));
             var ids = rels.Select(x => x.ResourceId);
-            var appResourceEntities = await this._appResourceRepository.QueryAsync(x => ids.Contains(x.Id) && x.Enable);
+            var appResourceEntities = await this._appResourceRepository.QueryAsync(x => ids.Contains(x.Id) &&x.ApplicationId == appid && x.Enable);
             return appResourceEntities.Select(x => x.Id).ToList();
         }
 

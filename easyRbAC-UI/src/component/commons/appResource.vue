@@ -75,7 +75,7 @@ export default {
             this.$emit("setScope", nodes);
         },
         reset() {
-            this.$refs.tree.setCheckedKeys(this.selected_temp);
+            this.$refs.tree.setCheckedKeys(this.checkedKeys);
         }
     },
     watch: {
@@ -83,8 +83,7 @@ export default {
             this.setDisableKeys()
         },
         checkedKeys: function(to, from) {
-            this.setCheckedKeys();
-            this.selected_temp = to;
+            this.setCheckedKeys();            
         }
     },
     components: {

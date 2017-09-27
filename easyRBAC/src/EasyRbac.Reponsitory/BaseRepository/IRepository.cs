@@ -21,7 +21,6 @@ namespace EasyRbac.Reponsitory.BaseRepository
         Task UpdateAsync(Expression<Func<T>> update, Expression<Func<T, bool>> condition);
 
         Task<T> QueryFirstAsync(Expression<Func<T, bool>> condition);
-
-        IDbConnection DbConnection { get; }
+        
     }
 }

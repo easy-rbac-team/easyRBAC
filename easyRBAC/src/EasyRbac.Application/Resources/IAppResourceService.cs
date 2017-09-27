@@ -8,7 +8,6 @@ namespace EasyRbac.Application.Resources
 {
     public interface IAppResourceService
     {
-        Task<List<AppAndResourceDto>> GetUserManagedResourceAsync(long userId);
         Task<List<AppResourceDto>> GetUserResourceAsync(long appId, long userId);
         Task<List<AppResourceDto>> GetResourceTreeAsync(string parentResourceId);
         Task<List<AppResourceDto>> GetAppResourceAsync(long appId);

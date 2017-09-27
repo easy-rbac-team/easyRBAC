@@ -27,8 +27,9 @@ namespace EasyRbac.Reponsitory.Helper
                                 subId = subid + 1";
                 this._connection.Execute(command,new{key});
                 command = @"SELECT subId FROM id_generate WHERE parentId = @key";
+                var id = this._connection.ExecuteScalar<int>(command, new { key });
                 tran.Commit();
-                return this._connection.ExecuteScalar<int>(command, new{key});
+                return id;
             }
             catch 
             {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using EasyRbac.Dto.AppResource;
 using EasyRbac.Dto.UserScope;
 
 namespace EasyRbac.DomainService
@@ -13,5 +14,7 @@ namespace EasyRbac.DomainService
         Task ChangeScopeAsync(long userId, long appId, List<string> resources);
 
         Task<bool> CheckCanManager(long userId, string resourceId);
+
+        Task<List<AppAndResourceDto>> GetUserManagedResourceAsync(long userId);
     }
 }

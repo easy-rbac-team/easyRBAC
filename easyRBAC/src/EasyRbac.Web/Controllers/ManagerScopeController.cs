@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using EasyRbac.Application.UserManageScope;
 using EasyRbac.Dto.AppResource;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -33,8 +36,10 @@ namespace EasyRbac.Web.Controllers
         }
 
         [HttpGet("manage/{userId}")]
+        [Authorize(AuthenticationSchemes = "test")]
         public Task<List<AppAndResourceDto>> GetManagedResourceAndApp()
         {
+            
             var userId = long.Parse(this.User.Identity.Name);
             var result = this._managerScopeService.GetUserManagedResourceAsync(userId);
             return result;

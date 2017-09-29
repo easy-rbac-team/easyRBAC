@@ -16,6 +16,7 @@ namespace EasyRbac.DomainService
     public class UserResourceDomainService : IUserResourceDomainService
     {
         private IUserRoleRelationRepository _userRoleRel;
+        private IRepository<ApplicationEntity> _appRepository;
         private IRepository<UserResourceRelation> _userResourceRel;
         private IRepository<AppResourceEntity> _resourceRepository;
         private IRoleResourceDomainService _roleResourceDomainService;
@@ -23,7 +24,7 @@ namespace EasyRbac.DomainService
         private IIdGenerator _idGenerator;
 
         /// <summary>Initializes a new instance of the <see cref="T:System.Object"></see> class.</summary>
-        public UserResourceDomainService(IUserRoleRelationRepository userRoleRel, IRepository<UserResourceRelation> userResourceRel, IRepository<AppResourceEntity> resourceRepository, IRoleResourceDomainService roleResourceDomainService, IMapper mapper, IIdGenerator idGenerator)
+        public UserResourceDomainService(IUserRoleRelationRepository userRoleRel, IRepository<UserResourceRelation> userResourceRel, IRepository<AppResourceEntity> resourceRepository, IRoleResourceDomainService roleResourceDomainService, IMapper mapper, IIdGenerator idGenerator, IRepository<ApplicationEntity> appRepository)
         {
             this._userRoleRel = userRoleRel;
             this._userResourceRel = userResourceRel;
@@ -31,6 +32,7 @@ namespace EasyRbac.DomainService
             this._roleResourceDomainService = roleResourceDomainService;
             this._mapper = mapper;
             this._idGenerator = idGenerator;
+            this._appRepository = appRepository;
         }
 
         public Task<List<string>> GetUserAssociationResourcesAsync(long userId, long appId)
@@ -66,6 +68,18 @@ namespace EasyRbac.DomainService
             var ids = userResources.Distinct();
             var results = this._resourceRepository.QueryAsync(x => ids.Contains(x.Id) && x.Enable);
             return this._mapper.Map<List<AppResourceDto>>(results);
+        }
+
+        /// <summary>
+        /// 根据APPCODE获取用户资源列表
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="appCode"></param>
+        /// <returns></returns>
+        public async Task<List<AppResourceDto>> GetUserAllAppResourcesAsync(long userId, string appCode)
+        {
+            var app = await this._appRepository.QueryFirstAsync(x => x.AppCode == appCode);
+            return await this.GetUserAllAppResourcesAsync(userId, app.Id);
         }
 
         public async Task ChangeUserResource(long userId,long appId, List<string> resourceId)

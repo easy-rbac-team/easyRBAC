@@ -24,6 +24,14 @@ namespace EasyRbac.DomainService
         /// <returns></returns>
         Task<List<AppResourceDto>> GetUserAllAppResourcesAsync(long userId,long appId);
 
+        /// <summary>
+        /// 根据APPCODE获取用户资源列表
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="appCode"></param>
+        /// <returns></returns>
+        Task<List<AppResourceDto>> GetUserAllAppResourcesAsync(long userId, string appCode);
+
         Task ChangeUserResource(long userId,long appId, List<string> resourceId);
     }
 }

@@ -20,6 +20,9 @@ using EasyRbac.Web.WebExtentions;
 using EasyRbac.Utils.Denpendency;
 using EasyRbac.Reponsitory.BaseRepository;
 using EasyRbac.Reponsitory.Helper;
+using EasyRbac.Web.Options;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
 using SQLinq;
 using SQLinq.Dialect;
@@ -57,7 +60,17 @@ namespace EasyRbac.Web
             services.AddUtils(this.Configuration);
             services.UseDtoAutoMapper();
             services.AddCors();
-            
+
+            //services.AddAuthentication(
+            //    option =>
+            //    {
+            //        option.DefaultScheme = "test";
+            //        option.DefaultAuthenticateScheme = "test";
+
+            //        option.AddScheme<TokenAuthenticationHandler>("test", "test");
+            //    });
+            IConfiguration appConfiguration = this.Configuration.GetSection("app") ;
+            services.Configure<AppOption>(appConfiguration);
             //services.AddSingleton<ISqlDialect, MySqlDialect>();
         }
 

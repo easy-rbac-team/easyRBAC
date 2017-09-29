@@ -110,3 +110,10 @@ CREATE TABLE IF NOT EXISTS `easyrbac`.`user_manage_resource_scope` (
   UNIQUE INDEX `user_resource_scop_ix` (`userId` ASC, `appId` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
+
+CREATE TABLE `easyrbac`.`login_token` (
+  `token` VARCHAR(100) NOT NULL,
+  `userId` BIGINT NOT NULL,
+  `createOn` DATETIME NOT NULL,
+  `expireIn` INT NOT NULL,
+  PRIMARY KEY (`token`));

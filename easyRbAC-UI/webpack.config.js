@@ -24,36 +24,37 @@ module.exports = (options = {}) => ({
     },
     module: {
         rules: [{
-            test: /\.css$/,
-            use: ['style-loader', 'css-loader', 'postcss-loader']
-        },
-        {
-            test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)(\?.+)?$/,
-            use: [{
-                loader: 'url-loader',
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader', 'postcss-loader']
+            },
+            {
+                test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)(\?.+)?$/,
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000
+                    }
+                }]
+            },
+            {
+                test: /\.ts$/,
+                exclude: /node_modules|vue\/src/,
+                loader: 'ts-loader',
                 options: {
-                    limit: 10000
+                    appendTsSuffixTo: [/\.vue$/]
                 }
-            }]
-        },
-        {
-            test: /\.ts$/,
-            exclude: /node_modules|vue\/src/,
-            loader: 'ts-loader',
-            options: {
-                appendTsSuffixTo: [/\.vue$/]
+            }, {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader'
+            }, {
+                test: /\.vue$/,
+                loader: "vue-loader",
+                options: {
+                    esModule: true
+                }
             }
-        }, {
-            test: /\.js$/,
-            exclude: /node_modules/, 
-            loader: 'babel-loader'
-        }, {
-            test: /\.vue$/,
-            loader: "vue-loader",
-            options: {
-                esModule: true
-            }
-        }]
+        ]
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({

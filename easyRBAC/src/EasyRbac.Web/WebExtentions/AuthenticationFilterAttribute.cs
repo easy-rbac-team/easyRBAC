@@ -9,7 +9,7 @@ namespace EasyRbac.Web.WebExtentions
     [AttributeUsage(AttributeTargets.Class| AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
     public class ResourceTagAttribute : Attribute
     {
-        public string ResourceName { get; set; }
+        public string ResourceName { get; }
 
         /// <summary>Initializes a new instance of the <see cref="T:System.Attribute"></see> class.</summary>
         public ResourceTagAttribute(string resourceName)

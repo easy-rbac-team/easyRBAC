@@ -7,7 +7,9 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http.Internal;
 
 namespace EasyRbac.Web.WebExtentions
 {
@@ -46,8 +48,12 @@ namespace EasyRbac.Web.WebExtentions
                 };
 
                 var json = JsonConvert.SerializeObject(errObj, new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+                //context.Response.ContentLength = json.Length;
+                var body = Encoding.UTF8.GetBytes(json);
+                context.Response.ContentLength = body.Length;
+                await context.Response.WriteAsync(json, Encoding.UTF8);
+                
 
-                await context.Response.WriteAsync(json);
                 await ClearCacheHeaders(ex);
 
             }

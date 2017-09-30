@@ -24,6 +24,12 @@ namespace EasyRbac.Web.Controllers.SsoApi
             return this._loginService.UserLoginAsync(dto);
         }
 
+        [HttpGet("callbackUrl")]
+        public Task<string> GetAppCallback(string appCode)
+        {
+            return this._loginService.GetAppLoginCallback(appCode);
+        }
+
         public Task<List<AppResourceDto>> GetUserResources(string userToken)
         {
             throw new NotImplementedException();

@@ -56,20 +56,34 @@ namespace EasyRbac.Web
                     {
                         options.SerializerSettings.Converters.Add(new LongToStringConverter());
                     })
-                .AddFluentValidation(fv=>fv.RegisterValidatorsFromAssemblyContaining<CreateUserDtoVerify>());
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserDtoVerify>());
             services.AddUtils(this.Configuration);
             services.UseDtoAutoMapper();
             services.AddCors();
 
-            //services.AddAuthentication(
-            //    option =>
-            //    {
-            //        option.DefaultScheme = "test";
-            //        option.DefaultAuthenticateScheme = "test";
 
-            //        option.AddScheme<TokenAuthenticationHandler>("test", "test");
-            //    });
-            IConfiguration appConfiguration = this.Configuration.GetSection("app") ;
+            services.AddAuthentication(
+                option =>
+                {
+                    option.DefaultScheme = "token";
+                    option.DefaultAuthenticateScheme = "token";
+                    option.AddScheme<TokenAuthenticationHandler>("token", "token");
+                });
+            services.AddAuthorization(
+                opt =>
+                {
+                    opt.AddPolicy(
+                        "token",
+                        builder =>
+                        {
+                            builder.RequireAuthenticatedUser();
+                            builder.RequireAssertion(ctx => ctx.User.Identity.Name != null);
+                            builder.Build();
+                        });
+                    opt.DefaultPolicy = opt.GetPolicy("token");
+                });
+
+            IConfiguration appConfiguration = this.Configuration.GetSection("app");
             services.Configure<AppOption>(appConfiguration);
             //services.AddSingleton<ISqlDialect, MySqlDialect>();
         }
@@ -86,7 +100,7 @@ namespace EasyRbac.Web
 
             builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(UserControllerService))).AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
-            builder.RegisterAssemblyTypes(Assembly.Load("EasyRbac.Reponsitory"),sss).AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(Assembly.Load("EasyRbac.Reponsitory"), sss).AsImplementedInterfaces();
             var connStr = this.Configuration.GetConnectionString("easyRBAc");
             builder.RegisterType<MySqlDialect>().As<ISqlDialect>().InstancePerLifetimeScope();
             builder.Register(c => new MySqlConnection(connStr)).As<IDbConnection>().InstancePerLifetimeScope();
@@ -101,7 +115,7 @@ namespace EasyRbac.Web
 
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
+                //app.UseStatusCodePages();
                 app.UseMiddleware<ExceptionHandlerMiddleware>();
             }
             else
@@ -112,14 +126,16 @@ namespace EasyRbac.Web
             app.UseCors(
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:8010")
+                    builder.WithOrigins("http://localhost:*")
                         .AllowAnyOrigin()
                         .AllowAnyHeader()
+                        .AllowCredentials()
                         .AllowAnyMethod();
                 });
-            
+            app.UseAuthentication();
 
             app.UseMvc();
+            
         }
     }
 }

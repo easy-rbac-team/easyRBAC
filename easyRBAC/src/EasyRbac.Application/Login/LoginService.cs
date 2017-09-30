@@ -50,7 +50,8 @@ namespace EasyRbac.Application.Login
         public async Task<UserTokenDto> UserLoginAsync(UserLoginDto login)
         {
             UserEntity userEntity = await this._userRepository.QueryFirstAsync(x => x.UserName == login.UserName && x.Enable);
-            var loginSucces = userEntity.PasswordIsMatch(login.Password, this._encryptHelper);
+           
+            bool loginSucces = userEntity?.PasswordIsMatch(login.Password, this._encryptHelper)??false;
             if (!loginSucces)
             {
                 throw new EasyRbacException("用户名/密码错误");
@@ -63,15 +64,19 @@ namespace EasyRbac.Application.Login
                 Token = $"U{this._numberConvert.ToString(userEntity.Id)}-{DateTime.Now:MMddHHmmss}-{Guid.NewGuid():N}"
             };
             await this._loginTokenRepository.InsertAsync(token);
-
-            var appEntity =  login.AppCode!=null ? await this._appRepository.QueryFirstAsync(x => x.AppCode == login.AppCode):null;
+          
             return new UserTokenDto()
             {
                 ExpireIn = token.ExpireIn,
                 Schema = "token",
                 Token = token.Token,
-                CallbackUrl = appEntity?.CallbackUrl
             };
+        }
+
+        public async Task<string> GetAppLoginCallback(string appCode)
+        {
+            var url = await this._appRepository.QueryAndSelectFirstOrDefaultAsync<string>(x => x.AppCode == appCode,x=>x.CallbackUrl);
+            return url;
         }
 
         public async Task<AppLoginResult> AppLoginAsync(AppLoginDto request)

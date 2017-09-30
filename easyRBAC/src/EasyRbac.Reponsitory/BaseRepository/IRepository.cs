@@ -21,6 +21,9 @@ namespace EasyRbac.Reponsitory.BaseRepository
         Task UpdateAsync(Expression<Func<T>> update, Expression<Func<T, bool>> condition);
 
         Task<T> QueryFirstAsync(Expression<Func<T, bool>> condition);
-        
+
+        Task<TOut> QueryAndSelectFirstOrDefaultAsync<TOut>(Expression<Func<T, bool>> condition, Expression<Func<T, object>> selector);
+
+        Task<TOut> QueryAndSelectAsync<TOut>(Expression<Func<T, bool>> condition, Expression<Func<T, object>> selector);
     }
 }

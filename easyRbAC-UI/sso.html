@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>EasyRBAC-SSO</title>
-    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/1.7.2/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/particles.js/2.0.0/particles.min.js"></script>
+
     <style>
         body {
             margin: 0;
@@ -24,7 +25,7 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background-color: #C0CCDA;
+            background-color: #A9ACAF;
             background-image: url("");
             background-repeat: no-repeat;
             background-size: cover;
@@ -65,16 +66,53 @@
         .count-particles {
             border-radius: 0 0 3px 3px;
         }
+        
+        .panel {
+            font-family: "Source Sans Pro";
+            font-size: 1.3em;
+            position: absolute;
+            width: 200px;
+            height: 220px;
+            top: 50%;
+            left: 50%;
+            box-sizing: border-box;
+            z-index: 100;
+            background: rgb(238, 238, 238);
+            margin: -110px 0px 0px -100px;
+            padding: 20px;
+            border-radius: 4px;
+        }
+        
+        h1 {
+            display: block;
+            font-size: 1em;
+            -webkit-margin-before: 0.67em;
+            -webkit-margin-after: 0.67em;
+            -webkit-margin-start: 0px;
+            -webkit-margin-end: 0px;
+            font-weight: bold;
+            margin: 0px 0px
+        }
     </style>
 </head>
 
 <body>
-    <div id="particles-js"></div>
+    <div id="particles-js">
+        <div class="panel">
+            <h1>EasyRBAC Login</h1>
+            User Name:
+            <input type="text" id="userName"> Password:
+            <input type="text" id="pwd">
+            <span class="msg"></span>
+            <button onclick="login()">login</button>
+            <button>logout</button>
+        </div>
+    </div>
     <script>
         particlesJS("particles-js", {
             "particles": {
                 "number": {
-                    "value": 180,
+                    "value": 80,
                     "density": {
                         "enable": true,
                         "value_area": 800
@@ -182,26 +220,79 @@
             "retina_detect": true
         });
 
+        let ssoApiBaseUrl = "http://localhost:8813/sso/UserLogin"
 
-        /* ---- stats.js config ---- */
+        function login() {
+            let loginUrl = ssoApiBaseUrl
+            let appCode = getParameterByName("appCode");
+            let userName = document.getElementById("userName").value;
+            let password = document.getElementById("pwd").value;
 
-        var count_particles, stats, update;
-        stats = new Stats;
-        stats.setMode(0);
-        stats.domElement.style.position = 'absolute';
-        stats.domElement.style.left = '0px';
-        stats.domElement.style.top = '0px';
-        document.body.appendChild(stats.domElement);
-        count_particles = document.querySelector('.js-count-particles');
-        update = function() {
-            stats.begin();
-            stats.end();
-            if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
-                count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
-            }
-            requestAnimationFrame(update);
-        };
-        requestAnimationFrame(update);
+            fetch(loginUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                model: "cors",
+                body: JSON.stringify({
+                    userName,
+                    password
+                }),
+            }).then(response => {
+                if (response.ok) {
+                    response.json().then(result => {
+                        if (appCode && appCode.length > 0) {
+                            document.querySelector(".msg").innerHTML = "登录成功，等待验证"
+                            fetch(`${ssoApiBaseUrl}/callbackUrl?appCode=${appCode}`).then(response => {
+                                if (response.ok) {
+                                    debugger;
+                                    response.text().then(appCallbackUrl => {
+                                        let callBackurl = `${appCallbackUrl}?token=${result.token}&expireIn=${result.expireIn}&callback=?`
+                                        $.getJSON(callBackurl).then(rep => {
+                                            if (rep.success) {
+                                                window.location.href = "http://localhost:8010"
+                                            } else {
+                                                document.querySelector(".msg").innerHTML = "登录失败，请联系管理员"
+                                            }
+                                        })
+                                    })
+                                } else {
+                                    document.querySelector(".msg").innerHTML = "APPCode错误"
+                                }
+                            })
+
+                        } else {
+                            document.querySelector(".msg").innerHTML = "登录成功"
+                        }
+                    })
+                } else {
+                    response.json().then(result => {
+                        alert(result.message)
+                    })
+                }
+            })
+        }
+
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        function saveTokenInfo(loginResult) {
+            let expireIn = result.expireIn;
+            let now = new Date().valueOf();
+            let expireOn = now + expireIn
+            let tokenObj = Json.stringify({
+                token: result.token,
+                expireOn: expireOn
+            });
+            sessionStorage.setItem("token", tokenObj);
+        }
     </script>
 </body>
 

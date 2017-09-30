@@ -42,7 +42,6 @@ Vue.component("tree-menu", treeMenu);
 Vue.component("search-lst", searchLst);
 Vue.component("app-resource", appResource);
 
-
 let v = new Vue({
     router: routerCfg,
     el: '#app',
@@ -50,11 +49,13 @@ let v = new Vue({
 });
 
 
+axios.defaults.withCredentials = true;
 
 axios.interceptors.response.use(function(response) {
 
     return response;
 }, function(error) {
+    debugger;
     console.log('error response!!!!!!!!!!')
 
     v.$message.error('服务器发生错误:' + error.message);

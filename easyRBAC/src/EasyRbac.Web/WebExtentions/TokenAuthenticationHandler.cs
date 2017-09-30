@@ -47,27 +47,39 @@ namespace EasyRbac.Web.WebExtentions
         public async Task<AuthenticateResult> AuthenticateAsync()
         {
             var authHeader = this.context.Request.Headers["Authorization"];
+            
             if (AuthenticationHeaderValue.TryParse(authHeader, out var authValue))
             {
+                var token = authValue.Parameter;
                 //var principal = new ClaimsPrincipal();
                 //principal.AddIdentity(new ClaimsIdentity(){Label="test"});
                 ////return AuthenticateResult.Success(new AuthenticationTicket(principal,"tes"))
                 //AuthenticateResult result = AuthenticateResult.Success(null);
                 //return Task.FromResult(result);
-                var loginService = this.context.RequestServices.GetService<ILoginService>();
-                var tokenEntity = await loginService.GetEntityByTokenAsync(authValue.Parameter);
-                if (tokenEntity.IsExpire())
-                {
-                    return AuthenticateResult.Fail("token expired");
-                }
-
-                var result = await this.GetIdentityByToken(tokenEntity.UserId);
-                return AuthenticateResult.Success(new AuthenticationTicket(new ClaimsPrincipal(result),"token"));
+                return await this.TokenVerify(token);
+            }
+            else if(this.context.Request.Cookies.TryGetValue("token", out string token))
+            {
+                return await this.TokenVerify(token);
             }
             else
             {
                 return AuthenticateResult.Fail("need token");
             }
+        }
+
+        private async Task<AuthenticateResult> TokenVerify(string token)
+        {
+            var loginService = this.context.RequestServices.GetService<ILoginService>();
+            var tokenEntity = await loginService.GetEntityByTokenAsync(token);
+            if (tokenEntity.IsExpire())
+            {
+
+                return AuthenticateResult.Fail("token expired");
+            }
+
+            var result = await this.GetIdentityByToken(tokenEntity.UserId);
+            return AuthenticateResult.Success(new AuthenticationTicket(new ClaimsPrincipal(result), "token"));
         }
 
         private async Task<ClaimsIdentity> GetIdentityByToken(long userId)

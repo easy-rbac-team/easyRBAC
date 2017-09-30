@@ -11,7 +11,5 @@ namespace EasyRbac.Dto.UserLogin
         public string Token { get; set; }
 
         public int ExpireIn { get; set; }
-
-        public string CallbackUrl { get; set; }
     }
 }

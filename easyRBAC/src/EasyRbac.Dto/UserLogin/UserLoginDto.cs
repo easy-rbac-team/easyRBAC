@@ -11,7 +11,5 @@ namespace EasyRbac.Dto.UserLogin
         public string Password { get; set; }
 
         public string VerifyCode { get; set; }
-
-        public string AppCode { get; set; }
     }
 }

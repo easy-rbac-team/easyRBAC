@@ -59,7 +59,6 @@ namespace EasyRbac.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public Task<PagingList<UserInfoDto>> SearchUsers(string userName,int pageIndex,int pageSize)
         {
             return this._userService.SearchUser(userName, pageIndex, pageSize);

@@ -43,7 +43,8 @@ namespace EasyRbac.Application.Application
             {
                 AppName =  value.AppName,
                 AppCode = value.AppCode,
-                Descript = value.Descript
+                Descript = value.Descript,
+                CallbackUrl = value.CallbackUrl
             }, x => x.Id == id);
         }
 

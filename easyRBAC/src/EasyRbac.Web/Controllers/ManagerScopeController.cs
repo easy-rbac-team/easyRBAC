@@ -35,12 +35,11 @@ namespace EasyRbac.Web.Controllers
             return this._managerScopeService.GetScopeIdsAsync(userId, appId);
         }
 
-        [HttpGet("manage/{userId}")]
-        [Authorize(AuthenticationSchemes = "test")]
+        [HttpGet("manage")]
         public Task<List<AppAndResourceDto>> GetManagedResourceAndApp()
         {
-            
-            var userId = long.Parse(this.User.Identity.Name);
+            //var userId = long.Parse(this.User.Identity.Name);
+            var userId = 1202969671880410122;//mock
             var result = this._managerScopeService.GetUserManagedResourceAsync(userId);
             return result;
         }

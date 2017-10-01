@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {Config} from './baseConfig'
 
+
 enum ResourceType{
     Resource=1,
     Menu=2,
@@ -64,12 +65,6 @@ export let resourceService={
         let httpResult = await axios.put(path,resourceLst);        
     },   
     setResourceDisable(tree:TreeStruct[],resourceIds:string[]){
-        // for(let item of tree){            
-        //     item.disabled = resourceIds.some(x=>x===item.id);
-        //     if(item.children!=null&&item.children!.length>0){
-        //         this.setResourceDisable(item.children,resourceIds);
-        //     }
-        // }
         this.ergodicTree(tree,x=>x.disabled = resourceIds.some(y=>y===x.id))
     },
     ergodicTree(tree:TreeStruct[],action:((x:TreeStruct)=>void)){

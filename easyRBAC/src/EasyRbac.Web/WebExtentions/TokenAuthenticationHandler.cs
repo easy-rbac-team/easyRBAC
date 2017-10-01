@@ -51,11 +51,6 @@ namespace EasyRbac.Web.WebExtentions
             if (AuthenticationHeaderValue.TryParse(authHeader, out var authValue))
             {
                 var token = authValue.Parameter;
-                //var principal = new ClaimsPrincipal();
-                //principal.AddIdentity(new ClaimsIdentity(){Label="test"});
-                ////return AuthenticateResult.Success(new AuthenticationTicket(principal,"tes"))
-                //AuthenticateResult result = AuthenticateResult.Success(null);
-                //return Task.FromResult(result);
                 return await this.TokenVerify(token);
             }
             else if(this.context.Request.Cookies.TryGetValue("token", out string token))

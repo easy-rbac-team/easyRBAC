@@ -35,10 +35,18 @@ namespace EasyRbac.Web.Controllers
             return this._managerScopeService.GetScopeIdsAsync(userId, appId);
         }
 
+        [HttpPut("userResource/{userId}/{appId}")]
+        public Task ChangeUserResource(long userId,long appId,[FromBody]List<string> ids)
+        {
+            //TODO : 修改为授权信息里获取
+            var operatorId = 1202969671880410122;//mock
+            return this._managerScopeService.ChangeUserResource(operatorId, userId, appId, ids);
+        }
+
         [HttpGet("manage")]
         public Task<List<AppAndResourceDto>> GetManagedResourceAndApp()
         {
-            //var userId = long.Parse(this.User.Identity.Name);
+            //TODO : 修改为授权信息里获取
             var userId = 1202969671880410122;//mock
             var result = this._managerScopeService.GetUserManagedResourceAsync(userId);
             return result;

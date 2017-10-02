@@ -13,17 +13,20 @@
                 :props="defaultProps",
                 node-key="id",show-checkbox,default-expand-all,
                 :check-strictly="true",ref="tree")
+        el-button(type="success") 保存
 </template>
 
 <script>
 import {managerScopeService} from '../../service/managerScopeService'
 import { userService } from '../../service/userService'
 import searchLst from '../commons/searchLst'
+import {resourceService} from '../../service/resourceService'
 
 export default {
     data(){
         return {
             selectedIndex:-1,
+            selectUserId:-1,
             appAndResources:[],
             resourceTree:[],
             defaultProps: {
@@ -43,12 +46,29 @@ export default {
             return pageResult;
         },
         userSelect(arg){
-
+            let user = arg.item 
+            if(this.selectedIndex!==-1){
+                this.getUserResourceIds(user.id,this.appAndResources[this.selectedIndex].appId);
+            }
         },
         appSelect(index,app){
             this.selectedIndex = index;
-            debugger;
-            this.resourceTree = app.appResouces;
+            this.resourceTree = app.appResouces;                    
+        },
+        async getUserResourceIds(userId,appId){
+            let userResources = await userService.getUserResourceIds(userId,appId);
+            let tree = this.$refs.tree;
+            let allCheckedIds = userResources.userResource.concat(userResources.roleResource);
+            
+            resourceService.setResourceDisable(this.resourceTree,userResources.roleResource);
+            this.$nextTick((v)=>{
+                tree.setCheckedKeys(allCheckedIds)
+            })            
+            //tree.setCheckedKeys(userResources.roleResource)
+            //tree.set
+        },
+        async saveChange(){
+            managerScopeService.changeUserResources()
         }
     },
     mounted:function(){

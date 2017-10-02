@@ -63,10 +63,10 @@ namespace EasyRbac.DomainService
             }
         }
 
-        public async Task<bool> CheckCanManager(long userId, string resourceId)
+        public async Task<bool> CheckCanManager(long userId, IEnumerable<string> resourceIds)
         {
-            var result = await this._userManageResourceScope.QueryFirstAsync(x => x.UserId == userId && x.ResourceId == resourceId);
-            return result != null;
+            IEnumerable<UserManageResourceScope> result = await this._userManageResourceScope.QueryAsync(x => x.UserId == userId && resourceIds.Contains(x.ResourceId));
+            return resourceIds.Count() == resourceIds.Count();
         }
 
         public async Task<List<AppAndResourceDto>> GetUserManagedResourceAsync(long userId)

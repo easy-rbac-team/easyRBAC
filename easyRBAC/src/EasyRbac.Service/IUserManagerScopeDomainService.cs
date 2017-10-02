@@ -13,7 +13,7 @@ namespace EasyRbac.DomainService
 
         Task ChangeScopeAsync(long userId, long appId, List<string> resources);
 
-        Task<bool> CheckCanManager(long userId, string resourceId);
+        Task<bool> CheckCanManager(long userId, IEnumerable<string> resourceIds);
 
         Task<List<AppAndResourceDto>> GetUserManagedResourceAsync(long userId);
     }

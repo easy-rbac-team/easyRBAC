@@ -14,5 +14,6 @@ namespace EasyRbac.Application.UserManageScope
         Task ChangeScopeAsync(long userId, long appId, List<string> resources);
 
         Task<List<AppAndResourceDto>> GetUserManagedResourceAsync(long userId);
+        Task ChangeUserResource(long operatorId, long userId, long appId, List<string> ids);
     }
 }

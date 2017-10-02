@@ -13,24 +13,29 @@
                     el-button-group.right-buttons
                         el-button(icon="delete",size="mini",type="danger",@click="deleteUser(index,u.id)")
                         el-button(icon="edit",size="mini",type="warning",@click="editUser(u.id)")
+                        el-button(icon="setting",size="mini",type="primary",@click="doChangePwd(u.id)")
                         el-button(icon="information",size="mini",type="info")
             el-pagination(small,layout="prev, pager, next",:total="page.totalCount",:page-size="page.pageSize")
     el-col(:span="8")
         add-page(v-if="showAddUser",v-on:addedUserFinish="addedUserHandle")
+        change-pwd(v-if="showChangePwd",:userId="selectUserId",@closeChangePwd="closeChangePwdHandler")
         router-view
 </template>
 
 <script>
 import { userService } from '../../service/userService.ts'
 import addPage from './addPage.vue'
+import changePwd from './changePwd.vue'
 
 export default {
     data() {
         return {
             userName: "",
+            selectUserId:"",
             users: [],
             page: {},
-            showAddUser: false
+            showAddUser: false,
+            showChangePwd:false
         }
     },
     methods: {
@@ -69,13 +74,21 @@ export default {
                     message: '删除成功!'
                 });
             }).catch();
+        },
+        doChangePwd(userId){
+            this.showChangePwd = !this.showChangePwd;
+            this.selectUserId = userId;
+        },
+        closeChangePwdHandler(){
+            this.showChangePwd = false;
         }
     },
     mounted: async function() {
         await this.getUserLst();
     },
     components: {
-        addPage
+        addPage,
+        changePwd
     }
 }
 </script>

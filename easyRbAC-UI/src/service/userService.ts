@@ -10,6 +10,11 @@ interface UserInfo {
     enable: boolean
 }
 
+interface ChangePassword{
+    password:string,
+    confirmPassword:string
+}
+
 export let userService = {
     async getUsers(userName: string, pageIndex: number, pageSize: number): Promise<PagingList<any>> {
         let path = `${Config.BaseUrl}/user?userName=${userName}&pageIndex=${pageIndex}&pageSize=${pageSize}`
@@ -43,5 +48,9 @@ export let userService = {
         let httpResult = await axios.get(url);
         let result = httpResult.data as { userResource: string[], roleResource: string[] };
         return result;
+    },
+    async changePassowrd(userId:string,pwd:ChangePassword){
+        let url = `${Config.BaseUrl}/user/${userId}/pwd`
+        let httpResult = await axios.put(url,pwd);
     }
 }

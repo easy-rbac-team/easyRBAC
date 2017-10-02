@@ -10,7 +10,6 @@ namespace EasyRbac.Dto.FluentValidate
     {
         public ChangePwdDtoVerify()
         {
-            RuleFor(x => x.CurrentPassword).NotEmpty();
             RuleFor(x => x.Password).MinimumLength(8);
             RuleFor(x => x.Password).Equal(x => x.ConfirmPassword);
         }

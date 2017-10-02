@@ -118,7 +118,7 @@ export default {
 }
 
 .box-card {
-    width: 300px;
+    width: 280px;
     margin: 10px 10px;
 }
 .page-container{

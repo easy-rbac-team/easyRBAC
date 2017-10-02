@@ -13,7 +13,7 @@
                 :props="defaultProps",
                 node-key="id",show-checkbox,default-expand-all,
                 :check-strictly="true",ref="tree")
-        el-button(type="success") 保存
+        el-button(type="success",@click="saveChange") 保存
 </template>
 
 <script>
@@ -27,6 +27,7 @@ export default {
         return {
             selectedIndex:-1,
             selectUserId:-1,
+            selectAppId:-1,
             appAndResources:[],
             resourceTree:[],
             defaultProps: {
@@ -47,13 +48,18 @@ export default {
         },
         userSelect(arg){
             let user = arg.item 
+            this.selectUserId = user.id;
             if(this.selectedIndex!==-1){
                 this.getUserResourceIds(user.id,this.appAndResources[this.selectedIndex].appId);
             }
         },
         appSelect(index,app){
-            this.selectedIndex = index;
-            this.resourceTree = app.appResouces;                    
+            this.selectedIndex = index;            
+            this.selectAppId = app.appId;
+            this.resourceTree = app.appResouces;             
+            if(this.selectUserId !==-1){
+                this.getUserResourceIds(this.selectUserId,this.selectAppId)
+            }          
         },
         async getUserResourceIds(userId,appId){
             let userResources = await userService.getUserResourceIds(userId,appId);
@@ -63,12 +69,14 @@ export default {
             resourceService.setResourceDisable(this.resourceTree,userResources.roleResource);
             this.$nextTick((v)=>{
                 tree.setCheckedKeys(allCheckedIds)
-            })            
-            //tree.setCheckedKeys(userResources.roleResource)
-            //tree.set
+            })
         },
         async saveChange(){
-            managerScopeService.changeUserResources()
+            let tree = this.$refs.tree;
+            let checkedNodes = tree.getCheckedNodes();
+            let selectedIds = checkedNodes.filter(x=>!x.disabled).map(x=>x.id);
+            await managerScopeService.changeUserResources(this.selectUserId,this.selectAppId,selectedIds);
+            this.$message({type:"success",message:"修改成功"})
         }
     },
     mounted:function(){

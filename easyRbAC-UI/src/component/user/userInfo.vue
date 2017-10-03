@@ -14,7 +14,7 @@
     el-tab-pane(label="用户角色",name="roleInfo")
         .container
             .item(v-for="(r,i) in roles")
-                {{r.roleName}}
+               | {{r.roleName}}
     el-tab-pane(label="资源信息",name="resourceInfo")
         .container
             

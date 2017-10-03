@@ -14,18 +14,21 @@
                         el-button(icon="delete",size="mini",type="danger",@click="deleteUser(index,u.id)")
                         el-button(icon="edit",size="mini",type="warning",@click="editUser(u.id)")
                         el-button(icon="setting",size="mini",type="primary",@click="doChangePwd(u.id)")
-                        el-button(icon="information",size="mini",type="info")
+                        el-button(icon="information",size="mini",type="info",@click="showUserInfo(u)")
             el-pagination(small,layout="prev, pager, next",:total="page.totalCount",:page-size="page.pageSize")
     el-col(:span="8")
         add-page(v-if="showStatus.showAddUser",v-on:addedUserFinish="addedUserHandle")
         change-pwd(v-if="showStatus.showChangePwd",:userId="selectUserId",@closeChangePwd="closeChangePwdHandler")
-        router-view
+        edit-user(v-if="showStatus.editUser",:userId="selectUserId",@close="closeChangePwdHandler")
+        user-info(v-if="showStatus.userInfo",:userInfo="selectUser",@close="closeChangePwdHandler")
 </template>
 
 <script>
 import { userService } from '../../service/userService.ts'
 import addPage from './addPage.vue'
 import changePwd from './changePwd.vue'
+import editUser from './editUser'
+import userInfo from './userInfo'
 
 export default {
     data() {
@@ -34,24 +37,32 @@ export default {
             selectUserId: "",
             users: [],
             page: {},
+            selectUser:null,
             showStatus: {
                 showAddUser: false,
-                showChangePwd: false
+                showChangePwd: false,
+                editUser :false,
+                userInfo :false
             }
         }
     },
     methods: {
+        showUserInfo(user){
+            this.closeAll();
+            this.selectUser = user;
+            this.showStatus.userInfo = true;
+        },
         iconClickHandler() {
             userService.getUsers(this.userName, 1, 20)
         },
         addUser() {
-            this.closeAll();
-            this.$router.push({ path: "/user" })
+            this.closeAll();            
             this.showAddUser = !this.showAddUser;
         },
         editUser(userId) {
+            this.selectUserId = userId;
             this.closeAll();
-            this.$router.push({ path: `/user/edit/${userId}` })
+            this.showStatus.editUser = true;
         },
         async getUserLst() {
             let users = await userService.getUsers("", 1, 20);
@@ -79,7 +90,8 @@ export default {
             }).catch();
         },
         doChangePwd(userId) {
-            this.showStatus.showChangePwd = !this.showStatus.showChangePwd;
+            this.closeAll()
+            this.showStatus.showChangePwd = true;
             this.selectUserId = userId;
         },
         closeChangePwdHandler() {
@@ -96,7 +108,9 @@ export default {
     },
     components: {
         addPage,
-        changePwd
+        changePwd,
+        editUser,
+        userInfo
     }
 }
 </script>

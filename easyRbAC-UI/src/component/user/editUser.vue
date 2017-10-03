@@ -16,6 +16,7 @@
 import { userService } from "../../service/userService.ts"
 
 export default {
+    props:["userId"],
     data() {
         return {
             form: {
@@ -61,11 +62,11 @@ export default {
             }
         },
         cancel() {
-            this.$router.push("/user")
+            this.$emit("close")
         }
     },
     watch: {
-        '$route'(to, from) {
+        'userId'(to, from) {
             this.getUserInfo(to.params.userId)
         }
     },

@@ -17,8 +17,8 @@
                         el-button(icon="information",size="mini",type="info")
             el-pagination(small,layout="prev, pager, next",:total="page.totalCount",:page-size="page.pageSize")
     el-col(:span="8")
-        add-page(v-if="showAddUser",v-on:addedUserFinish="addedUserHandle")
-        change-pwd(v-if="showChangePwd",:userId="selectUserId",@closeChangePwd="closeChangePwdHandler")
+        add-page(v-if="showStatus.showAddUser",v-on:addedUserFinish="addedUserHandle")
+        change-pwd(v-if="showStatus.showChangePwd",:userId="selectUserId",@closeChangePwd="closeChangePwdHandler")
         router-view
 </template>
 
@@ -31,11 +31,13 @@ export default {
     data() {
         return {
             userName: "",
-            selectUserId:"",
+            selectUserId: "",
             users: [],
             page: {},
-            showAddUser: false,
-            showChangePwd:false
+            showStatus: {
+                showAddUser: false,
+                showChangePwd: false
+            }
         }
     },
     methods: {
@@ -43,11 +45,12 @@ export default {
             userService.getUsers(this.userName, 1, 20)
         },
         addUser() {
+            this.closeAll();
             this.$router.push({ path: "/user" })
             this.showAddUser = !this.showAddUser;
         },
         editUser(userId) {
-            this.showAddUser = false;
+            this.closeAll();
             this.$router.push({ path: `/user/edit/${userId}` })
         },
         async getUserLst() {
@@ -59,7 +62,7 @@ export default {
             if (refresh) {
                 this.getUserLst();
             }
-            this.showAddUser = false;
+            this.closeAll();
         },
         async deleteUser(index, userId) {
             this.$confirm('确定删除此用户?', '提示', {
@@ -75,12 +78,17 @@ export default {
                 });
             }).catch();
         },
-        doChangePwd(userId){
-            this.showChangePwd = !this.showChangePwd;
+        doChangePwd(userId) {
+            this.showStatus.showChangePwd = !this.showStatus.showChangePwd;
             this.selectUserId = userId;
         },
-        closeChangePwdHandler(){
-            this.showChangePwd = false;
+        closeChangePwdHandler() {
+            this.closeAll();
+        },
+        closeAll() {
+            for (let key of Object.keys(this.showStatus)) {
+                this.showStatus[key] = false
+            }
         }
     },
     mounted: async function() {
@@ -99,9 +107,10 @@ export default {
 }
 
 .item {
-    padding: 8px 0;    
+    padding: 8px 0;
 }
-.right-buttons{
+
+.right-buttons {
     float: right;
 }
 

@@ -1,5 +1,5 @@
 import {Config} from './baseConfig'
-import axios from 'axios'
+import axios from '../myAxios'
 import {AppResource} from './resourceService'
 
 interface AppAndResource{

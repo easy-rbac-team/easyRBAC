@@ -19,7 +19,7 @@
         el-form-item(label='描述')
             el-input(v-model='form.describe',type="textarea")
         el-form-item()
-            el-button(type="success",@click="createOne") 添加
+            el-button(type="success",@click="createOne") 修改
             el-button(type="warning",@click="cancel") 取消
 
 </template>
@@ -27,7 +27,12 @@
 import { resourceService } from '../../../service/resourceService'
 
 export default {
-    props: ["parentId", "appId"],
+    props: {
+        resource: {
+            type: Object,
+            required: true
+        }
+    },
     data() {
         return {
             form: {
@@ -44,32 +49,31 @@ export default {
                     { required: true, message: '请输入资源名称', trigger: 'blur' },
                     { min: 2, max: 45, message: '长度在 2 到 45 个字符', trigger: 'blur' }
                 ],
-                resourceCode:[
+                resourceCode: [
                     { required: true, message: '请输入资源Code', trigger: 'blur' },
                     { min: 2, max: 45, message: '长度在 2 到 45 个字符', trigger: 'blur' }
                 ],
-                parameters:[
-                    
+                parameters: [
+
                 ],
-                url:[],
-                iconUrl:[],
-                describe:[],
-                resourceType:[
-                    {required:true, trigger: 'blur'},
-                    {min: 5, max: 7, message: '请选择资源类型', trigger: 'blur' }
+                url: [],
+                iconUrl: [],
+                describe: [],
+                resourceType: [
+                    { required: true, trigger: 'blur' },
+                    { min: 5, max: 7, message: '请选择资源类型', trigger: 'blur' }
                 ]
             }
         }
     },
     computed: {
         resourcesTypes: {
-            get: function() {                
+            get: function() {
                 let typesNum = this.form.resourceType
                 let result = new Array();
                 for (let i = 0; i < 3; i++) {
                     let permissionFlag = Math.pow(2, i);
                     if ((typesNum & permissionFlag) === permissionFlag) {
-                        // result = result.concat(permissionFlag.toString())
                         result.push(permissionFlag.toString())
                     }
                 }
@@ -80,7 +84,7 @@ export default {
                 for (let item of val) {
 
                     result += Number(item);
-                }                
+                }
                 this.form.resourceType = result;
             }
         }
@@ -88,7 +92,7 @@ export default {
     methods: {
         async createOne() {
             let appResource = {
-                applicationId: this.appId,
+                applicationId: this.resource.applicationId,
                 resourceName: this.form.resourceName,
                 resourceCode: this.form.resourceCode,
                 iconUrl: this.form.iconUrl,
@@ -97,12 +101,30 @@ export default {
                 url: this.form.url,
                 resourceType: this.form.resourceType
             };
-            await resourceService.addResource(this.parentId, appResource);
+            await resourceService.editResource(this.resource.id, appResource);
+            //await resourceService.addResource(this.parentId, appResource);
             this.$emit("addResourceComplete", true);
         },
         cancel() {
             this.$emit("addResourceComplete", false);
+        },
+        mapToForm(){
+            this.form.resourceName = this.resource.resourceName;
+            this.form.resourceCode = this.resource.resourceCode;
+            this.form.parameters = this.resource.parameters;
+            this.form.url = this.resource.url;
+            this.form.iconUrl = this.resource.iconUrl;
+            this.form.describe = this.resource.describe;
+            this.form.resourceType = this.resource.resourceType;
         }
+    },
+    watch: {
+        resource: function(to, from) {
+            this.mapToForm()
+        }
+    },
+    mounted: function() {
+        this.mapToForm()
     }
 }
 </script>

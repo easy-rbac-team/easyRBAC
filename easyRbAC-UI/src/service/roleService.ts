@@ -1,6 +1,6 @@
 import {Config} from "./baseConfig"
 import {PagingList} from './commons'
-import axios from 'axios'
+import axios from '../myAxios'
 
 interface Role{
     id:string,

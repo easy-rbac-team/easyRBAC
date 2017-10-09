@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../myAxios'
 import {PagingList} from './commons';
 import {Config} from './baseConfig'
 

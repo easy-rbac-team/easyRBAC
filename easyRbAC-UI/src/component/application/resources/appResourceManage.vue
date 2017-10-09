@@ -5,14 +5,13 @@ el-row
             template(scope="props")
                 | {{props.item.appName}}
     el-col(:span="8")        
-        resource-tree(:appId="selectAppId",:appName="selectAppName")    
+        resource-tree(:appId="selectAppId",:appName="selectAppName")
 </template>
 
 <script>
 import {appService} from '../../../service/appService'
 import {resourceService} from '../../../service/resourceService'
 import resourceTree from './resourceTree'
-import addResource from './addResource'
 import searchLst from '../../commons/searchLst'
 
 export default {
@@ -65,8 +64,7 @@ export default {
     },
     components: {        
         resourceTree,
-        addResource,
-        searchLst
+        searchLst       
     }
 }
 </script>

@@ -75,8 +75,6 @@ namespace EasyRbac.Application.Resources
             return this._resourceRepository.UpdateAsync(
                 () => new AppResourceEntity
                 {
-                    Id = Resource.Id,
-                    ApplicationId = Resource.ApplicationId,
                     Describe = Resource.Describe,
                     IconUrl = Resource.IconUrl,
                     Parameters = Resource.Parameters,

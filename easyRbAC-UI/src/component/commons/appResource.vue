@@ -9,9 +9,9 @@
                 :props="defaultProps",
                 node-key="id",show-checkbox,default-expand-all,
                 :check-strictly="true",ref="tree",@node-click="")
-        .buttons
-        el-button(type="success",@click="saveHandler") 保存
-        el-button(@click="reset") 还原
+        .buttons(v-if="!readOnly")
+            el-button(type="success",@click="saveHandler") 保存
+            el-button(@click="reset") 还原
 </template>
 
 <script>
@@ -27,6 +27,10 @@ export default {
         },
         disabledKeys: {
             type: Array
+        },
+        readOnly:{
+            type:Boolean,
+            default:false
         }
     },
     data() {
@@ -50,6 +54,9 @@ export default {
                 return;
             }
             let resourceTree = await resourceService.getAppResource(this.selectedAppId);
+            if(this.readOnly){
+                resourceService.ergodicTree(resourceTree,x=>x.disabled = true);
+            }
             this.resourceTree = resourceTree;
         },
         itemClickHandler(arg) {
@@ -58,16 +65,14 @@ export default {
             this.getResourceTree();
             this.$emit("appSelect", arg)
         },
-        setDisableKeys() {
-            
+        setDisableKeys() {            
             let disableKeys = this.disabledKeys;
             resourceService.ergodicTree(
                 this.resourceTree,
                 x => x.disabled = disableKeys.some(key => key == x.id))
             this.$set(this,"resourceTree",this.resourceTree)
         },
-        setCheckedKeys() {
-            
+        setCheckedKeys() {            
             this.$refs.tree.setCheckedKeys(this.checkedKeys);
         },
         saveHandler() {
@@ -98,6 +103,7 @@ export default {
 }
 
 .tree-container {
+    
     margin-top: 10px;
 }
 </style>

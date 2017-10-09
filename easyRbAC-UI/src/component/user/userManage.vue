@@ -16,7 +16,7 @@
                         el-button(icon="setting",size="mini",type="primary",@click="doChangePwd(u.id)")
                         el-button(icon="information",size="mini",type="info",@click="showUserInfo(u)")
             el-pagination(small,layout="prev, pager, next",:total="page.totalCount",:page-size="page.pageSize")
-    el-col(:span="8")
+    el-col(:span="18")
         add-page(v-if="showStatus.showAddUser",v-on:addedUserFinish="addedUserHandle")
         change-pwd(v-if="showStatus.showChangePwd",:userId="selectUserId",@closeChangePwd="closeChangePwdHandler")
         edit-user(v-if="showStatus.editUser",:userId="selectUserId",@close="closeChangePwdHandler")

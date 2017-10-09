@@ -4422,6 +4422,10 @@ void-elements@^2.0.1:
   version "2.0.1"
   resolved "http://registry.npm.taobao.org/void-elements/download/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
 
+vue-axios@^2.0.2:
+  version "2.0.2"
+  resolved "http://registry.npm.taobao.org/vue-axios/download/vue-axios-2.0.2.tgz#0fe5a69f1edb09a1cd6c4a7f88c74d2fb7fe1778"
+
 vue-clipboard2@0.0.6:
   version "0.0.6"
   resolved "http://registry.npm.taobao.org/vue-clipboard2/download/vue-clipboard2-0.0.6.tgz#2cae4535efa1a5b873c87c8e5453220fb96d2a71"

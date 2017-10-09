@@ -2,10 +2,10 @@
       div.form-border
         el-form(ref='form', :model='form',:rules="rules", label-width='80px')
             el-form-item(label='角色名',prop="roleName")
-                el-input(v-model='form.roleName')         
+                el-input(v-model='form.roleName',:disabled="readOnly")         
             el-form-item(label="描述",prop="descript")
-                el-input(v-model="form.descript",type="textarea")   
-            el-form-item
+                el-input(v-model="form.descript",type="textarea",:disabled="readOnly")   
+            el-form-item(v-if="!readOnly")
                 el-button(type='primary', @click='onSubmit') 立即修改
                 el-button(@click="cancel") 取消
 </template>
@@ -14,7 +14,16 @@
 import { roleService } from '../../service/roleService.ts'
 
 export default {
-    props: ["roleId"],
+    props: {
+        roleId:{
+            type:String,
+            required:true
+        },
+        readOnly:{
+            type:Boolean,
+            default:false
+        }
+    },
     data() {
         return {
             form: {

@@ -13,11 +13,12 @@
                     el-button-group.group_location
                         el-button(icon="delete",size="mini",type="danger",@click="deleteRole(index,r.id)")
                         el-button(icon="edit",size="mini",type="warning",@click="doShowEditRole(r.id)")
-                        el-button(icon="information",size="mini",type="info")
+                        el-button(icon="information",size="mini",type="info",@click="showRoleInfo(r.id)")
             el-pagination(small,layout="prev, pager, next",:total="page.totalCount",:page-size="page.pageSize")
     el-col(:span="8")
-        add-role(v-if="showAddRole",v-on:showFinish="showFinish")
-        edit-role(v-if="showEditRole",v-on:editFinish="showFinish",:roleId = "editUserId")        
+        add-role(v-if="showStatus.addRole",v-on:showFinish="showFinish")
+        edit-role(v-if="showStatus.editRole",v-on:editFinish="showFinish",:roleId = "editUserId")
+        edit-role(v-if="showStatus.roleInfo",v-on:editFinish="showFinish",:roleId = "editUserId",:readOnly="true")        
 </template>
 
 <script>
@@ -30,11 +31,14 @@ export default {
         return {
             roleName: "",
             roles: [],
-            page: {},
-            showAddRole: false,
-            pageIndex: 1,
-            showEditRole: false,
-            editUserId: ""
+            page: {},            
+            pageIndex: 1,            
+            editUserId: "",
+            showStatus:{
+                addRole:false,
+                editRole:false,
+                roleInfo:false
+            }
         }
     },
     methods: {
@@ -61,8 +65,14 @@ export default {
         editGroup(index, id) {
 
         },
+        closeAll(){
+            for (let key of Object.keys(this.showStatus)) {
+                this.showStatus[key] = false
+            }
+        },
         addRoleHandler() {
-            this.showAddRole = !this.showAddRole;
+            this.closeAll()
+            this.showStatus.addRole=true;
         },
         iconClickHandler() {
             this.getRoles(this.roleName, this.pageIndex)
@@ -71,12 +81,17 @@ export default {
             if (refresh) {
                 this.getRoles(this.roleName, this.pageIndex)
             }
-            this.showAddRole = false;
-            this.showEditRole = false;
+            this.closeAll()
         },
         doShowEditRole(roleId) {
-            this.showEditRole = true;
+            this.closeAll()            
             this.editUserId = roleId;
+            this.showStatus.editRole = true;            
+        },
+        showRoleInfo(roleId){
+            this.closeAll();
+            this.editUserId = roleId;
+            this.showStatus.roleInfo = true;
         }
     },
     mounted: function() {

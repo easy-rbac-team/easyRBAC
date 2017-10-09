@@ -84,7 +84,7 @@ export default {
 }
 
 .box-card {
-    width: 300px;
+    width: 90%;
     margin: 10px 10px;
 }
 .page-container{

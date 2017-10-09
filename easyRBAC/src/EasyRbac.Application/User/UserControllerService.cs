@@ -51,10 +51,10 @@ namespace EasyRbac.Application.User
             {
                 throw new EasyRbacException("用户ID错误");
             }
-            if (!user.PasswordIsMatch(change.Password, _encryptHelper))
-            {
-                throw new EasyRbacException("旧密码错误");
-            }
+            //if (!user.PasswordIsMatch(change.Password, _encryptHelper))
+            //{
+            //    throw new EasyRbacException("旧密码错误");
+            //}
 
             var salt = this._encryptHelper.GenerateSalt();
             var encryptedPwd = this._encryptHelper.Sha256Encrypt($"{change.Password}-{salt}");

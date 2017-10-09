@@ -10,6 +10,7 @@ import treeMenu from './component/treeMenu.vue'
 import VueClipboard from 'vue-clipboard2'
 import searchLst from './component/commons/searchLst'
 import appResource from './component/commons/appResource'
+
 //
 //                            _ooOoo_
 //                           o8888888o
@@ -46,19 +47,4 @@ let v = new Vue({
     router: routerCfg,
     el: '#app',
     render: h => h(App)
-});
-
-
-axios.defaults.withCredentials = true;
-
-axios.interceptors.response.use(function(response) {
-
-    return response;
-}, function(error) {
-    debugger;
-    console.log('error response!!!!!!!!!!')
-
-    v.$message.error('服务器发生错误:' + error.message);
-    // Do something with response error
-    return Promise.reject(error);
 });

@@ -24,16 +24,16 @@ namespace EasyRbac.Web.Controllers
             return this._resourceService.AddResourceAsync(resource, parentId);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public Task DisableResource(string id)
         {
             return this._resourceService.DisableResourceAsync(id);
         }
 
         [HttpPut("{id}")]
-        public Task EditResource(string id,[FromBody] AppResourceDto Resource)
+        public Task EditResource(string id,[FromBody] AppResourceDto resource)
         {
-            return this._resourceService.EditAsync(id, Resource);
+            return this._resourceService.EditAsync(id, resource);
         }
 
         [HttpGet("{id}")]

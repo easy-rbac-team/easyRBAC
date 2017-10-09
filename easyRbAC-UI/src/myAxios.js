@@ -7,8 +7,7 @@ const customAxios = axios.create({
     //     // Cookie: 'MOZARTSESSIONID=4cfd8b02-52a0-4520-8777-f11c5fc05a44',
     // },
     timeout: 15000,
-    validateStatus: () => true,
-    withCredentials: true,
+    withCredentials: true
 });
 
 axios.interceptors.response.use(function(response) {

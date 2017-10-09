@@ -126,7 +126,7 @@ namespace EasyRbac.Web
             app.UseCors(
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:*")
+                    builder.WithOrigins("http://localhost:*","http://*.uliian:*")
                         .AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowCredentials()

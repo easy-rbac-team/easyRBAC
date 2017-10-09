@@ -14,7 +14,11 @@ namespace EasyRbac.Web.Controllers.SsoApi
         [HttpGet()]
         public string LoginCheck(string token,string expireIn,string callback)
         {
-            this.Response.Cookies.Append("token",token,new CookieOptions(){Expires = new DateTimeOffset(DateTime.Now.AddSeconds(int.Parse(expireIn)))});
+            this.Response.Cookies.Append("token",token,new CookieOptions()
+            {
+                SameSite = SameSiteMode.None,
+                Expires = new DateTimeOffset(DateTime.Now.AddSeconds(int.Parse(expireIn))),
+            });
             
             return string.Format("{0}({1})", callback, "{success:true}");
         }

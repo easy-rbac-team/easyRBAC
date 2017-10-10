@@ -77,8 +77,6 @@ namespace EasyRbac.Web
                         "token",
                         builder =>
                         {
-                            builder.RequireAuthenticatedUser();
-                            
                             builder.RequireAssertion(ctx =>
                             {
                                 var identity = ctx.User.Identity as ClaimsIdentity;

@@ -23,7 +23,7 @@ customAxios.interceptors.response.use(function(response) {
 }, function(error) {
     debugger;
     if (error.response == undefined) {
-        showErro('无法连接服务器')
+        showErro('服务器连接超时')
         return;
     }
     let code = error.response.status;

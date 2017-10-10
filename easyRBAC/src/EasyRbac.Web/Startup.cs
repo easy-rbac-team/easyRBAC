@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Autofac;
 using EasyRbac.Application.User;
@@ -77,7 +78,12 @@ namespace EasyRbac.Web
                         builder =>
                         {
                             builder.RequireAuthenticatedUser();
-                            builder.RequireAssertion(ctx => ctx.User.Identity.Name != null);
+                            
+                            builder.RequireAssertion(ctx =>
+                            {
+                                var identity = ctx.User.Identity as ClaimsIdentity;
+                                return identity?.Actor?.Name != null;
+                            });
                             builder.Build();
                         });
                     opt.DefaultPolicy = opt.GetPolicy("token");

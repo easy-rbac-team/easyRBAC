@@ -124,6 +124,7 @@ namespace EasyRbac.Application.Login
             IEnumerable<Claim> claims = appResourceDtos.Select(x => new Claim("token", x.ResourceCode));
             var claimsIdentity = new ClaimsIdentity(claims);
             claimsIdentity.Actor = new GenericIdentity(userId.ToString(),"user");
+            
             return claimsIdentity;
         }
     }

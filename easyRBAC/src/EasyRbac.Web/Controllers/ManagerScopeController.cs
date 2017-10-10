@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using EasyRbac.Application.UserManageScope;
 using EasyRbac.Dto.AppResource;
@@ -38,16 +39,17 @@ namespace EasyRbac.Web.Controllers
         [HttpPut("userResource/{userId}/{appId}")]
         public Task ChangeUserResource(long userId,long appId,[FromBody]List<string> ids)
         {
-            //TODO : 修改为授权信息里获取
-            var operatorId = 1202969671880410122;//mock
+            var identity = this.User.Identity as ClaimsIdentity;
+            var operatorId = long.Parse(identity.Actor.Name);
             return this._managerScopeService.ChangeUserResource(operatorId, userId, appId, ids);
         }
 
         [HttpGet("manage")]
+        [Authorize]
         public Task<List<AppAndResourceDto>> GetManagedResourceAndApp()
         {
-            //TODO : 修改为授权信息里获取
-            var userId = 1202969671880410122;//mock
+            var identity = this.User.Identity as ClaimsIdentity;
+            var userId = long.Parse(identity.Actor.Name);
             var result = this._managerScopeService.GetUserManagedResourceAsync(userId);
             return result;
         }

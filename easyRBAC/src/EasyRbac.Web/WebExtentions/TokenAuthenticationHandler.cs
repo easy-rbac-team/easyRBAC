@@ -67,9 +67,12 @@ namespace EasyRbac.Web.WebExtentions
         {
             var loginService = this.context.RequestServices.GetService<ILoginService>();
             var tokenEntity = await loginService.GetEntityByTokenAsync(token);
+            if (tokenEntity == null)
+            {
+                return AuthenticateResult.Fail("token error");
+            }
             if (tokenEntity.IsExpire())
             {
-
                 return AuthenticateResult.Fail("token expired");
             }
 

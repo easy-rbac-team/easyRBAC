@@ -222,53 +222,32 @@
 
         let ssoApiBaseUrl = "http://localhost:8813/sso/UserLogin"
 
-        function login() {
-            let loginUrl = ssoApiBaseUrl
+        async function login() {
             let appCode = getParameterByName("appCode");
-            let userName = document.getElementById("userName").value;
-            let password = document.getElementById("pwd").value;
 
-            fetch(loginUrl, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                model: "cors",
-                body: JSON.stringify({
-                    userName,
-                    password
-                }),
-            }).then(response => {
+            let tokenResult = getTokenInfo();
+            if (tokenResult == null) {
+                tokenResult = await getToken()
+                if (tokenResult == null || tokenResult == undefined) {
+                    return
+                }
+            }
+
+            fetch(`${ssoApiBaseUrl}/callbackUrl?appCode=${appCode}`).then(response => {
                 if (response.ok) {
-                    response.json().then(result => {
-                        if (appCode && appCode.length > 0) {
-                            document.querySelector(".msg").innerHTML = "登录成功，等待验证"
-                            fetch(`${ssoApiBaseUrl}/callbackUrl?appCode=${appCode}`).then(response => {
-                                if (response.ok) {
-                                    debugger;
-                                    response.text().then(appCallbackUrl => {
-                                        let callBackurl = `${appCallbackUrl}?token=${result.token}&expireIn=${result.expireIn}&callback=?`
-                                        $.getJSON(callBackurl).then(rep => {
-                                            if (rep.success) {
-                                                window.location.href = "http://localhost:8010"
-                                            } else {
-                                                document.querySelector(".msg").innerHTML = "登录失败，请联系管理员"
-                                            }
-                                        })
-                                    })
-                                } else {
-                                    document.querySelector(".msg").innerHTML = "APPCode错误"
-                                }
-                            })
-
-                        } else {
-                            document.querySelector(".msg").innerHTML = "登录成功"
-                        }
+                    debugger;
+                    response.text().then(appCallbackUrl => {
+                        let callBackurl = `${appCallbackUrl}?token=${tokenResult.token}&callback=?`
+                        $.getJSON(callBackurl).then(rep => {
+                            if (rep.success) {
+                                window.location.href = "http://localhost:8010"
+                            } else {
+                                document.querySelector(".msg").innerHTML = "登录失败，请联系管理员"
+                            }
+                        })
                     })
                 } else {
-                    response.json().then(result => {
-                        alert(result.message)
-                    })
+                    document.querySelector(".msg").innerHTML = "APPCode错误"
                 }
             })
         }
@@ -284,14 +263,54 @@
         }
 
         function saveTokenInfo(loginResult) {
-            let expireIn = result.expireIn;
+            let expireIn = loginResult.expireIn;
             let now = new Date().valueOf();
             let expireOn = now + expireIn
-            let tokenObj = Json.stringify({
-                token: result.token,
+            let tokenObj = JSON.stringify({
+                token: loginResult.token,
                 expireOn: expireOn
             });
             sessionStorage.setItem("token", tokenObj);
+        }
+
+        function getTokenInfo() {
+            let tokenJson = sessionStorage.getItem("token");
+            if (tokenJson == null) {
+                return null;
+            }
+            tokenResult = JSON.parse(tokenJson);
+            if (tokenJson.expireOn > new Date()) {
+                return tokenResult;
+            } else {
+                sessionStorage.removeItem("token")
+            }
+            return null;
+        }
+
+        async function getToken() {
+            let loginUrl = ssoApiBaseUrl;
+            let userName = document.getElementById("userName").value;
+            let password = document.getElementById("pwd").value;
+            let response = await fetch(loginUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                model: "cors",
+                body: JSON.stringify({
+                    userName,
+                    password
+                }),
+            })
+
+            let result = await response.json()
+            if (response.ok) {
+                document.querySelector(".msg").innerHTML = "登录成功，等待验证"
+                saveTokenInfo(result);
+                return result;
+            } else {
+                alert(result.message)
+            }
         }
     </script>
 </body>

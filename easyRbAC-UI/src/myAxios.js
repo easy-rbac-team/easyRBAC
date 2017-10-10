@@ -1,4 +1,6 @@
 import axios from 'axios';
+import Vue from 'vue';
+import Message from 'element-ui'
 
 const customAxios = axios.create({
     // baseURL: '/api',
@@ -10,11 +12,34 @@ const customAxios = axios.create({
     withCredentials: true
 });
 
-axios.interceptors.response.use(function(response) {
+function showErro(msg) {
+    Message.Message.error(msg);
+}
+
+customAxios.interceptors.response.use(function(response) {
     return response;
 }, function(error) {
-    console.log('error response!!!!!!!!!!')
-    v.$message.error('服务器发生错误:' + error.message);
+    debugger;
+    if (error.response == undefined) {
+        showErro('无法连接服务器')
+        return;
+    }
+    let code = error.response.status;
+
+    if (code >= 500) {
+        let data = error.response.data;
+        showErro(`服务器发生错误：${data.message}`)
+    }
+
+    if (code === 401) {
+        showErro(`未授权`)
+    }
+
+    if (code > 401 && code < 500) {
+        let data = error.response.data;
+        showErro(`输入错误`)
+    }
+
     // Do something with response error
     return Promise.reject(error);
 });

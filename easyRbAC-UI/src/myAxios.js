@@ -16,6 +16,8 @@ function showErro(msg) {
     Message.Message.error(msg);
 }
 
+const ssoUrl = "http://sso.uliian/sso.html?appCode=easyRBAC&from=";
+
 customAxios.interceptors.response.use(function(response) {
     return response;
 }, function(error) {
@@ -32,7 +34,8 @@ customAxios.interceptors.response.use(function(response) {
     }
 
     if (code === 401) {
-        showErro(`未授权`)
+        //goTo(ssoUrl);
+        window.location.href = ssoUrl + window.location.href;
     }
 
     if (code > 401 && code < 500) {

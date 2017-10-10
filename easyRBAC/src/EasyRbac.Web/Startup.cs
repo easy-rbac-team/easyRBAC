@@ -82,7 +82,8 @@ namespace EasyRbac.Web
                             builder.RequireAssertion(ctx =>
                             {
                                 var identity = ctx.User.Identity as ClaimsIdentity;
-                                return identity?.Actor?.Name != null;
+                                var result = identity?.Actor?.Name != null;
+                                return result;
                             });
                             builder.Build();
                         });

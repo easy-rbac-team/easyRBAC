@@ -10,6 +10,7 @@ import treeMenu from './component/treeMenu.vue'
 import VueClipboard from 'vue-clipboard2'
 import searchLst from './component/commons/searchLst'
 import appResource from './component/commons/appResource'
+import './assets/iconfont.css';
 
 //
 //                            _ooOoo_

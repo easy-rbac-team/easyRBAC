@@ -19,8 +19,8 @@ export let menuService = {
             x.name = x.resourceName;
             x.path = x.url;
             x.children = x.children
-        })
-        return resources;
+        })        
+        return resources[0].children;       
         // let result = [
         //     {
         //         id:"1",

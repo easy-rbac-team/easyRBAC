@@ -115,8 +115,21 @@ export default {
             }
         },
         renderContent(h, { node, data, store }) {
-            return (
-                <span>
+            let menuIco,resourceIco,publicIco;
+            if((data.resourceType&2)==2){
+                menuIco = <el-tag type="success"><i class="iconfont icon-menu"></i></el-tag>
+            }
+            if((data.resourceType&1)==1){
+                resourceIco = <el-tag type="primary"><i class="iconfont icon-zhihuiyuanqu-yuncang-wuliuerjiyemiantubiao-"></i></el-tag>
+            }
+            if((data.resourceType&4)===4){
+                publicIco = <el-tag type="danger"><i class="iconfont icon-anonymous"></i></el-tag>
+            }
+            return (                
+                <span>                                    
+                    {menuIco}
+                    {resourceIco}
+                    {publicIco}
                     <span>
                         <span>{node.label}</span>
                     </span>

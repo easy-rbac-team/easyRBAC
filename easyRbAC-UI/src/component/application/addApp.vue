@@ -7,8 +7,14 @@ div.form-border
                 el-input(v-model='form.appCode')     
             el-form-item(label="启用SSO",prop="enableSSO")
                 el-checkbox(v-model="form.enableSSO",style="float:left")  
-            el-form-item(v-show="form.enableSSO",label='回调地址',prop="callbackUrl")
-                el-input(v-model='form.callbackUrl')     
+            el-form-item(v-show="form.enableSSO",label='回调配置',prop="callbackUrl")
+                el-col(:span="11")
+                    el-select(v-model='form.callbackType', placeholder='SSO回调方式')
+                        el-option(label='jsonp', value="1")
+                        el-option(label='CORS', value="2")
+                        el-option(label='Redirect', value="4")
+                el-col(:span="11")
+                    el-input(v-model='form.callbackUrl')                
             el-form-item(label="描述",prop="descript")
                 el-input(v-model="form.descript",type="textarea")   
             el-form-item
@@ -27,7 +33,8 @@ export default {
                 appCode:"",
                 descript:"",
                 enableSSO:false,
-                callbackUrl:""
+                callbackUrl:"",
+                callbackType:""
             },
             rules: {
                 appName: [

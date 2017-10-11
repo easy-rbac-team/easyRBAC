@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using EasyRbac.Domain.Enums;
 using SQLinq;
 
 namespace EasyRbac.Domain.Entity
@@ -22,6 +23,8 @@ namespace EasyRbac.Domain.Entity
         public string CallbackUrl { get; set; }
 
         public string AppScret { get; set; }
+
+        public CallbackType CallbackType { get; set; }
 
         [SQLinqColumn(Ignore = true)]
         public List<AppResourceEntity> AppResouce { get; set; }

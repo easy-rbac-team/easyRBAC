@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using EasyRbac.Domain.Enums;
 
 namespace EasyRbac.Dto.Application
 {
@@ -18,6 +19,8 @@ namespace EasyRbac.Dto.Application
         public string Descript { get; set; }
 
         public string CallbackUrl { get; set; }
+
+        public CallbackType CallbackType { get; set; }
 
         //public string AppScret { get; set; }
     }

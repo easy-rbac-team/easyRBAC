@@ -2,6 +2,12 @@ import axios from '../myAxios'
 import {PagingList} from './commons';
 import {Config} from './baseConfig'
 
+enum CallbackType{
+    jsonp=1,
+    cors=2,
+    redirect=4
+}
+
 interface Application{
     id:string,
     appName:string,
@@ -9,7 +15,8 @@ interface Application{
     enable:boolean,
     createTime:Date,
     descript:string,
-    callbackUrl:string
+    callbackUrl:string,
+    callbackType:CallbackType
 }
 
 export let appService={

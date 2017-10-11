@@ -1,0 +1,13 @@
+language: csharp
+mono: none
+dotnet: 2.0.0
+dist: trusty
+cache: ccache
+script:
+- cd easyRBAC
+- dotnet restore
+- dotnet build -c Release
+- cd ..
+- cd easyRbAC-UI
+- npm install
+- npm run build

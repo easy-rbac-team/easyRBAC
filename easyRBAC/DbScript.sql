@@ -13,7 +13,7 @@
   UNIQUE INDEX `app_resouce` (`applicationId` ASC, `resourceCode` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
-COLLATE = utf8mb4_bin；
+COLLATE = utf8_bin
 
 CREATE TABLE IF NOT EXISTS `easyrbac`.`app_resource_rel` (
   `id` BIGINT(20) NOT NULL,
@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS `easyrbac`.`application` (
   `Descript` VARCHAR(200) NULL DEFAULT NULL,
   `CallbackUrl` VARCHAR(200) NULL DEFAULT NULL,
   `AppScret` VARCHAR(100) NULL DEFAULT NULL,
+  `CallbackType` SMALLINT(6) NOT NULL DEFAULT '1',
   PRIMARY KEY (`Id`),
   UNIQUE INDEX `AppCode_UNIQUE` (`AppCode` ASC),
   UNIQUE INDEX `AppName_UNIQUE` (`AppName` ASC))
@@ -44,6 +45,15 @@ CREATE TABLE IF NOT EXISTS `easyrbac`.`id_generate` (
   `parentId` VARCHAR(45) NOT NULL,
   `subId` INT(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`parentId`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+
+CREATE TABLE IF NOT EXISTS `easyrbac`.`login_token` (
+  `token` VARCHAR(100) NOT NULL,
+  `userId` BIGINT(20) NOT NULL,
+  `createOn` DATETIME NOT NULL,
+  `expireIn` INT(11) NOT NULL,
+  PRIMARY KEY (`token`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 
@@ -95,25 +105,18 @@ CREATE TABLE IF NOT EXISTS `easyrbac`.`user_manage_resource_scope` (
   `userId` BIGINT(20) NOT NULL,
   `resourceId` VARCHAR(200) NOT NULL,
   `appId` BIGINT(20) NOT NULL,
-  `includeChildren` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `user_resource_scop_ix` (`userId` ASC, `resourceId` ASC))
+  UNIQUE INDEX `user_resource_scop_ix` (`userId` ASC, `resourceId` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 
-CREATE TABLE IF NOT EXISTS `easyrbac`.`user_manage_resource_scope` (
+CREATE TABLE IF NOT EXISTS `easyrbac`.`user_resource_rel` (
   `id` BIGINT(20) NOT NULL,
   `userId` BIGINT(20) NOT NULL,
   `resourceId` VARCHAR(200) NOT NULL,
   `appId` BIGINT(20) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `user_resource_scop_ix` (`userId` ASC, `appId` ASC))
+  UNIQUE INDEX `ix_user_resource` (`userId` ASC, `resourceId` ASC),
+  INDEX `ix_user_app` (`userId` ASC, `appId` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-
-CREATE TABLE `easyrbac`.`login_token` (
-  `token` VARCHAR(100) NOT NULL,
-  `userId` BIGINT NOT NULL,
-  `createOn` DATETIME NOT NULL,
-  `expireIn` INT NOT NULL,
-  PRIMARY KEY (`token`));

@@ -32,8 +32,8 @@ export default {
         }
     },
     methods: {
-        getMenu() {
-            let menus = menuService.getMenus();
+        async getMenu() {
+            let menus = await menuService.getMenus();
             this.menus = menus
         }
     },

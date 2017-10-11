@@ -5,7 +5,7 @@ using EasyRbac.Dto.User;
 
 namespace EasyRbac.Application.User
 {
-    public interface IUserControllerService
+    public interface IUserService
     {
         Task AddUser(CreateUserDto user);
 

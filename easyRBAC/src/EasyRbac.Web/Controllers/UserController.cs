@@ -15,9 +15,9 @@ namespace EasyRbac.Web.Controllers
     [Route("[controller]")]
     public class UserController : Controller
     {
-        private IUserControllerService _userService;
+        private IUserService _userService;
 
-        public UserController(IUserControllerService userService)
+        public UserController(IUserService userService)
         {
             this._userService = userService;
         }

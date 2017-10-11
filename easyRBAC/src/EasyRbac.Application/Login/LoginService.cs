@@ -42,9 +42,10 @@ namespace EasyRbac.Application.Login
             this._appOptions = appOptions;
         }
 
-        public Task<LoginTokenEntity> GetEntityByTokenAsync(string token)
+        public async Task<LoginTokenEntity> GetEntityByTokenAsync(string token)
         {
-            return this._loginTokenRepository.QueryFirstAsync(x => x.Token == token);
+            var result = await this._loginTokenRepository.QueryFirstAsync(x => x.Token == token);
+            return result;
         }
 
         public async Task<UserTokenDto> UserLoginAsync(UserLoginDto login)
@@ -113,8 +114,8 @@ namespace EasyRbac.Application.Login
 
         public async Task<List<AppResourceDto>> GetUserAppResourcesAsync(long userId, long appId)
         {
-            var resources = await this._userResourceDomainService.GetUserAssociationResourcesAsync(userId, appId);
-            return this._mapper.Map<List<AppResourceDto>>(resources);
+            List<AppResourceDto> resources = await this._userResourceDomainService.GetUserAllAppResourcesAsync(userId, appId);
+            return resources;
         }
 
         public async Task<ClaimsIdentity> GetUserClaimsIdentity(long userId, string appCode)

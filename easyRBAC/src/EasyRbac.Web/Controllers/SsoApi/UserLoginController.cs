@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using EasyRbac.Application.Login;
+using EasyRbac.DomainService;
 using EasyRbac.Dto.AppResource;
 using EasyRbac.Dto.UserLogin;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +11,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace EasyRbac.Web.Controllers.SsoApi
 {
     [Route("/sso/[controller]")]
-    public class UserLoginController
+    public class UserLoginController : Controller
     {
         private ILoginService _loginService;
-
+        
         public UserLoginController(ILoginService loginService)
         {
             this._loginService = loginService;
@@ -28,11 +30,6 @@ namespace EasyRbac.Web.Controllers.SsoApi
         public Task<string> GetAppCallback(string appCode)
         {
             return this._loginService.GetAppLoginCallback(appCode);
-        }
-
-        public Task<List<AppResourceDto>> GetUserResources(string userToken)
-        {
-            throw new NotImplementedException();
         }
     }
 }

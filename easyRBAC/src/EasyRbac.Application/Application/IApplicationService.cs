@@ -13,6 +13,9 @@ namespace EasyRbac.Application.Application
         Task EditAsync(long id, ApplicationInfoDto value);
         Task<ApplicationInfoDto> AddAppAsync(ApplicationInfoDto app);
         Task<ApplicationInfoDto> GetOneAsync(long id);
+
+        Task<ApplicationInfoDto> GetOneAsync(string code);
+
         Task<PagingList<ApplicationInfoDto>> SearchAppAsync(string appName, int pageIndex, int pageSize);
 
         Task<string> GetAppScretAsync(long appId);

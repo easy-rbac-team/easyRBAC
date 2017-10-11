@@ -103,7 +103,7 @@ namespace EasyRbac.Web
         {
             var sss = Assembly.Load("EasyRbac.DomainService");
 
-            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(UserControllerService))).AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(UserService))).AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
             builder.RegisterAssemblyTypes(Assembly.Load("EasyRbac.Reponsitory"), sss).AsImplementedInterfaces();
             var connStr = this.Configuration.GetConnectionString("easyRBAc");

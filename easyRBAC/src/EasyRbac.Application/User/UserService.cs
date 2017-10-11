@@ -15,7 +15,7 @@ using EasyRbac.Utils;
 
 namespace EasyRbac.Application.User
 {
-    public class UserControllerService : IUserControllerService
+    public class UserService : IUserService
     {
         private readonly IIdGenerator _idGenerate;
         private readonly IEncryptHelper _encryptHelper;
@@ -24,7 +24,7 @@ namespace EasyRbac.Application.User
         private IMapper _mapper;
 
         /// <summary>Initializes a new instance of the <see cref="T:System.Object"></see> class.</summary>
-        public UserControllerService(IIdGenerator idGenerate, IEncryptHelper encryptHelper, IRepository<UserEntity> userRepository, IMapper mapper, IUserResourceDomainService userResourceDomainService)
+        public UserService(IIdGenerator idGenerate, IEncryptHelper encryptHelper, IRepository<UserEntity> userRepository, IMapper mapper, IUserResourceDomainService userResourceDomainService)
         {
             this._idGenerate = idGenerate;
             this._encryptHelper = encryptHelper;

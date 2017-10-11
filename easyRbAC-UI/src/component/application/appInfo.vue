@@ -28,6 +28,12 @@
         div.el-form-item__content
             span 
                 | {{appData.callbackUrl}}
+    .el-form-item(v-if="appData.callbackUrl!==null&&appData.callbackUrl!==''")
+        label.el-form-item__label
+            | 回调方式
+        div.el-form-item__content
+            span 
+                | {{callbackTypeStr}}
     .el-form-item
         label.el-form-item__label
             | APP描述
@@ -48,10 +54,25 @@ export default {
                 appCode: "",
                 createTime: null,
                 descript: "",
-                callbackUrl: ""
+                callbackUrl: "",
+                callbackType:""
             },
             showAppSecuret: false,
             appSecuret: ""
+        }
+    },
+    computed:{
+        callbackTypeStr:function(){
+            switch(this.appData.callbackType){
+                case 0:
+                    return 'Null';
+                case 1:
+                    return 'jsonp';
+                case 2:
+                    return 'CORS';
+                case 4: 
+                    return 'Redirect'
+            }
         }
     },
     methods: {

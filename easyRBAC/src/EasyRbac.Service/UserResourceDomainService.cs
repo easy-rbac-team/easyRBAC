@@ -66,7 +66,7 @@ namespace EasyRbac.DomainService
             var roleResources = await this.GetUserAssociationRolseResourcesAsync(userId, appId);
             userResources.AddRange(roleResources);
             var ids = userResources.Distinct();
-            var results = this._resourceRepository.QueryAsync(x => ids.Contains(x.Id) && x.Enable);
+            var results = await this._resourceRepository.QueryAsync(x => ids.Contains(x.Id) && x.Enable);
             return this._mapper.Map<List<AppResourceDto>>(results);
         }
 

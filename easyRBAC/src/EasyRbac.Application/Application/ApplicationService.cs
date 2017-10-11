@@ -63,6 +63,12 @@ namespace EasyRbac.Application.Application
                 .ContinueWith(x=>this._mapper.Map<ApplicationInfoDto>(x.Result));
         }
 
+        public Task<ApplicationInfoDto> GetOneAsync(string code)
+        {
+            return this._appRepository.QueryFirstAsync(x => x.AppCode == code)
+                .ContinueWith(x => this._mapper.Map<ApplicationInfoDto>(x.Result));
+        }
+
         public async Task<PagingList<ApplicationInfoDto>> SearchAppAsync(string appName, int pageIndex, int pageSize)
         {
             PagingList<ApplicationEntity> rsult = await this._appRepository.QueryByPagingAsync(x => x.Enable == true && (x.AppName.StartsWith(appName) || x.AppCode.StartsWith(appName)), x => x.Id, pageIndex, pageSize);

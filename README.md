@@ -10,6 +10,9 @@
 
 ps:当年要是有个这种小清新多美好啊~
 
+## Build Status
+[![Build Status](https://travis-ci.org/uliian/easyRBAC.svg?branch=master)](https://travis-ci.org/uliian/easyRBAC)
+
 ***
 ## Road Map
 

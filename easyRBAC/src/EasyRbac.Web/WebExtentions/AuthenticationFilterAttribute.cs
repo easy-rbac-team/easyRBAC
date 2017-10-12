@@ -12,10 +12,10 @@ namespace EasyRbac.Web.WebExtentions
     [AttributeUsage(AttributeTargets.Class| AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
     public class ResourceTagAttribute : Attribute, IAuthorizationFilter
     {
-        public string ResourceName { get; }
+        public string[] ResourceName { get; }
 
         /// <summary>Initializes a new instance of the <see cref="T:System.Attribute"></see> class.</summary>
-        public ResourceTagAttribute(string resourceName)
+        public ResourceTagAttribute(params string[] resourceName)
         {
             this.ResourceName = resourceName;
         }

@@ -112,7 +112,7 @@ namespace EasyRbac.Application.Login
                 x => x.Token == token);
         }
 
-        public async Task<List<AppResourceDto>> GetUserAppResourcesAsync(long userId, long appId)
+        public virtual async Task<List<AppResourceDto>> GetUserAppResourcesAsync(long userId, long appId)
         {
             List<AppResourceDto> resources = await this._userResourceDomainService.GetUserAllAppResourcesAsync(userId, appId);
             return resources;

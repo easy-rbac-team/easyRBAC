@@ -70,23 +70,6 @@ namespace EasyRbac.Web
                     option.DefaultAuthenticateScheme = "token";
                     option.AddScheme<TokenAuthenticationHandler>("token", "token");
                 });
-            services.AddAuthorization(
-                opt =>
-                {
-                    opt.AddPolicy(
-                        "token",
-                        builder =>
-                        {
-                            builder.RequireAssertion(ctx =>
-                            {
-                                var identity = ctx.User.Identity as ClaimsIdentity;
-                                var result = identity?.Actor?.Name != null;
-                                return result;
-                            });
-                            builder.Build();
-                        });
-                    opt.DefaultPolicy = opt.GetPolicy("token");
-                });
 
             IConfiguration appConfiguration = this.Configuration.GetSection("app");
             services.Configure<AppOption>(appConfiguration);
@@ -137,7 +120,6 @@ namespace EasyRbac.Web
                         .AllowCredentials()
                         .AllowAnyMethod();
                 });
-            app.UseAuthentication();
 
             app.UseMvc();
             

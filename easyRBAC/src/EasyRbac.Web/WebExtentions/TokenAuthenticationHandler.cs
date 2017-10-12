@@ -75,7 +75,7 @@ namespace EasyRbac.Web.WebExtentions
             {
                 return AuthenticateResult.Fail("token expired");
             }
-
+            return AuthenticateResult.Fail("token expired");
             var result = await this.GetIdentityByToken(tokenEntity.UserId);
             return AuthenticateResult.Success(new AuthenticationTicket(new ClaimsPrincipal(result), "token"));
         }

@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using EasyRbac.Application.Application;
 using EasyRbac.Application.Login;
+using EasyRbac.Domain.Enums;
 using EasyRbac.Dto.AppResource;
 using EasyRbac.Dto.User;
 using EasyRbac.Utils;
@@ -62,8 +63,8 @@ namespace EasyRbac.Web.Controllers.EasyRbac
             var identity = this.User.Identity as UserIdentity;
             
             List<AppResourceDto> resource = await this._loginService.GetUserAppResourcesAsync(identity.UserId, app.Id);
-
-            var tree = resource.ToToMultiTree(x => x.Id, x => x.Id.Substring(0, x.Id.Length - 2));
+            var menus = resource.Where(x => x.ResourceType.HasFlag(ResourceType.Menu));
+            var tree = menus.ToToMultiTree(x => x.Id, x => x.Id.Substring(0, x.Id.Length - 2));
             return tree;
         }
     }

@@ -45,10 +45,10 @@ namespace EasyRbac.Web.Controllers.SsoApi
 
         private async Task<(long, long)> GetBaseInfo(string userToken)
         {
-            LoginTokenEntity userTokenEntity = await this._loginService.GetEntityByTokenAsync(userToken);
-            var identity = this.User.Identity as ClaimsIdentity;
-            var appId = long.Parse(identity.Actor.Name);
-            return (userTokenEntity.UserId,appId);
+            LoginTokenEntity userTokenEntity = await this._loginService.GetTokenEntityByTokenAsync(userToken);
+            var identity = this.User.Identity as UserIdentity;
+           
+            return (userTokenEntity.UserId,identity.UserId);
         }
     }
 }

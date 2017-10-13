@@ -11,6 +11,7 @@ using EasyRbac.DomainService;
 using EasyRbac.Dto.AppLogin;
 using EasyRbac.Dto.AppResource;
 using EasyRbac.Dto.Exceptions;
+using EasyRbac.Dto.User;
 using EasyRbac.Dto.UserLogin;
 using EasyRbac.Reponsitory.BaseRepository;
 using EasyRbac.Utils;
@@ -42,7 +43,7 @@ namespace EasyRbac.Application.Login
             this._appOptions = appOptions;
         }
 
-        public async Task<LoginTokenEntity> GetEntityByTokenAsync(string token)
+        public async Task<LoginTokenEntity> GetTokenEntityByTokenAsync(string token)
         {
             var result = await this._loginTokenRepository.QueryFirstAsync(x => x.Token == token);
             return result;
@@ -118,15 +119,15 @@ namespace EasyRbac.Application.Login
             return resources;
         }
 
-        public async Task<ClaimsIdentity> GetUserClaimsIdentity(long userId, string appCode)
+        public async Task<UserIdentity> GetUserClaimsIdentity(long userId, string appCode)
         {
             var appEntity = await this._appRepository.QueryFirstAsync(x => x.AppCode == appCode && x.Enable);
+
             List<AppResourceDto> appResourceDtos = await this.GetUserAppResourcesAsync(userId, appEntity.Id);
-            IEnumerable<Claim> claims = appResourceDtos.Select(x => new Claim("token", x.ResourceCode));
-            var claimsIdentity = new ClaimsIdentity(claims);
-            claimsIdentity.Actor = new GenericIdentity(userId.ToString(),"user");
-            
-            return claimsIdentity;
+
+            var userEntity = await this._userRepository.QueryFirstAsync(x=>x.Id == userId);
+
+            return new UserIdentity(userEntity,appResourceDtos);
         }
     }
 }

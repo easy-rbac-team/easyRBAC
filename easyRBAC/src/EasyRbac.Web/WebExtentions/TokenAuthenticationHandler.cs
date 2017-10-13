@@ -5,7 +5,9 @@ using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using EasyRbac.Application.Login;
+using EasyRbac.Domain.Entity;
 using EasyRbac.DomainService;
+using EasyRbac.Dto.User;
 using EasyRbac.Web.Options;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
@@ -66,7 +68,7 @@ namespace EasyRbac.Web.WebExtentions
         private async Task<AuthenticateResult> TokenVerify(string token)
         {
             var loginService = this.context.RequestServices.GetService<ILoginService>();
-            var tokenEntity = await loginService.GetEntityByTokenAsync(token);
+            var tokenEntity = await loginService.GetTokenEntityByTokenAsync(token);
             if (tokenEntity == null)
             {
                 return AuthenticateResult.Fail("token error");
@@ -75,15 +77,17 @@ namespace EasyRbac.Web.WebExtentions
             {
                 return AuthenticateResult.Fail("token expired");
             }
-            return AuthenticateResult.Fail("token expired");
+            //eturn AuthenticateResult.Fail("token expired");
             var result = await this.GetIdentityByToken(tokenEntity.UserId);
-            return AuthenticateResult.Success(new AuthenticationTicket(new ClaimsPrincipal(result), "token"));
+            return AuthenticateResult.Success(new AuthenticationTicket(result, "token"));
         }
 
-        private async Task<ClaimsIdentity> GetIdentityByToken(long userId)
+        private async Task<ClaimsPrincipal> GetIdentityByToken(long userId)
         {
-            var resource = await this.loginService.GetUserClaimsIdentity(userId, this.appOption.AppCode);
-            return resource;
+            UserIdentity result = await loginService.GetUserClaimsIdentity(userId, appOption.AppCode);
+
+            var principal = new EasyRbacPrincipal(result);
+            return principal;
         }
 
         /// <summary>Challenge behavior.</summary>
@@ -112,5 +116,6 @@ namespace EasyRbac.Web.WebExtentions
             this.context.Response.StatusCode = 403;
             return Task.CompletedTask;
         }
+      
     }
 }

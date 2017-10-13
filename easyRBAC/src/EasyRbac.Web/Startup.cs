@@ -67,7 +67,6 @@ namespace EasyRbac.Web
                 option =>
                 {
                     option.DefaultScheme = "token";
-                    option.DefaultAuthenticateScheme = "token";
                     option.AddScheme<TokenAuthenticationHandler>("token", "token");
                 });
 
@@ -120,7 +119,7 @@ namespace EasyRbac.Web
                         .AllowCredentials()
                         .AllowAnyMethod();
                 });
-
+            app.UseAuthentication();
             app.UseMvc();
             
         }

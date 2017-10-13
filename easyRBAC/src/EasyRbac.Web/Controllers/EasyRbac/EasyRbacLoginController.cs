@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using EasyRbac.Application.Application;
 using EasyRbac.Application.Login;
 using EasyRbac.Dto.AppResource;
+using EasyRbac.Dto.User;
 using EasyRbac.Utils;
 using EasyRbac.Web.Options;
+using EasyRbac.Web.WebExtentions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +34,7 @@ namespace EasyRbac.Web.Controllers.EasyRbac
         [HttpGet()]
         public async Task<string> LoginCheck(string token,string callback)
         {
-            var tokenResult = await this._loginService.GetEntityByTokenAsync(token);
+            var tokenResult = await this._loginService.GetTokenEntityByTokenAsync(token);
             if (tokenResult == null)
             {
                 return string.Format("{0}({1})", callback, "{\"success\":false,\"message\":\"token not exist\"}");
@@ -52,14 +54,13 @@ namespace EasyRbac.Web.Controllers.EasyRbac
         }
 
         [HttpGet("userMenu")]
-        [Authorize]
+        [ResourceTag("GetMenu")]
         public async Task<List<AppResourceDto>> GetMenus()
         {
             var app = await this._applicationService.GetOneAsync(this._appOptions.Value.AppCode);
-            var identity = this.User.Identity as ClaimsIdentity;
-            var userId = long.Parse(identity.Actor.Name);
-
-            List<AppResourceDto> resource = await this._loginService.GetUserAppResourcesAsync(userId,app.Id);
+            var identity = this.User.Identity as UserIdentity;
+            
+            List<AppResourceDto> resource = await this._loginService.GetUserAppResourcesAsync(identity.UserId, app.Id);
 
             var tree = resource.ToToMultiTree(x => x.Id, x => x.Id.Substring(0, x.Id.Length - 2));
             return tree;

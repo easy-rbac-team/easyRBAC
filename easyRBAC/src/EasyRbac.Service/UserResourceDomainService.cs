@@ -10,6 +10,8 @@ using EasyRbac.Domain.Relations;
 using EasyRbac.Dto.AppResource;
 using EasyRbac.Reponsitory.BaseRepository;
 using EasyRbac.Utils;
+using MyUtility.CollectionExtentions;
+using MyUtility.Commons.IdGenerate;
 
 namespace EasyRbac.DomainService
 {

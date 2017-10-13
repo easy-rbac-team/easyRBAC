@@ -17,6 +17,8 @@ using EasyRbac.Reponsitory.BaseRepository;
 using EasyRbac.Utils;
 using EasyRbac.Web.Options;
 using Microsoft.Extensions.Options;
+using MyUtility.Commons.Encrypt;
+using MyUtility.Commons.NumberConvert;
 
 namespace EasyRbac.Application.Login
 {

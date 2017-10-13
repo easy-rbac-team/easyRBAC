@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using EasyRbac.Utils;
+using MyUtility.Commons.Encrypt;
 using SQLinq;
 
 namespace EasyRbac.Domain.Entity

@@ -11,6 +11,8 @@ using EasyRbac.Dto;
 using EasyRbac.Dto.Role;
 using EasyRbac.Reponsitory.BaseRepository;
 using EasyRbac.Utils;
+using MyUtility.CollectionExtentions;
+using MyUtility.Commons.IdGenerate;
 
 namespace EasyRbac.Application.Role
 {

@@ -11,6 +11,8 @@ using EasyRbac.Dto.UserScope;
 using EasyRbac.Reponsitory;
 using EasyRbac.Reponsitory.BaseRepository;
 using EasyRbac.Utils;
+using MyUtility.CollectionExtentions;
+using MyUtility.Commons.IdGenerate;
 
 namespace EasyRbac.DomainService
 {

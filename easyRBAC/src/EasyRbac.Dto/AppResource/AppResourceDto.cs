@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using EasyRbac.Domain.Enums;
-using EasyRbac.Utils.Collections;
+using MyUtility.CollectionExtentions;
 using SQLinq;
 
 namespace EasyRbac.Dto.AppResource

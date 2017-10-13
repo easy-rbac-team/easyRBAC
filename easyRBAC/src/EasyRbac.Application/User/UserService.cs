@@ -12,6 +12,8 @@ using EasyRbac.Dto.Mapper;
 using EasyRbac.Dto.User;
 using EasyRbac.Reponsitory.BaseRepository;
 using EasyRbac.Utils;
+using MyUtility.Commons.Encrypt;
+using MyUtility.Commons.IdGenerate;
 
 namespace EasyRbac.Application.User
 {

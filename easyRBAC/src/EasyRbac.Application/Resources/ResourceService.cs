@@ -14,6 +14,9 @@ using EasyRbac.Dto.AppResource;
 using EasyRbac.Reponsitory.BaseRepository;
 using EasyRbac.Reponsitory.Helper;
 using EasyRbac.Utils;
+using MyUtility.CollectionExtentions;
+using MyUtility.Commons.IdGenerate;
+using MyUtility.Commons.NumberConvert;
 
 namespace EasyRbac.Application.Resources
 {

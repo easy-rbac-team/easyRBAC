@@ -9,6 +9,8 @@ using EasyRbac.Dto.Application;
 using EasyRbac.Reponsitory;
 using EasyRbac.Reponsitory.BaseRepository;
 using EasyRbac.Utils;
+using MyUtility.Commons.Encrypt;
+using MyUtility.Commons.IdGenerate;
 
 namespace EasyRbac.Application.Application
 {

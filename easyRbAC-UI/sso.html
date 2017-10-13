@@ -220,11 +220,16 @@
             "retina_detect": true
         });
 
-        let ssoApiBaseUrl = "http://localhost:8813/sso/UserLogin"
+        const ssoApiBaseUrl = "http://localhost:8813/sso/UserLogin"
+
+        let existResult = getTokenInfo();
+        debugger;
+        if (existResult !== null) {
+            login();
+        }
 
         async function login() {
             let appCode = getParameterByName("appCode");
-
             let tokenResult = getTokenInfo();
             if (tokenResult == null) {
                 tokenResult = await getToken()
@@ -242,8 +247,9 @@
                                 //window.location.href = "http://localhost:8010"
                                 let fromUrl = getParameterByName("from");
                                 console.log(fromUrl)
-                                debugger;
-                                window.location.href = fromUrl;
+                                if (fromUrl != null) {
+                                    window.location.href = fromUrl;
+                                }
                             } else {
                                 document.querySelector(".msg").innerHTML = "登录失败，请联系管理员"
                             }
@@ -266,26 +272,28 @@
         }
 
         function saveTokenInfo(loginResult) {
+            debugger;
             let expireIn = loginResult.expireIn;
             let now = new Date().valueOf();
-            let expireOn = now + expireIn
+            let expireOn = now + expireIn * 1000;
             let tokenObj = JSON.stringify({
                 token: loginResult.token,
                 expireOn: expireOn
             });
-            sessionStorage.setItem("token", tokenObj);
+            localStorage.setItem("token", tokenObj);
         }
 
         function getTokenInfo() {
-            let tokenJson = sessionStorage.getItem("token");
+            let tokenJson = localStorage.getItem("token");
             if (tokenJson == null) {
                 return null;
             }
             tokenResult = JSON.parse(tokenJson);
-            if (tokenJson.expireOn > new Date()) {
+            if (tokenResult.expireOn > new Date().valueOf()) {
                 return tokenResult;
             } else {
-                sessionStorage.removeItem("token")
+                debugger;
+                localStorage.removeItem("token")
             }
             return null;
         }
@@ -309,6 +317,7 @@
             let result = await response.json()
             if (response.ok) {
                 document.querySelector(".msg").innerHTML = "登录成功，等待验证"
+                debugger;
                 saveTokenInfo(result);
                 return result;
             } else {

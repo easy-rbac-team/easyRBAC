@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EasyRbac.Application.Role;
 using EasyRbac.Dto;
 using EasyRbac.Dto.Role;
+using EasyRbac.Web.WebExtentions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,7 @@ namespace EasyRbac.Web.Controllers
         }
 
         [HttpGet]
+        [ResourceTag("SearchRoles")]
         public Task<PagingList<RoleDto>> Search(string roleName, int pageIndex, int pageSize)
         {
             return this._roleService.SearchByPagingAsync(roleName, pageIndex, pageSize);

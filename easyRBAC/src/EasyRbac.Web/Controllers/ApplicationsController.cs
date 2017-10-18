@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EasyRbac.Application.Application;
 using EasyRbac.Dto;
 using EasyRbac.Dto.Application;
+using EasyRbac.Web.WebExtentions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyRbac.Web.Controllers
@@ -19,7 +20,7 @@ namespace EasyRbac.Web.Controllers
             this._applicationService = applicationService;
         }
 
-        // GET: api/Application
+        [ResourceTag("SearchApp")]
         [HttpGet]
         public Task<PagingList<ApplicationInfoDto>> Get(string appName, int pageIndex, int pageSize)
         {

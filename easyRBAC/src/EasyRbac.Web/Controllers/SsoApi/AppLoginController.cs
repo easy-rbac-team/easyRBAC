@@ -9,6 +9,7 @@ using EasyRbac.Domain.Entity;
 using EasyRbac.Dto.AppLogin;
 using EasyRbac.Dto.AppResource;
 using EasyRbac.Dto.User;
+using EasyRbac.Web.WebExtentions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyRbac.Web.Controllers.SsoApi
@@ -28,7 +29,9 @@ namespace EasyRbac.Web.Controllers.SsoApi
             return this._loginService.AppLoginAsync(dto);
         }
 
-        public async Task<UserInfoDto> GetUserInfo(string appToken, string userToken)
+        [HttpGet("user/{userToken}")]
+        [ResourceTag("AppGetUserInfo")]
+        public async Task<UserInfoDto> GetUserInfo(string userToken)
         {
             (var userId, var appId) = await this.GetBaseInfo(userToken);
 
@@ -36,6 +39,7 @@ namespace EasyRbac.Web.Controllers.SsoApi
         }
 
         [HttpGet("resource/{userToken}")]
+        [ResourceTag("AppGetUserResources")]
         public async Task<List<AppResourceDto>> GetUserResources(string userToken)
         {
             (var userId, var appId) = await this.GetBaseInfo(userToken);

@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using EasyRbac.Application.UserManageScope;
 using EasyRbac.Dto.AppResource;
+using EasyRbac.Web.WebExtentions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,18 +26,21 @@ namespace EasyRbac.Web.Controllers
         }
 
         [HttpPut("{userId}/{appId}")]
+        [ResourceTag]
         public Task SetManagerScope(long userId, long appId,[FromBody] List<string> resources)
         {
             return this._managerScopeService.ChangeScopeAsync(userId, appId, resources);
         }
 
         [HttpGet("{userId}/{appId}")]
+        [ResourceTag]
         public Task<List<string>> GetManagedScopeIds(long userId, long appId)
         {
             return this._managerScopeService.GetScopeIdsAsync(userId, appId);
         }
 
         [HttpPut("userResource/{userId}/{appId}")]
+        [ResourceTag]
         public Task ChangeUserResource(long userId,long appId,[FromBody]List<string> ids)
         {
             var identity = this.User.Identity as ClaimsIdentity;
@@ -45,7 +49,7 @@ namespace EasyRbac.Web.Controllers
         }
 
         [HttpGet("manage")]
-        [Authorize]
+        [ResourceTag]
         public Task<List<AppAndResourceDto>> GetManagedResourceAndApp()
         {
             var identity = this.User.Identity as ClaimsIdentity;

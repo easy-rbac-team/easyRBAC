@@ -8,6 +8,7 @@
         el-tree(:data="resourceTree",
                 :props="defaultProps",
                 node-key="id",show-checkbox,default-expand-all,
+                :render-content="renderContent"
                 :check-strictly="true",ref="tree",@node-click="")
         .buttons(v-if="!readOnly")
             el-button(type="success",@click="saveHandler") 保存
@@ -38,8 +39,8 @@ export default {
             selectedAppId: "",
             resourceTree: [],
             defaultProps: {
-                children: 'children',
-                label: 'resourceName',
+                children: 'children',   
+                label: 'resourceName',             
                 disabled: 'disabled'
             }
         }
@@ -81,6 +82,28 @@ export default {
         },
         reset() {
             this.$refs.tree.setCheckedKeys(this.checkedKeys);
+        },
+        renderContent(h, { node, data, store }) {
+            let menuIco,resourceIco,publicIco;
+            if((data.resourceType&2)==2){
+                menuIco = <el-tag type="success"><i class="iconfont icon-menu"></i></el-tag>
+            }
+            if((data.resourceType&1)==1){
+                resourceIco = <el-tag type="primary"><i class="iconfont icon-zhihuiyuanqu-yuncang-wuliuerjiyemiantubiao-"></i></el-tag>
+            }
+            if((data.resourceType&4)===4){
+                publicIco = <el-tag type="danger"><i class="iconfont icon-anonymous"></i></el-tag>
+            }
+            return (                
+                <span>                                    
+                    {menuIco}
+                    {resourceIco}
+                    {publicIco}
+                    <span>
+                        <span>{node.label}</span>
+                    </span>                    
+                </span>
+                );
         }
     },
     watch: {

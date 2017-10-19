@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace EasyRbac.Web.WebExtentions
@@ -27,6 +28,7 @@ namespace EasyRbac.Web.WebExtentions
         /// <param name="context"></param>
         public void OnAuthorization(AuthorizationFilterContext context)
         {
+            
             if (context.Filters.Any(x => x.GetType() == typeof(AllowAnonymousFilter)))
             {
                 return;
@@ -34,7 +36,8 @@ namespace EasyRbac.Web.WebExtentions
             var pricipal = context.HttpContext.User;
             if (!this.ResourceName.Any())
             {
-                this.ResourceName = new[] {context.ActionDescriptor.DisplayName};
+                var descriptor = context.ActionDescriptor as ControllerActionDescriptor;
+                this.ResourceName = new[] { descriptor?.ActionName};
             }
 
             if (!pricipal.Identity.IsAuthenticated)

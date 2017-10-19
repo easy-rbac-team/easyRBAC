@@ -65,7 +65,7 @@ module.exports = (options = {}) => ({
         })
     ],
     devServer: {
-        host: 'ui.uliian',
+        host: '127.0.0.1',
         port: 8010,
         proxy: {
             '/api/': {

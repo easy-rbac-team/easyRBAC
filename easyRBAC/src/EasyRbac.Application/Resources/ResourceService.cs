@@ -23,16 +23,14 @@ namespace EasyRbac.Application.Resources
     public class ResourceService : IAppResourceService
     {
         private IKeyedIdGenerate _keyedIdGenerate;
-        private IRepository<AppResourceRelation> _appResourceRel;
         private readonly IRepository<AppResourceEntity> _resourceRepository;
         private IIdGenerator _idGenerator;
         private IMapper _mapper;
         private INumberConvert _numberConvert;
         private IRoleResourceDomainService _roleResourceDomainService;
 
-        public ResourceService(IRepository<AppResourceRelation> appResourceRel, IIdGenerator idGenerator, IRepository<AppResourceEntity> resourceRepository, IKeyedIdGenerate keyedIdGenerate, IMapper mapper, INumberConvert numberConvert, IRoleResourceDomainService roleResourceDomainService)
+        public ResourceService(IIdGenerator idGenerator, IRepository<AppResourceEntity> resourceRepository, IKeyedIdGenerate keyedIdGenerate, IMapper mapper, INumberConvert numberConvert, IRoleResourceDomainService roleResourceDomainService)
         {
-            this._appResourceRel = appResourceRel;
             this._idGenerator = idGenerator;
             this._resourceRepository = resourceRepository;
             this._keyedIdGenerate = keyedIdGenerate;

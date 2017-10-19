@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using AutoMapper;
 using EasyRbac.Domain.Entity;
+using EasyRbac.Domain.Enums;
 using EasyRbac.Domain.Relations;
 using EasyRbac.Dto.AppResource;
 using EasyRbac.Reponsitory.BaseRepository;
@@ -66,6 +67,9 @@ namespace EasyRbac.DomainService
         {
             var userResources = await this.GetUserAssociationResourcesAsync(userId, appId);
             var roleResources = await this.GetUserAssociationRolseResourcesAsync(userId, appId);
+
+            //TODO:publi resource
+            //this._resourceRepository.QueryAsync(x => x.ResourceType.HasFlag(ResourceType.Public));
             userResources.AddRange(roleResources);
             var ids = userResources.Distinct();
             var results = await this._resourceRepository.QueryAsync(x => ids.Contains(x.Id) && x.Enable);

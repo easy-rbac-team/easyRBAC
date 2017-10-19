@@ -24,7 +24,7 @@ namespace EasyRbac.Web.Controllers
         
         [ResourceTag("GetAppInfo")]
         [AllowAnonymous]
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public Task<ApplicationInfoDto> Get(long id)
         {
             return this._applicationService.GetOneAsync(id);

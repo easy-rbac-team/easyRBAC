@@ -38,7 +38,11 @@ customAxios.interceptors.response.use(function(response) {
         window.location.href = ssoUrl + window.location.href;
     }
 
-    if (code > 401 && code < 500) {
+    if (code === 403) {
+        showErro(`没有权限进行此操作`)
+    }
+
+    if (code === 400) {
         let data = error.response.data;
         showErro(`输入错误`)
     }

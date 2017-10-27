@@ -27,6 +27,7 @@ using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
 using SQLinq;
 using SQLinq.Dialect;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace EasyRbac.Web
 {
@@ -72,7 +73,10 @@ namespace EasyRbac.Web
 
             IConfiguration appConfiguration = this.Configuration.GetSection("app");
             services.Configure<AppOption>(appConfiguration);
-            //services.AddSingleton<ISqlDialect, MySqlDialect>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "EasyRBAC API", Version = "v1" });
+            });
         }
 
         // ConfigureContainer is where you can register things directly
@@ -121,7 +125,14 @@ namespace EasyRbac.Web
                 });
             app.UseAuthentication();
             app.UseMvc();
-            
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
         }
     }
 }

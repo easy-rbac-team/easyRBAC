@@ -19,9 +19,10 @@ namespace EasyRbac.Web.Controllers.SsoApi
         private readonly ILoginService _loginService;
         private readonly IUserService _userService;
 
-        public AppLoginController(ILoginService loginService)
+        public AppLoginController(ILoginService loginService, IUserService userService)
         {
             this._loginService = loginService;
+            this._userService = userService;
         }
 
         public Task<AppLoginResult> AppLogin(AppLoginDto dto)

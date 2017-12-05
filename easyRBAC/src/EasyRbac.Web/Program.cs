@@ -13,15 +13,16 @@ namespace EasyRbac.Web
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine("Begin");
             var host = new WebHostBuilder()                
                 .UseKestrel()
                 .ConfigureServices(services => services.AddAutofac())
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
+                //.UseIISIntegration()
                 .UseStartup<Startup>()
                 //.UseApplicationInsights()
                 .Build();
-
+            Console.WriteLine("Run!");
             host.Run();
         }
     }

@@ -6,7 +6,7 @@ using SQLinq;
 
 namespace EasyRbac.Domain.Entity
 {
-    [SQLinqTable("Application")]
+    [SQLinqTable("application")]
     public class ApplicationEntity
     {
         public long Id { get; set; }

@@ -75,6 +75,10 @@ namespace EasyRbac.DomainService
         {
             var rels = await this._userManageResourceScope.QueryAsync(x => x.UserId == userId);
 
+            if (!rels.Any())
+            {
+                return new List<AppAndResourceDto>();
+            }
             var appIds = rels.Select(x => x.AppId).Distinct();
             var apps = await this._applicationRepository.QueryAsync(x => appIds.Contains(x.Id));
             var resourceIds = rels.Select(x => x.ResourceId);

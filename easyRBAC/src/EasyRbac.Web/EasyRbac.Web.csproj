@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup>
+  <!--<PropertyGroup>
     <RuntimeIdentifiers>centos.7-x64;win10-x64;ubuntu.14.04-x64</RuntimeIdentifiers>
-  </PropertyGroup>
+  </PropertyGroup>-->
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <Optimize>true</Optimize>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

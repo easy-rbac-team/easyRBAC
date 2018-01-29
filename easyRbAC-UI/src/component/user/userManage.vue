@@ -57,7 +57,7 @@ export default {
         },
         addUser() {
             this.closeAll();            
-            this.showAddUser = !this.showAddUser;
+            this.showStatus.showAddUser = !this.showStatus.showAddUser;
         },
         editUser(userId) {
             this.selectUserId = userId;

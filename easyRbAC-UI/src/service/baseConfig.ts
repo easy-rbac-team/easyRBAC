@@ -1,3 +1,3 @@
 export let Config = {
-    BaseUrl: "http://09network.uliian.com"
+    BaseUrl: "http://localhost:8813"
 }

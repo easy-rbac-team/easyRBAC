@@ -27,7 +27,7 @@ namespace EasyRbac.Web.Controllers.SsoApi
         }
 
         [HttpGet("callbackUrl")]
-        public Task<string> GetAppCallback(string appCode)
+        public Task<LoginCallbackDto> GetAppCallback(string appCode)
         {
             return this._loginService.GetAppLoginCallback(appCode);
         }

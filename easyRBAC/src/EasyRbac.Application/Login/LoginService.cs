@@ -77,9 +77,9 @@ namespace EasyRbac.Application.Login
             };
         }
 
-        public async Task<string> GetAppLoginCallback(string appCode)
+        public async Task<LoginCallbackDto> GetAppLoginCallback(string appCode)
         {
-            var url = await this._appRepository.QueryAndSelectFirstOrDefaultAsync<string>(x => x.AppCode == appCode,x=>x.CallbackUrl);
+            var url = await this._appRepository.QueryAndSelectFirstOrDefaultAsync<LoginCallbackDto>(x => x.AppCode == appCode,x=>new LoginCallbackDto {CallbackUrl = x.CallbackUrl,CallbackType = x.CallbackType});
             return url;
         }
 

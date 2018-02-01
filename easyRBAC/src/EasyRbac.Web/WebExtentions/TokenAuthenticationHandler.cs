@@ -4,9 +4,11 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using EasyRbac.Application.Application;
 using EasyRbac.Application.Login;
 using EasyRbac.Domain.Entity;
 using EasyRbac.DomainService;
+using EasyRbac.Dto.Application;
 using EasyRbac.Dto.User;
 using EasyRbac.Web.Options;
 using Microsoft.AspNetCore.Authentication;
@@ -17,7 +19,7 @@ using Microsoft.Extensions.Options;
 
 namespace EasyRbac.Web.WebExtentions
 {
-    public class TokenAuthenticationHandler: IAuthenticationHandler
+    public class TokenAuthenticationHandler : IAuthenticationHandler
     {
         private AuthenticationScheme scheme;
         private HttpContext context;
@@ -41,7 +43,7 @@ namespace EasyRbac.Web.WebExtentions
             }
             this.appOption = appConfig.Value;
             return Task.CompletedTask;
-            
+
         }
 
         /// <summary>Authentication behavior.</summary>
@@ -49,15 +51,24 @@ namespace EasyRbac.Web.WebExtentions
         public async Task<AuthenticateResult> AuthenticateAsync()
         {
             var authHeader = this.context.Request.Headers["Authorization"];
-            
+
             if (AuthenticationHeaderValue.TryParse(authHeader, out var authValue))
             {
-                var token = authValue.Parameter;
-                return await this.TokenVerify(token);
+                if (authValue.Scheme.Equals("token", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var token = authValue.Parameter;
+                    return await this.UserTokenVerify(token);
+                }
+                if (authValue.Scheme.Equals("app", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var token = authValue.Parameter;
+                    return await this.AppTokenVerify(token);
+                }
+                throw new ApplicationException("unsupport");
             }
-            else if(this.context.Request.Cookies.TryGetValue("token", out string token))
+            else if (this.context.Request.Cookies.TryGetValue("token", out string token))
             {
-                return await this.TokenVerify(token);
+                return await this.UserTokenVerify(token);
             }
             else
             {
@@ -65,7 +76,7 @@ namespace EasyRbac.Web.WebExtentions
             }
         }
 
-        private async Task<AuthenticateResult> TokenVerify(string token)
+        private async Task<AuthenticateResult> UserTokenVerify(string token)
         {
             var loginService = this.context.RequestServices.GetService<ILoginService>();
             var tokenEntity = await loginService.GetTokenEntityByTokenAsync(token);
@@ -80,6 +91,26 @@ namespace EasyRbac.Web.WebExtentions
             //eturn AuthenticateResult.Fail("token expired");
             var result = await this.GetIdentityByToken(tokenEntity.UserId);
             return AuthenticateResult.Success(new AuthenticationTicket(result, "token"));
+        }
+
+        private async Task<AuthenticateResult> AppTokenVerify(string token)
+        {
+            var loginService = this.context.RequestServices.GetService<ILoginService>();
+            var tokenEntity = await loginService.GetTokenEntityByTokenAsync(token);
+            var appService = this.context.RequestServices.GetService<IApplicationService>();
+            ApplicationInfoDto app = await appService.GetOneAsync(tokenEntity.UserId);
+
+            if (tokenEntity == null)
+            {
+                return AuthenticateResult.Fail("token error");
+            }
+            if (tokenEntity.IsExpire())
+            {
+                return AuthenticateResult.Fail("token expired");
+            }
+            var identity = new ApplicationIdentity(app);
+            var principal = new EasyRbacPrincipal(identity);
+            return AuthenticateResult.Success(new AuthenticationTicket(principal, "app"));
         }
 
         private async Task<ClaimsPrincipal> GetIdentityByToken(long userId)
@@ -100,7 +131,7 @@ namespace EasyRbac.Web.WebExtentions
         /// </summary>
         /// <param name="properties"></param>
         /// <returns>A Task.</returns>
-       
+
 
         public Task ChallengeAsync(AuthenticationProperties properties)
         {
@@ -116,6 +147,6 @@ namespace EasyRbac.Web.WebExtentions
             this.context.Response.StatusCode = 403;
             return Task.CompletedTask;
         }
-      
+
     }
 }

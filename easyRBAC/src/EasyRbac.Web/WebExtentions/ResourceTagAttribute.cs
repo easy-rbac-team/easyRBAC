@@ -28,16 +28,22 @@ namespace EasyRbac.Web.WebExtentions
         /// <param name="context"></param>
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            
             if (context.Filters.Any(x => x.GetType() == typeof(AllowAnonymousFilter)))
             {
                 return;
             }
             var pricipal = context.HttpContext.User;
+
+            if (pricipal.Identity.AuthenticationType == "Application")
+            {
+                context.HttpContext.User = pricipal;
+                return;
+            }
+
             if (!this.ResourceName.Any())
             {
                 var descriptor = context.ActionDescriptor as ControllerActionDescriptor;
-                this.ResourceName = new[] { descriptor?.ActionName};
+                this.ResourceName = new[] { descriptor?.ActionName };
             }
 
             if (!pricipal.Identity.IsAuthenticated)

@@ -294,20 +294,26 @@
 
             fetch(`${ssoApiBaseUrl}/callbackUrl?appCode=${appCode}`).then(response => {
                 if (response.ok) {
-                    response.text().then(appCallbackUrl => {
-                        let callBackurl = `${appCallbackUrl}?token=${tokenResult.token}&callback=?`
-                        $.getJSON(callBackurl).then(rep => {
-                            if (rep.success) {
-                                //window.location.href = "http://localhost:8010"
-                                let fromUrl = getParameterByName("from");
-                                console.log(fromUrl)
-                                if (fromUrl != null) {
-                                    window.location.href = fromUrl;
+                    response.json().then(appCallbackUrl => {
+                        debugger;
+                        if (appCallbackUrl.callbackType === 1) {
+                            let callBackurl = `${appCallbackUrl.callbackUrl}?token=${tokenResult.token}&callback=?`
+                            $.getJSON(callBackurl).then(rep => {
+                                if (rep.success) {
+                                    //window.location.href = "http://localhost:8010"
+                                    let fromUrl = getParameterByName("from");
+                                    console.log(fromUrl)
+                                    if (fromUrl != null) {
+                                        window.location.href = fromUrl;
+                                    }
+                                } else {
+                                    document.querySelector(".msg").innerHTML = "登录失败，请联系管理员"
                                 }
-                            } else {
-                                document.querySelector(".msg").innerHTML = "登录失败，请联系管理员"
-                            }
-                        })
+                            })
+                        } else if (appCallbackUrl.callbackType === 4) {
+                            window.location.href = `${appCallbackUrl.callbackUrl}?token=${tokenResult.token}`
+                        }
+
                     })
                 } else {
                     document.querySelector(".msg").innerHTML = "APPCode错误"

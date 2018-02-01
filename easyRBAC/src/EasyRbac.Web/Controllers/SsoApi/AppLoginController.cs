@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EasyRbac.Application.Login;
 using EasyRbac.Application.User;
 using EasyRbac.Domain.Entity;
+using EasyRbac.Dto.Application;
 using EasyRbac.Dto.AppLogin;
 using EasyRbac.Dto.AppResource;
 using EasyRbac.Dto.User;
@@ -25,12 +26,14 @@ namespace EasyRbac.Web.Controllers.SsoApi
             this._userService = userService;
         }
 
-        public Task<AppLoginResult> AppLogin(AppLoginDto dto)
+        [HttpPost("appLogin")]
+        public async Task<AppLoginResult> AppLogin([FromBody]AppLoginDto dto)
         {
-            return this._loginService.AppLoginAsync(dto);
+            var result = await this._loginService.AppLoginAsync(dto);
+            return result;
         }
 
-        [HttpGet("user/{userToken}")]
+        [HttpGet("app/user/{userToken}")]
         [ResourceTag("AppGetUserInfo")]
         public async Task<UserInfoDto> GetUserInfo(string userToken)
         {
@@ -39,7 +42,7 @@ namespace EasyRbac.Web.Controllers.SsoApi
             return await this._userService.GetUserInfo(userId);
         }
 
-        [HttpGet("resource/{userToken}")]
+        [HttpGet("app/resource/{userToken}")]
         [ResourceTag("AppGetUserResources")]
         public async Task<List<AppResourceDto>> GetUserResources(string userToken)
         {
@@ -51,9 +54,9 @@ namespace EasyRbac.Web.Controllers.SsoApi
         private async Task<(long, long)> GetBaseInfo(string userToken)
         {
             LoginTokenEntity userTokenEntity = await this._loginService.GetTokenEntityByTokenAsync(userToken);
-            var identity = this.User.Identity as UserIdentity;
+            var identity = this.User.Identity as ApplicationIdentity;
            
-            return (userTokenEntity.UserId,identity.UserId);
+            return (userTokenEntity.UserId,identity.App.Id);
         }
     }
 }

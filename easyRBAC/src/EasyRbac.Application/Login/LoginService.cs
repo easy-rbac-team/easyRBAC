@@ -17,6 +17,7 @@ using EasyRbac.Reponsitory.BaseRepository;
 using EasyRbac.Utils;
 using EasyRbac.Web.Options;
 using Microsoft.Extensions.Options;
+using MyUtility.CollectionExtentions;
 using MyUtility.Commons.Encrypt;
 using MyUtility.Commons.NumberConvert;
 
@@ -118,7 +119,8 @@ namespace EasyRbac.Application.Login
         public virtual async Task<List<AppResourceDto>> GetUserAppResourcesAsync(long userId, long appId)
         {
             List<AppResourceDto> resources = await this._userResourceDomainService.GetUserAllAppResourcesAsync(userId, appId);
-            return resources;
+            var result = resources.ToToMultiTree(x => x.Id, x => x.Id.Substring(0, x.Id.Length - 2));
+            return result;
         }
 
         public async Task<UserIdentity> GetUserClaimsIdentity(long userId, string appCode)

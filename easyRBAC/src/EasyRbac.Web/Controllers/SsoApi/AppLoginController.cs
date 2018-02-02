@@ -9,6 +9,7 @@ using EasyRbac.Domain.Entity;
 using EasyRbac.Dto.Application;
 using EasyRbac.Dto.AppLogin;
 using EasyRbac.Dto.AppResource;
+using EasyRbac.Dto.Exceptions;
 using EasyRbac.Dto.User;
 using EasyRbac.Web.WebExtentions;
 using Microsoft.AspNetCore.Mvc;
@@ -54,6 +55,13 @@ namespace EasyRbac.Web.Controllers.SsoApi
         private async Task<(long, long)> GetBaseInfo(string userToken)
         {
             LoginTokenEntity userTokenEntity = await this._loginService.GetTokenEntityByTokenAsync(userToken);
+            
+            //TODO:需要加上
+            //if (userTokenEntity.IsExpire())
+            //{
+            //    throw new EasyRbacException("token expired");
+            //}
+
             var identity = this.User.Identity as ApplicationIdentity;
            
             return (userTokenEntity.UserId,identity.App.Id);

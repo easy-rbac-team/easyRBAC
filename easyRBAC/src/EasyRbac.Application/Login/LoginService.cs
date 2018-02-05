@@ -80,7 +80,7 @@ namespace EasyRbac.Application.Login
 
         public async Task<LoginCallbackDto> GetAppLoginCallback(string appCode)
         {
-            var url = await this._appRepository.QueryAndSelectFirstOrDefaultAsync<LoginCallbackDto>(x => x.AppCode == appCode,x=>new LoginCallbackDto {CallbackUrl = x.CallbackUrl,CallbackType = x.CallbackType});
+            var url = await this._appRepository.QueryAndSelectFirstAsync<LoginCallbackDto>(x => x.AppCode == appCode,x=>new LoginCallbackDto {CallbackUrl = x.CallbackUrl,CallbackType = x.CallbackType});
             return url;
         }
 
@@ -119,8 +119,8 @@ namespace EasyRbac.Application.Login
         public virtual async Task<List<AppResourceDto>> GetUserAppResourcesAsync(long userId, long appId)
         {
             List<AppResourceDto> resources = await this._userResourceDomainService.GetUserAllAppResourcesAsync(userId, appId);
-            var result = resources.ToToMultiTree(x => x.Id, x => x.Id.Substring(0, x.Id.Length - 2));
-            return result;
+            //var result = resources.ToToMultiTree(x => x.Id, x => x.Id.Substring(0, x.Id.Length - 2));
+            return resources;
         }
 
         public async Task<UserIdentity> GetUserClaimsIdentity(long userId, string appCode)

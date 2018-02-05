@@ -82,18 +82,18 @@ namespace EasyRbac.Reponsitory.BaseRepository
             return this.Connection.QueryFirstOrDefaultAsync<T>(sql.ToQuery(),sql.Parameters);
         }
 
-        public Task<TOut> QueryAndSelectFirstOrDefaultAsync<TOut>(Expression<Func<T, bool>> condition, Expression<Func<T, object>> selector)
+        public Task<TOut> QueryAndSelectFirstAsync<TOut>(Expression<Func<T, bool>> condition, Expression<Func<T, object>> selector)
         {
             var sql = new SQLinq<T>(this.SqlDialect).Where(condition).Select(selector).ToSQL();
             this.Logger.LogDebug($"SQL:{sql.ToQuery()}{Environment.NewLine}Params:{sql.Parameters}");
             return this.Connection.QueryFirstOrDefaultAsync<TOut>(sql.ToQuery(), sql.Parameters);
         }
 
-        public Task<TOut> QueryAndSelectAsync<TOut>(Expression<Func<T, bool>> condition, Expression<Func<T, object>> selector)
+        public Task<IEnumerable<TOut>> QueryAndSelectAsync<TOut>(Expression<Func<T, bool>> condition, Expression<Func<T, object>> selector)
         {
             var sql = new SQLinq<T>(this.SqlDialect).Where(condition).Select(selector).ToSQL();
             this.Logger.LogDebug($"SQL:{sql.ToQuery()}{Environment.NewLine}Params:{sql.Parameters}");
-            return this.Connection.QueryFirstAsync<TOut>(sql.ToQuery(), sql.Parameters);
+            return this.Connection.QueryAsync<TOut>(sql.ToQuery(), sql.Parameters);
         }
 
         public IDbConnection DbConnection => this.Connection;

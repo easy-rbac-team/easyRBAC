@@ -13,6 +13,7 @@ using EasyRbac.Dto.Exceptions;
 using EasyRbac.Dto.User;
 using EasyRbac.Web.WebExtentions;
 using Microsoft.AspNetCore.Mvc;
+using MyUtility.CollectionExtentions;
 
 namespace EasyRbac.Web.Controllers.SsoApi
 {
@@ -49,6 +50,7 @@ namespace EasyRbac.Web.Controllers.SsoApi
         {
             (var userId, var appId) = await this.GetBaseInfo(userToken);
             var result = await this._loginService.GetUserAppResourcesAsync(userId, appId);
+            result = result.ToToMultiTree(x => x.Id, x => x.Id.Substring(0, x.Id.Length - 2));
             return result;
         }
 

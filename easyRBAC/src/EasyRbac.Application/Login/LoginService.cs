@@ -32,9 +32,11 @@ namespace EasyRbac.Application.Login
         private IOptions<AppOption> _appOptions;
         private IUserResourceDomainService _userResourceDomainService;
         private IRepository<ApplicationEntity> _appRepository;
+        private IUserRoleDomainService userRoleDomainService;
         private IMapper _mapper;
+       
 
-        public LoginService(IRepository<LoginTokenEntity> loginTokenRepository, INumberConvert numberConvert, IRepository<UserEntity> userRepository, IEncryptHelper encryptHelper, IUserResourceDomainService userResourceDomainService, IMapper mapper, IRepository<ApplicationEntity> appRepository, IOptions<AppOption> appOptions)
+        public LoginService(IRepository<LoginTokenEntity> loginTokenRepository, INumberConvert numberConvert, IRepository<UserEntity> userRepository, IEncryptHelper encryptHelper, IUserResourceDomainService userResourceDomainService, IMapper mapper, IRepository<ApplicationEntity> appRepository, IOptions<AppOption> appOptions, IUserRoleDomainService userRoleDomainService)
         {
             this._loginTokenRepository = loginTokenRepository;
             this._numberConvert = numberConvert;
@@ -44,6 +46,7 @@ namespace EasyRbac.Application.Login
             this._mapper = mapper;
             this._appRepository = appRepository;
             this._appOptions = appOptions;
+            this.userRoleDomainService = userRoleDomainService;
         }
 
         public async Task<LoginTokenEntity> GetTokenEntityByTokenAsync(string token)
@@ -132,6 +135,12 @@ namespace EasyRbac.Application.Login
             var userEntity = await this._userRepository.QueryFirstAsync(x=>x.Id == userId);
 
             return new UserIdentity(userEntity,appResourceDtos);
+        }
+
+        public async Task<List<string>> GetUserRoles(long userId)
+        {
+            var entities = await this.userRoleDomainService.GetRolesAsync(userId);
+            return entities.Select(x => x.RoleName).ToList();
         }
     }
 }

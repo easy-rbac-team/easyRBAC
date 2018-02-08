@@ -27,5 +27,6 @@ namespace EasyRbac.Application.Login
         Task<UserIdentity> GetUserClaimsIdentity(long userId, string appCode);
 
         Task<LoginCallbackDto> GetAppLoginCallback(string appCode);
+        Task<List<string>> GetUserRoles(long userId);
     }
 }

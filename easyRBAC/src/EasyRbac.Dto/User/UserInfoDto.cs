@@ -14,5 +14,7 @@ namespace EasyRbac.Dto.User
         public string MobilePhone { get; set; }
 
         public bool Enable { get; set; }
+
+        public List<string> Roles { get; set; } = new List<string>();
     }
 }

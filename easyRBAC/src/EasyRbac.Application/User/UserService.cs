@@ -93,7 +93,7 @@ namespace EasyRbac.Application.User
 
         public async Task<PagingList<UserInfoDto>> SearchUser(string userName, int pageIndex, int pageSize)
         {
-            PagingList<UserEntity> users = await this._userRepository.QueryByPagingAsync(x => x.UserName.StartsWith(userName) || x.RealName.StartsWith(userName)&&x.Enable == true, x=>x.UserName, pageIndex, pageSize);
+            PagingList<UserEntity> users = await this._userRepository.QueryByPagingAsync(x => (x.UserName.StartsWith(userName) || x.RealName.StartsWith(userName))&&x.Enable == true, x=>x.UserName, pageIndex, pageSize);
             var result = this._mapper.Map<PagingList<UserInfoDto>>(users);
             return result;
         }

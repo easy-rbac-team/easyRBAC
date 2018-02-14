@@ -2048,10 +2048,6 @@ he@1.1.x, he@^1.1.0:
   version "1.1.1"
   resolved "http://registry.npm.taobao.org/he/download/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
 
-highlightjs@^8.7.0:
-  version "8.7.0"
-  resolved "http://registry.npm.taobao.org/highlightjs/download/highlightjs-8.7.0.tgz#13397cd8dd8ad7d4cfe77adffb8088a10ee3b708"
-
 hmac-drbg@^1.0.0:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/hmac-drbg/download/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -3392,10 +3388,6 @@ pretty-error@^2.0.2:
     renderkid "^2.0.1"
     utila "~0.4"
 
-primer-css@^3.0.1:
-  version "3.0.1"
-  resolved "http://registry.npm.taobao.org/primer-css/download/primer-css-3.0.1.tgz#24df67944189b970f2035ca17a4e2c09b5b15532"
-
 private@^0.1.6, private@^0.1.7:
   version "0.1.7"
   resolved "http://registry.npm.taobao.org/private/download/private-0.1.7.tgz#68ce5e8a1ef0a23bb570cc28537b5332aba63ef1"
@@ -4432,13 +4424,6 @@ vue-clipboard2@0.0.6:
   dependencies:
     clipboard "^1.5.16"
     vue "2"
-
-vue-clipboard@*:
-  version "0.0.1"
-  resolved "http://registry.npm.taobao.org/vue-clipboard/download/vue-clipboard-0.0.1.tgz#7037ec8fe032f6622d46d5686124abff92eed878"
-  dependencies:
-    highlightjs "^8.7.0"
-    primer-css "^3.0.1"
 
 vue-hot-reload-api@^2.1.0:
   version "2.1.0"

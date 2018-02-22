@@ -66,13 +66,12 @@ export default {
         }
     },
     watch: {
-        'userId'(to, from) {
-            this.getUserInfo(to.params.userId)
+        'userId'(to, from) {           
+            this.getUserInfo(to)
         }
     },
-    mounted: async function() {
-        let userId = this.$route.params.userId;
-        await this.getUserInfo(userId);
+    mounted: async function() {       
+        await this.getUserInfo(this.userId);
     }
 }
 </script>

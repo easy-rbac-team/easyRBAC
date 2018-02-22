@@ -9,9 +9,11 @@
                 |
             |   
             .text.item(v-for="(u,index) in users", :key="u.id")                
-                    | {{u.userName}}
+                    span(v-bind:class="{isEnable:!u.enable}") 
+                        | {{u.userName}}
                     el-button-group.right-buttons
-                        el-button(icon="delete",size="mini",type="danger",@click="deleteUser(index,u.id)")
+                        el-button(icon="delete",size="mini",type="danger",@click="deleteUser(index,u.id)",v-if="u.enable")
+                        el-button(icon="time",size="mini",type="danger",@click="recorveUser(index,u.id)",v-else="!u.enable")
                         el-button(icon="edit",size="mini",type="warning",@click="editUser(u.id)")
                         el-button(icon="setting",size="mini",type="primary",@click="doChangePwd(u.id)")
                         el-button(icon="information",size="mini",type="info",@click="showUserInfo(u)")
@@ -74,6 +76,9 @@ export default {
                 this.getUserLst();
             }
             this.closeAll();
+        },
+        recorveUser(index,userId){
+            this.$message('还未实现阿喂！');
         },
         async deleteUser(index, userId) {
             this.$confirm('确定删除此用户?', '提示', {
@@ -149,6 +154,10 @@ export default {
 
 .el-button-group {
     margin-left: 10px;
+}
+
+.isEnable{
+    color: red;
 }
 </style>
 

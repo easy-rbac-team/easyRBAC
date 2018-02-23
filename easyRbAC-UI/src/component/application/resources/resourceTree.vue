@@ -1,10 +1,10 @@
 <template lang="pug">
-  div
+  div(style="margin-top: 10px;")
     template(v-if="appId!==undefined && appId!==null &&appId.length>1")  
         div(v-show="showCreatebutton") 
             el-button(type="success",@click="createNewTree",) 创建资源树
         div(v-show="!showCreatebutton")
-            el-tree(:data="resources",:props="defaultProps",:render-content="renderContent",:expand-on-click-node="false",default-expand-all)
+            el-tree(:data="resources",:props="defaultProps",:render-content="renderContent",:expand-on-click-node="false",default-expand-all,class="my-tree")
     el-dialog(title="添加资源",:visible.sync="showDialog",size="small")
         add-resource(:parentId="add_parentId",:appId="appId",v-on:addResourceComplete="completeResource",v-if="showStatus.addResource")
         resource-info(:resource="selectedResource",v-if="showStatus.info",@addResourceComplete="completeResource")
@@ -126,7 +126,7 @@ export default {
                 publicIco = <el-tag type="danger"><i class="iconfont icon-anonymous"></i></el-tag>
             }
             return (                
-                <span>                                    
+                <div>                                    
                     {menuIco}
                     {resourceIco}
                     {publicIco}
@@ -141,7 +141,7 @@ export default {
                             <el-button size="mini" icon="el-icon-info" type="primary" on-click={() => this.showResourceInfo(data)}></el-button>
                         </el-button-group>
                     </span>
-                </span>);
+                </div>);
         }
     },
     watch: {
@@ -157,4 +157,11 @@ export default {
     }
 }
 </script>
+
+<style>
+.my-tree .el-tree-node__content{
+    height: 35px;
+}
+</style>
+
 

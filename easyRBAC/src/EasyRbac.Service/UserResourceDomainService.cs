@@ -40,7 +40,7 @@ namespace EasyRbac.DomainService
 
         public Task<List<string>> GetUserAssociationResourcesAsync(long userId, long appId)
         {
-            var rels = this._userResourceRel.QueryAsync(x => x.UserId == userId && x.AppId == appId).ContinueWith(x=>x.Result.Select(r=>r.ResourceId).ToList());
+            var rels = this._userResourceRel.QueryAsync(x => x.UserId == userId && x.AppId == appId).ContinueWith(x => x.Result.Select(r => r.ResourceId).ToList());
             return rels;
         }
 
@@ -63,19 +63,19 @@ namespace EasyRbac.DomainService
         /// <param name="userId"></param>
         /// <param name="appId"></param>
         /// <returns></returns>
-        public async Task<List<AppResourceDto>> GetUserAllAppResourcesAsync(long userId,long appId)
+        public async Task<List<AppResourceDto>> GetUserAllAppResourcesAsync(long userId, long appId)
         {
             var userResources = await this.GetUserAssociationResourcesAsync(userId, appId);
             var roleResources = await this.GetUserAssociationRolseResourcesAsync(userId, appId);
             //TODO:publi resource
             //var publicResources = await this._resourceRepository.QueryAsync(x => x.ResourceType.HasFlag(ResourceType.Public)).Select();
-            var publicResouceIds = await this._resourceRepository.QueryAndSelectAsync<string>(x => x.ResourceType.HasFlag(ResourceType.Public), x => x.Id);
+            var publicResouceIds = await this._resourceRepository.QueryAndSelectAsync<string>(x => x.ResourceType.HasFlag(ResourceType.Public) && x.ApplicationId == appId, x => x.Id);
 
             userResources.AddRange(roleResources);
             userResources.AddRange(publicResouceIds);
             var ids = userResources.Distinct();
             var results = await this._resourceRepository.QueryAsync(x => ids.Contains(x.Id) && x.Enable);
-            
+
             return this._mapper.Map<List<AppResourceDto>>(results);
         }
 
@@ -91,7 +91,7 @@ namespace EasyRbac.DomainService
             return await this.GetUserAllAppResourcesAsync(userId, app.Id);
         }
 
-        public async Task ChangeUserResource(long userId,long appId, List<string> resourceId)
+        public async Task ChangeUserResource(long userId, long appId, List<string> resourceId)
         {
             if (!resourceId.Any())
             {
@@ -99,7 +99,7 @@ namespace EasyRbac.DomainService
             }
             var resourceRels = await this._userResourceRel.QueryAsync(x => x.UserId == userId && x.AppId == appId);
             var ids = resourceRels.Select(x => x.ResourceId);
-            var (addIds,subIds) = ids.CalcluteChange(resourceId);
+            var (addIds, subIds) = ids.CalcluteChange(resourceId);
             using (var tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 await this._userResourceRel.DeleteAsync(x => subIds.Contains(x.ResourceId) && x.UserId == userId);

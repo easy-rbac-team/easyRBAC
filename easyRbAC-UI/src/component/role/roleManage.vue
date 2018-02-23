@@ -138,4 +138,10 @@ export default {
 .group_location{
     float: right;;
 }
+.group_location button{
+    line-height: 10px;
+    font-size: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
 </style>

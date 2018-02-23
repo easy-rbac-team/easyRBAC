@@ -9,7 +9,7 @@
                 :props="defaultProps",
                 node-key="id",show-checkbox,default-expand-all,
                 :render-content="renderContent"
-                :check-strictly="true",ref="tree",@node-click="")
+                :check-strictly="true",ref="tree",@node-click="",class="my-tree")
         .buttons(v-if="!readOnly")
             el-button(type="success",@click="saveHandler") 保存
             el-button(@click="reset") 还原
@@ -128,5 +128,9 @@ export default {
 .tree-container {
     
     margin-top: 10px;
+}
+
+.my-tree .el-tree-node__content{
+    height: 35px;
 }
 </style>

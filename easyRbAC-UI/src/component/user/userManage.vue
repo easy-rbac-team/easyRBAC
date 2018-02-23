@@ -5,18 +5,18 @@
             .clearfix(slot="header")
                 el-button(type="success",icon="plus",size="small",style="float:left;margin:4px 5px",@click="addUser") 添加      
                 div(style="line-height: 36px;") 
-                    el-input(placeholder="用户名",icon="search",:on-icon-click="iconClickHandler",v-model="userName", @keyup.enter.native="iconClickHandler")
+                    el-input(placeholder="用户名",suffix-icon="el-icon-search",v-model="userName", @change="iconClickHandler")
                 |
             |   
             .text.item(v-for="(u,index) in users", :key="u.id")                
                     span(v-bind:class="{isEnable:!u.enable}") 
                         | {{u.userName}}
                     el-button-group.right-buttons
-                        el-button(icon="delete",size="mini",type="danger",@click="deleteUser(index,u.id)",v-if="u.enable")
-                        el-button(icon="time",size="mini",type="danger",@click="recorveUser(index,u.id)",v-else="!u.enable")
-                        el-button(icon="edit",size="mini",type="warning",@click="editUser(u.id)")
-                        el-button(icon="setting",size="mini",type="primary",@click="doChangePwd(u.id)")
-                        el-button(icon="information",size="mini",type="info",@click="showUserInfo(u)")
+                        el-button(icon="el-icon-delete",size="mini",type="danger",@click="deleteUser(index,u.id)",v-if="u.enable")
+                        el-button(icon="el-icon-refresh",size="mini",type="danger",@click="recorveUser(index,u.id)",v-else="!u.enable")
+                        el-button(icon="el-icon-edit",size="mini",type="warning",@click="editUser(u.id)")
+                        el-button(icon="el-icon-setting",size="mini",type="primary",@click="doChangePwd(u.id)")
+                        el-button(icon="el-icon-info",size="mini",type="info",@click="showUserInfo(u)")
             el-pagination(small,layout="prev, pager, next",:total="page.totalCount",:page-size="page.pageSize")
     el-col(:span="18")
         add-page(v-if="showStatus.showAddUser",v-on:addedUserFinish="addedUserHandle")
@@ -54,8 +54,11 @@ export default {
             this.selectUser = user;
             this.showStatus.userInfo = true;
         },
-        iconClickHandler() {
-            userService.getUsers(this.userName, 1, 20)
+        async iconClickHandler() {
+            let pageResult = await userService.getUsers(this.userName, 1, 20)
+            
+            this.page = pageResult.page;
+            this.users = pageResult.items
         },
         addUser() {
             this.closeAll();            

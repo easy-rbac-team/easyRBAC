@@ -5,15 +5,15 @@ el-row
             .clearfix(slot="header")
                 el-button(type="success",icon="plus",size="small",style="float:left;margin:4px 5px",@click="addApp") 添加      
                 div(style="line-height: 36px;") 
-                    el-input(placeholder="应用名|CODE",icon="search",:on-icon-click="iconClickHandler",v-model="search.appName", @keyup.enter.native="iconClickHandler")
+                    el-input(placeholder="应用名|CODE",suffix-icon="el-icon-search",v-model="search.appName", @keyup.enter.native="iconClickHandler")
                 |
             |   
             .text.item(v-for="(u,index) in apps", :key="u.id")                
                     | {{u.appName}}
                     el-button-group
-                        el-button(icon="delete",size="mini",type="danger",@click="deleteApp(index,u.id)")
-                        el-button(icon="edit",size="mini",type="warning",@click="showEdit(u.id)")
-                        el-button(icon="information",size="mini",type="info",@click="showAppInfo(u.id)")
+                        el-button(icon="el-icon-delete",size="mini",type="danger",@click="deleteApp(index,u.id)")
+                        el-button(icon="el-icon-edit",size="mini",type="warning",@click="showEdit(u.id)")
+                        el-button(icon="el-icon-info",size="mini",type="info",@click="showAppInfo(u.id)")
             el-pagination(small,layout="prev, pager, next",:total="page.totalCount",:page-size="page.pageSize")
     el-col(:span="8")
          add-app(v-if="showAddApp",v-on:showFinish="addedAppHandle")

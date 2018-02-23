@@ -131,13 +131,15 @@ export default {
                     {resourceIco}
                     {publicIco}
                     <span>
-                        <span>{node.label}</span>
+                        <span >{node.label}</span>
                     </span>
                     <span style="float: right; margin-right: 20px">
-                        <el-button size="mini" icon="plus" type="success" on-click={() => this.addChildNode(data)}></el-button>
-                        <el-button size="mini" icon="close" type="danger" on-click={() => this.deleteResource(data)}></el-button>
-                        <el-button size="mini" icon="edit" type="warning" on-click={() => this.editResource(data)}></el-button>
-                        <el-button size="mini" icon="information" type="primary" on-click={() => this.showResourceInfo(data)}></el-button>
+                        <el-button-group>
+                            <el-button size="mini" icon="el-icon-plus" type="success" on-click={() => this.addChildNode(data)}></el-button>
+                            <el-button size="mini" icon="el-icon-close" type="danger" on-click={() => this.deleteResource(data)}></el-button>
+                            <el-button size="mini" icon="el-icon-edit" type="warning" on-click={() => this.editResource(data)}></el-button>
+                            <el-button size="mini" icon="el-icon-info" type="primary" on-click={() => this.showResourceInfo(data)}></el-button>
+                        </el-button-group>
                     </span>
                 </span>);
         }

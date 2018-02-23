@@ -1,7 +1,7 @@
 <template lang="pug">
   el-card.box-card.container  
     div(style="line-height: 36px;") 
-        el-input(:placeholder="placeholder",icon="search",v-model="searchCondition", @keyup.enter.native="iconClickHandler")
+        el-input(:placeholder="placeholder",suffix-icon="search",v-model="searchCondition", @change="iconClickHandler")
     .text.item(v-for="(r,index) in pagingList.items", :key="r.id",@click="itemSelect(index,r)",v-bind:class="{selected:index===selectedIndex}")                
         slot(:item="r")
     .page-container

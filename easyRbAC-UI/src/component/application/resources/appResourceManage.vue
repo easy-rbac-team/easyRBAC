@@ -2,7 +2,7 @@
 el-row    
     el-col(:span="8")        
         search-lst(:searchFun="getAppLst",placeholder="应用名|CODE",@itemClick="itemSelcetHandler")
-            template(scope="props")
+            template(slot-scope="props")
                 | {{props.item.appName}}
     el-col(:span="8")        
         resource-tree(:appId="selectAppId",:appName="selectAppName")

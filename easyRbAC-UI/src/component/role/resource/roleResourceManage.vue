@@ -2,7 +2,7 @@
 el-row
     el-col(:span="6")
         search-lst(:searchFun="getRoles",placeholder="角色名",@itemClick="roleSelect")
-            template(scope="props")
+            template(slot-scope="props")
                 | {{props.item.roleName}}
     app-resource(:checkedKeys="checkedKeys",@appSelect="appSelect",@setScope="setRoleResource")
 </template>

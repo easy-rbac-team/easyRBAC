@@ -2,7 +2,7 @@
   div
     el-col(:span="6")
         search-lst(:searchFun="getApps",placeholder="应用名/code",@itemClick="itemClickHandler")
-            template(scope="props")
+            template(slot-scope="props")
                 | {{props.item.appName}}
     el-col(:span="12").tree-container
         el-tree(:data="resourceTree",

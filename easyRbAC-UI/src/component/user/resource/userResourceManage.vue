@@ -2,7 +2,7 @@
 el-row
     el-col(:span="6")
         search-lst(:searchFun="getUsers",placeholder="用户名",@itemClick="userSelect")
-            template(scope="props")
+            template(slot-scope="props")
                 | {{props.item.userName}}
     app-resource(:checkedKeys="checkedKeys",:disabledKeys="disabledKeys",@appSelect="appSelect",@setScope="saveChange")
 </template>

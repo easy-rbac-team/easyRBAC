@@ -62,6 +62,10 @@ module.exports = (options = {}) => ({
         }),
         new HtmlWebpackPlugin({
             template: 'src/index.html'
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'sso.html',
+            title:"EasyRBAC-SSO"            
         })
     ],
     devServer: {

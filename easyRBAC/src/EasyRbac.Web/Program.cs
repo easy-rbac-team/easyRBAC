@@ -12,8 +12,7 @@ namespace EasyRbac.Web
     public class Program
     {
         public static void Main(string[] args)
-        {
-            Console.WriteLine("Begin");
+        {            
             var host = new WebHostBuilder()                
                 .UseKestrel()
                 .ConfigureServices(services => services.AddAutofac())
@@ -22,7 +21,6 @@ namespace EasyRbac.Web
                 .UseStartup<Startup>()
                 //.UseApplicationInsights()
                 .Build();
-            Console.WriteLine("Run!");
             host.Run();
         }
     }

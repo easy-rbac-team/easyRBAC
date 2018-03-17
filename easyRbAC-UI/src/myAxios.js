@@ -16,7 +16,7 @@ function showErro(msg) {
     Message.Message.error(msg);
 }
 
-const ssoUrl = "http://localhost:8010/sso.html?appCode=easyRBAC&from=";
+const ssoUrl = "http://192.168.31.150:8010/sso.html?appCode=easyRBAC&from=";
 
 customAxios.interceptors.response.use(function(response) {
     return response;

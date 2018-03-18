@@ -1,3 +1,4 @@
 export let Config = {
-    BaseUrl: "http://192.168.31.150:8813"
+    BaseUrl: "http://localhost:8813",
+    SsoUrl:"http://localhost:8010/sso.html?appCode=easyRBAC&from="
 }

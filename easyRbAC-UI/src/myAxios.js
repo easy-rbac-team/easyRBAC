@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Vue from 'vue';
 import Message from 'element-ui'
+import {Config} from './service/baseConfig'
 
 const customAxios = axios.create({
     // baseURL: '/api',
@@ -16,7 +17,7 @@ function showErro(msg) {
     Message.Message.error(msg);
 }
 
-const ssoUrl = "http://192.168.31.150:8010/sso.html?appCode=easyRBAC&from=";
+const ssoUrl = Config.SsoUrl;
 
 customAxios.interceptors.response.use(function(response) {
     return response;
@@ -35,6 +36,7 @@ customAxios.interceptors.response.use(function(response) {
 
     if (code === 401) {
         //goTo(ssoUrl);
+        debugger;
         window.location.href = ssoUrl + window.location.href;
     }
 

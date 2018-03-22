@@ -18,8 +18,6 @@ namespace EasyRbac.Application.Login
 
         Task<UserTokenDto> UserLoginAsync(UserLoginDto login);
 
-        Task<AppLoginResult> AppLoginAsync(AppLoginDto request);
-
         Task UserLogout(string token);
 
         Task<List<AppResourceDto>> GetUserAppResourcesAsync(long userId, long appId);

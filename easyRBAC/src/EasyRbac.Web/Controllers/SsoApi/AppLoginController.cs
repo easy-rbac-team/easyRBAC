@@ -29,13 +29,6 @@ namespace EasyRbac.Web.Controllers.SsoApi
             this._userService = userService;
         }
 
-        [HttpPost("appLogin")]
-        public async Task<AppLoginResult> AppLogin([FromBody]AppLoginDto dto)
-        {
-            var result = await this._loginService.AppLoginAsync(dto);
-            return result;
-        }
-
         [HttpGet("app/user/{userToken}")]
         [ResourceTag("AppGetUserInfo")]
         public async Task<UserInfoDto> GetUserInfo(string userToken)
@@ -55,7 +48,7 @@ namespace EasyRbac.Web.Controllers.SsoApi
             var result = await this._loginService.GetUserAppResourcesAsync(userId, appId);
             result = result.ToToMultiTree(x => x.Id, x => x.Id.Substring(0, x.Id.Length - 2));
             return result;
-        }      
+        }
 
         private async Task<(long, long)> GetBaseInfo(string userToken)
         {

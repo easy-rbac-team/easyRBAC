@@ -86,28 +86,7 @@ namespace EasyRbac.Application.Login
             var url = await this._appRepository.QueryAndSelectFirstAsync<LoginCallbackDto>(x => x.AppCode == appCode,x=>new LoginCallbackDto {CallbackUrl = x.CallbackUrl,CallbackType = x.CallbackType});
             return url;
         }
-
-        public async Task<AppLoginResult> AppLoginAsync(AppLoginDto request)
-        {
-            var appEntity = await this._appRepository.QueryFirstAsync(x => x.AppCode == request.AppCode);
-            if (appEntity.AppScret != request.AppSecret)
-            {
-                throw new EasyRbacException("app code/securet erro");
-            }
-            var login = new LoginTokenEntity()
-            {
-                UserId = appEntity.Id,
-                CreateOn = DateTime.Now,
-                ExpireIn = (int)TimeSpan.FromDays(1).TotalSeconds,
-                Token = $"A{this._numberConvert.ToString(appEntity.Id)}-{DateTime.Now:MMddHHmmss}-{Guid.NewGuid():N}"
-            };
-            await this._loginTokenRepository.InsertAsync(login);
-            return new AppLoginResult()
-            {
-                ExpireIn = login.ExpireIn,
-                Token = login.Token
-            };
-        }
+        
 
         public Task UserLogout(string token)
         {

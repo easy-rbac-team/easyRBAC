@@ -22,8 +22,6 @@ namespace EasyRbac.Domain.Entity
 
         public string CallbackUrl { get; set; }
 
-        public string AppScret { get; set; }
-
         public CallbackType CallbackType { get; set; }
 
         [SQLinqColumn(Ignore = true)]

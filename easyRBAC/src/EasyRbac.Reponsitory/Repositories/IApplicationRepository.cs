@@ -6,6 +6,6 @@ namespace EasyRbac.Reponsitory
 {
     public interface IApplicationRepository:IRepository<ApplicationEntity>
     {
-        Task<string> GetAppSecuret(long appId);
+        
     }
 }

@@ -18,11 +18,6 @@ namespace EasyRbac.Reponsitory
         {
         }
 
-        public Task<string> GetAppSecuret(long appId)
-        {
-            var sql = new SQLinq<ApplicationEntity>(this.SqlDialect).Where(x => x.Id == appId && x.Enable).Select(x => x.AppScret).ToSQL();
-            sql.ToQuery();
-            return this.Connection.QueryFirstAsync<string>(sql.ToQuery(), sql.Parameters);
-        }
+       
     }
 }

@@ -5,7 +5,6 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using EasyRbac.Domain.Entity;
-using EasyRbac.Dto.AppLogin;
 using EasyRbac.Dto.AppResource;
 using EasyRbac.Dto.User;
 using EasyRbac.Dto.UserLogin;

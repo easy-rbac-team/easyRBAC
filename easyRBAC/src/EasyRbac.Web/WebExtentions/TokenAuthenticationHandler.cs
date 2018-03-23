@@ -59,11 +59,7 @@ namespace EasyRbac.Web.WebExtentions
                     var token = authValue.Parameter;
                     return await this.UserTokenVerify(token);
                 }
-                if (authValue.Scheme.Equals("app", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    var token = authValue.Parameter;
-                    return await this.AppTokenVerify(token);
-                }
+                
                 throw new ApplicationException("unsupport");
             }
             else if (this.context.Request.Cookies.TryGetValue("token", out string token))
@@ -92,26 +88,7 @@ namespace EasyRbac.Web.WebExtentions
             var result = await this.GetIdentityByToken(tokenEntity.UserId);
             return AuthenticateResult.Success(new AuthenticationTicket(result, "token"));
         }
-
-        private async Task<AuthenticateResult> AppTokenVerify(string token)
-        {
-            var loginService = this.context.RequestServices.GetService<ILoginService>();
-            var tokenEntity = await loginService.GetTokenEntityByTokenAsync(token);
-            var appService = this.context.RequestServices.GetService<IApplicationService>();
-            ApplicationInfoDto app = await appService.GetOneAsync(tokenEntity.UserId);
-
-            if (tokenEntity == null)
-            {
-                return AuthenticateResult.Fail("token error");
-            }
-            if (tokenEntity.IsExpire())
-            {
-                return AuthenticateResult.Fail("token expired");
-            }
-            var identity = new ApplicationIdentity(app);
-            var principal = new EasyRbacPrincipal(identity);
-            return AuthenticateResult.Success(new AuthenticationTicket(principal, "app"));
-        }
+        
 
         private async Task<ClaimsPrincipal> GetIdentityByToken(long userId)
         {

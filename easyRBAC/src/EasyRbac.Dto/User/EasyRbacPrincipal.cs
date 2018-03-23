@@ -17,11 +17,6 @@ namespace EasyRbac.Dto.User
             this._identity = identity;
         }
 
-        public EasyRbacPrincipal(ApplicationIdentity identity) :base(identity)
-        {
-            this._identity = identity;
-        }
-
         /// <summary>Gets a collection that contains all of the claims from all of the claims identities associated with this claims principal.</summary>
         /// <returns>The claims associated with this principal.</returns>
         public override IEnumerable<Claim> Claims

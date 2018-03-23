@@ -7,7 +7,6 @@ using EasyRbac.Application.Login;
 using EasyRbac.Application.User;
 using EasyRbac.Domain.Entity;
 using EasyRbac.Dto.Application;
-using EasyRbac.Dto.AppLogin;
 using EasyRbac.Dto.AppResource;
 using EasyRbac.Dto.Exceptions;
 using EasyRbac.Dto.User;
@@ -60,9 +59,9 @@ namespace EasyRbac.Web.Controllers.SsoApi
             //    throw new EasyRbacException("token expired");
             //}
 
-            var identity = this.User.Identity as ApplicationIdentity;
+            var identity = this.User.Identity as UserIdentity;
            
-            return (userTokenEntity.UserId,identity.App.Id);
+            return (userTokenEntity.UserId,identity.UserId);
         }
     }
 }

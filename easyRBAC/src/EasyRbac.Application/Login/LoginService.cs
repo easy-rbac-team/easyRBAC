@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using EasyRbac.Domain.Entity;
 using EasyRbac.DomainService;
-using EasyRbac.Dto.AppLogin;
 using EasyRbac.Dto.AppResource;
 using EasyRbac.Dto.Exceptions;
 using EasyRbac.Dto.User;

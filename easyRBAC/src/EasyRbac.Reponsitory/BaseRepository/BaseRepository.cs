@@ -25,7 +25,7 @@ namespace EasyRbac.Reponsitory.BaseRepository
             this.Logger = loggerFactory.CreateLogger<BaseRepository<T>>();
         }
 
-        public Task InsertAsync(T obj)
+        public virtual Task InsertAsync(T obj)
         {
             var sql = obj.ToSQLinqInsert(dialect: this.SqlDialect).ToSQL();
             this.Logger.LogDebug($"SQL:{sql.ToQuery()}{Environment.NewLine}Params:{sql.Parameters}");

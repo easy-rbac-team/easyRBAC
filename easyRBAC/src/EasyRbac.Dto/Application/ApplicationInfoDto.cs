@@ -22,6 +22,6 @@ namespace EasyRbac.Dto.Application
 
         public CallbackType CallbackType { get; set; }
 
-        //public string AppScret { get; set; }
+        public string AppScret { get; set; }
     }
 }

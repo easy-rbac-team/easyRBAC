@@ -9,6 +9,6 @@ namespace EasyRbac.Dto.UserLogin
     {
         public string CallbackUrl { get; set; }
 
-        public CallbackType CallbackType { get; set; }
+        public CallbackType? CallbackType { get; set; }
     }
 }

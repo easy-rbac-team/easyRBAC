@@ -22,9 +22,14 @@ namespace EasyRbac.Domain.Entity
 
         public string CallbackUrl { get; set; }
 
-        public CallbackType CallbackType { get; set; }
+        public CallbackType? CallbackType { get; set; }
 
         [SQLinqColumn(Ignore = true)]
         public List<AppResourceEntity> AppResouce { get; set; }
+
+        public long AppUserId { get; set; }
+
+        [SQLinqColumn(Ignore =true)]
+        public UserEntity Account { get; set; }
     }
 }

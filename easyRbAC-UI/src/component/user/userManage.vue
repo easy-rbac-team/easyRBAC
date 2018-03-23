@@ -9,7 +9,7 @@
                 |
             |   
             .text.item(v-for="(u,index) in users", :key="u.id")                
-                    span(v-bind:class="{isEnable:!u.enable}") 
+                    span(v-bind:class="{isEnable:!u.enable,isApplication:u.accountType===1}") 
                         | {{u.userName}}
                     el-button-group.right-buttons
                         el-button(icon="el-icon-delete",size="mini",type="danger",@click="deleteUser(index,u.id)",v-if="u.enable")
@@ -161,6 +161,10 @@ export default {
 
 .isEnable{
     color: red;
+}
+
+.isApplication{
+    color: #E6A23C;
 }
 </style>
 

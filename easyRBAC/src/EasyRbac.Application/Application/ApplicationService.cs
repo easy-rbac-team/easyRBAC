@@ -39,8 +39,8 @@ namespace EasyRbac.Application.Application
                 x => x.Id == id);
         }
 
-        public Task EditAsync(long id, ApplicationInfoDto value)
-        {
+        public Task EditAsync(long id, ApplicationInfoDto value)        {   
+            
             return this._appRepository.UpdateAsync(() => new ApplicationEntity
             {
                 AppName =  value.AppName,
@@ -53,9 +53,16 @@ namespace EasyRbac.Application.Application
         public async Task<ApplicationInfoDto> AddAppAsync(ApplicationInfoDto app)
         {
             var applicationEntity = this._mapper.Map<ApplicationEntity>(app);
+
+            var userEntity = UserEntity.NewUser(this._idGenerator.NewId(), app.AppCode, this._encryptHelper.GenerateSalt(), this._encryptHelper.GenerateSalt(), app.AppName);
+            userEntity.AccountType = Domain.Enums.AccountType.Application;
+
             applicationEntity.Id = this._idGenerator.NewId();
+            applicationEntity.Account = userEntity;
+            applicationEntity.AppUserId = userEntity.Id;
             //applicationEntity.AppScret = this._encryptHelper.GenerateSalt(10);
             await this._appRepository.InsertAsync(applicationEntity);
+            app.AppScret = applicationEntity.Account.Password;
             return app;
         }
 

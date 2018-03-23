@@ -3,11 +3,17 @@ import { Config } from "./baseConfig"
 import { PagingList } from "./commons"
 import {AppResource} from "./resourceService"
 
+enum AccountType{
+    User,
+    Application
+}
+
 interface UserInfo {
     userName: string,
     realName: string,
     mobilePhone: string,
-    enable: boolean
+    enable: boolean,
+    accountType:AccountType
 }
 
 interface ChangePassword{

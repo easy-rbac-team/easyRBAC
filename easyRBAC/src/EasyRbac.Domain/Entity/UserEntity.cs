@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using EasyRbac.Domain.Enums;
 using EasyRbac.Utils;
 using MyUtility.Commons.Encrypt;
 using SQLinq;
@@ -37,6 +38,8 @@ namespace EasyRbac.Domain.Entity
 
         [SQLinqColumn(Ignore = true)]
         public List<UserManageResourceScope> ResourceScopes { get; set; }
+
+        public AccountType AccountType { get; set; } = AccountType.User;
 
         public static UserEntity NewUser(long id,string userName,string encryptedPwd,string salt,string realName)
         {

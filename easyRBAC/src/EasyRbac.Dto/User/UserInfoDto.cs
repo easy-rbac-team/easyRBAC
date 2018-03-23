@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasyRbac.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,5 +17,7 @@ namespace EasyRbac.Dto.User
         public bool Enable { get; set; }
 
         public List<string> Roles { get; set; } = new List<string>();
+
+        public AccountType AccountType { get; set; }
     }
 }

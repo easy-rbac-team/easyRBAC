@@ -39,31 +39,39 @@ namespace EasyRbac.Domain.Entity
         [SQLinqColumn(Ignore = true)]
         public List<UserManageResourceScope> ResourceScopes { get; set; }
 
-        internal void ChangePassword(string newPassword, IEncryptHelper encryptHelper)
+        public void ChangePassword(string newPassword, IEncryptHelper encryptHelper)
         {
             this.Salt = encryptHelper.GenerateSalt();
-            var encryptedPwd = encryptHelper.Sha256Encrypt($"{newPassword}-{this.Salt}");
+            var encryptedPwd = EncryptPassword(newPassword, this.Salt, encryptHelper);
             this.Password = encryptedPwd;
         }
 
         public AccountType AccountType { get; set; } = AccountType.User;
 
-        public static UserEntity NewUser(long id,string userName,string encryptedPwd,string salt,string realName)
+        public static UserEntity NewUser(long id, string userName, string password, string realName, IEncryptHelper encryptHelper)
         {
+            var salt = encryptHelper.GenerateSalt();
+
             var entity = new UserEntity();
             entity.Id = id;
             entity.UserName = userName;
-            entity.Password = encryptedPwd;
+            entity.Password = EncryptPassword(password, salt, encryptHelper);
             entity.Salt = salt;
             entity.RealName = realName;
             entity.Enable = true;
             return entity;
         }
 
-        public bool PasswordIsMatch(string input,IEncryptHelper encryptHelper)
+        public bool PasswordIsMatch(string input, IEncryptHelper encryptHelper)
         {
-            var encryptedPwd = encryptHelper.Sha256Encrypt($"{input}-{this.Salt}");
+            var encryptedPwd = EncryptPassword(input, this.Salt, encryptHelper);
             return encryptedPwd == this.Password;
+        }
+
+        public static string EncryptPassword(string password, string salt, IEncryptHelper encryptHelper)
+        {
+            var encryptedPwd = encryptHelper.Sha256Encrypt($"{password}-{salt}");
+            return encryptedPwd;
         }
     }
 }

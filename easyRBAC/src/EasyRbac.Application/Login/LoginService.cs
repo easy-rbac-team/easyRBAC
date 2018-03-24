@@ -64,14 +64,9 @@ namespace EasyRbac.Application.Login
             {
                 throw new EasyRbacException("用户名/密码错误");
             }
-            var token = new LoginTokenEntity()
-            {
-                UserId = userEntity.Id,
-                CreateOn = DateTime.Now,
-                AppCode = login.AppCode,
-                ExpireIn = userEntity.AccountType == AccountType.User ? _appOptions.Value.UserLoginExpireIn : _appOptions.Value.AppLoginExpireIn,
-                Token = $"U{this._numberConvert.ToString(userEntity.Id)}-{DateTime.Now:MMddHHmmss}-{Guid.NewGuid():N}"
-            };
+
+            var expireIn = userEntity.AccountType == AccountType.User ? _appOptions.Value.UserLoginExpireIn : _appOptions.Value.AppLoginExpireIn;
+            var token = LoginTokenEntity.NewLoginToken(userEntity, expireIn, login.AppCode);
             await this._loginTokenRepository.InsertAsync(token);
 
             return new UserTokenDto()

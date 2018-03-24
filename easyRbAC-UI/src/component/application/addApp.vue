@@ -23,60 +23,70 @@ div.form-border
 </template>
 
 <script>
-import { appService } from '../../service/appService.ts'
+import { appService } from "../../service/appService.ts";
 
 export default {
-    data() {
-        return {
-            form: {
-                appName:"",
-                appCode:"",
-                descript:"",
-                enableSSO:false,
-                callbackUrl:"",
-                callbackType:""
-            },
-            rules: {
-                appName: [
-                    { required: true, message: "请输入应用名", trigger: "blur" },
-                    { min: 5, max: 40, message: '长度在 4 到 20 个字符', trigger: 'blur' }
-                ],
-                appCode:[
-                    { required: true, message: "请输入应用代码", trigger: "blur" },
-                    { min: 5, max: 40, message: '长度在 4 到 20 个字符', trigger: 'blur' }
-                ],
-                descript:[
-                    {max: 150, message: '长度在 4 到 20 个字符', trigger: 'blur' }
-                ],
-                callbackUrl:[
-                    {max: 150, message: '长度在 4 到 20 个字符', trigger: 'blur' }
-                ]
+  data() {
+    return {
+      form: {
+        appName: "",
+        appCode: "",
+        descript: "",
+        enableSSO: false,
+        callbackUrl: "",
+        callbackType: ""
+      },
+      rules: {
+        appName: [
+          { required: true, message: "请输入应用名", trigger: "blur" },
+          { min: 5, max: 40, message: "长度在 4 到 20 个字符", trigger: "blur" }
+        ],
+        appCode: [
+          { required: true, message: "请输入应用代码", trigger: "blur" },
+          { min: 5, max: 40, message: "长度在 4 到 20 个字符", trigger: "blur" }
+        ],
+        descript: [
+          { max: 150, message: "长度在 4 到 20 个字符", trigger: "blur" }
+        ],
+        callbackUrl: [
+          { max: 150, message: "长度在 4 到 20 个字符", trigger: "blur" }
+        ]
+      }
+    };
+  },
+  methods: {
+    onSubmit() {
+      this.$refs["form"].validate(async valid => {
+        if (valid) {
+          let appResult = await appService.createApp(this.$data.form);
+            debugger;
+          this.$alert(
+            `请记住您的AppSecuret:${appResult.appScret}`,
+            "应用创建成功",
+            {
+              confirmButtonText: "确定",
+              callback: action => {
+                this.$emit("showFinish", true);
+              }
             }
+          );
+        } else {
+          this.$message({
+            message: "表单验证不通过",
+            type: "warning"
+          });
         }
+      });
     },
-    methods: {
-        onSubmit() {
-            this.$refs["form"].validate(async (valid) => {
-                if (valid) {                    
-                    await appService.createApp(this.$data.form)
-                    this.$emit("showFinish", true)
-                } else {
-                    this.$message({
-                        message: '表单验证不通过',
-                        type: 'warning'
-                    })
-                }
-            });
-        },
-        cancel() {
-            this.$emit("showFinish", false)
-        }
+    cancel() {
+      this.$emit("showFinish", false);
     }
-}
+  }
+};
 </script>
 <style>
 .form-border {
-    margin: 10px;
+  margin: 10px;
 }
 </style>
 

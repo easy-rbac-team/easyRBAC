@@ -362,6 +362,8 @@
             let loginUrl = ssoApiBaseUrl;
             let userName = document.getElementById("userName").value;
             let password = document.getElementById("pwd").value;
+            let appCode = "easyRBAC";
+
             let response = await fetch(loginUrl, {
                 method: "POST",
                 headers: {
@@ -370,7 +372,8 @@
                 model: "cors",
                 body: JSON.stringify({
                     userName,
-                    password
+                    password,
+                    appCode
                 }),
             })
 

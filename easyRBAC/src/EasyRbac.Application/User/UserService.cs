@@ -37,9 +37,7 @@ namespace EasyRbac.Application.User
 
         public Task AddUser(CreateUserDto user)
         {
-            var salt = this._encryptHelper.GenerateSalt();
-            var encryptedPwd = this._encryptHelper.Sha256Encrypt($"{user.Password}-{salt}");
-            var userEntity = UserEntity.NewUser(this._idGenerate.NewId(), user.UserName, encryptedPwd, salt, user.RealName);
+            var userEntity = UserEntity.NewUser(this._idGenerate.NewId(), user.UserName, user.Password, user.RealName,this._encryptHelper);
             userEntity.MobilePhone = user.MobilePhone;
             return this._userRepository.InsertAsync(userEntity);
         }
@@ -58,13 +56,12 @@ namespace EasyRbac.Application.User
             //    throw new EasyRbacException("旧密码错误");
             //}
 
-            var salt = this._encryptHelper.GenerateSalt();
-            var encryptedPwd = this._encryptHelper.Sha256Encrypt($"{change.Password}-{salt}");
+            user.ChangePassword(change.Password, this._encryptHelper);
 
             await this._userRepository.UpdateAsync(() => new UserEntity()
             {
-                Password = encryptedPwd,
-                Salt = salt
+                Password = user.Password,
+                Salt = user.Salt
             }, x => x.Id == userId);
         }
 

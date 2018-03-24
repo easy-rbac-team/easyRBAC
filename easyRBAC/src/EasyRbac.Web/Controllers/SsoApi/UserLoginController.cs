@@ -6,11 +6,13 @@ using EasyRbac.Application.Login;
 using EasyRbac.DomainService;
 using EasyRbac.Dto.AppResource;
 using EasyRbac.Dto.UserLogin;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyRbac.Web.Controllers.SsoApi
 {
     [Route("/sso/[controller]")]
+    [AllowAnonymous]
     public class UserLoginController : Controller
     {
         private ILoginService _loginService;

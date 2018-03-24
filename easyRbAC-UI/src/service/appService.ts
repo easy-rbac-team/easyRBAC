@@ -16,7 +16,8 @@ interface Application{
     createTime:Date,
     descript:string,
     callbackUrl:string,
-    callbackType:CallbackType
+    callbackType:CallbackType,
+    appScret:string
 }
 
 export let appService={

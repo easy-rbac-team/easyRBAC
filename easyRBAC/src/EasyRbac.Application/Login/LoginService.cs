@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using EasyRbac.Domain.Entity;
+using EasyRbac.Domain.Enums;
 using EasyRbac.DomainService;
 using EasyRbac.Dto.AppResource;
 using EasyRbac.Dto.Exceptions;
@@ -33,7 +34,7 @@ namespace EasyRbac.Application.Login
         private IRepository<ApplicationEntity> _appRepository;
         private IUserRoleDomainService userRoleDomainService;
         private IMapper _mapper;
-       
+
 
         public LoginService(IRepository<LoginTokenEntity> loginTokenRepository, INumberConvert numberConvert, IRepository<UserEntity> userRepository, IEncryptHelper encryptHelper, IUserResourceDomainService userResourceDomainService, IMapper mapper, IRepository<ApplicationEntity> appRepository, IOptions<AppOption> appOptions, IUserRoleDomainService userRoleDomainService)
         {
@@ -57,8 +58,8 @@ namespace EasyRbac.Application.Login
         public async Task<UserTokenDto> UserLoginAsync(UserLoginDto login)
         {
             UserEntity userEntity = await this._userRepository.QueryFirstAsync(x => x.UserName == login.UserName && x.Enable);
-           
-            bool loginSucces = userEntity?.PasswordIsMatch(login.Password, this._encryptHelper)??false;
+
+            bool loginSucces = userEntity?.PasswordIsMatch(login.Password, this._encryptHelper) ?? false;
             if (!loginSucces)
             {
                 throw new EasyRbacException("用户名/密码错误");
@@ -67,13 +68,15 @@ namespace EasyRbac.Application.Login
             {
                 UserId = userEntity.Id,
                 CreateOn = DateTime.Now,
-                ExpireIn = _appOptions.Value.UserLoginExpireIn,
+                AppCode = login.AppCode,
+                ExpireIn = userEntity.AccountType == AccountType.User ? _appOptions.Value.UserLoginExpireIn : _appOptions.Value.AppLoginExpireIn,
                 Token = $"U{this._numberConvert.ToString(userEntity.Id)}-{DateTime.Now:MMddHHmmss}-{Guid.NewGuid():N}"
             };
             await this._loginTokenRepository.InsertAsync(token);
-          
+
             return new UserTokenDto()
             {
+                AppCode = login.AppCode,
                 ExpireIn = token.ExpireIn,
                 Schema = "token",
                 Token = token.Token,
@@ -82,10 +85,10 @@ namespace EasyRbac.Application.Login
 
         public async Task<LoginCallbackDto> GetAppLoginCallback(string appCode)
         {
-            var url = await this._appRepository.QueryAndSelectFirstAsync<LoginCallbackDto>(x => x.AppCode == appCode,x=>new LoginCallbackDto {CallbackUrl = x.CallbackUrl,CallbackType = x.CallbackType});
+            var url = await this._appRepository.QueryAndSelectFirstAsync<LoginCallbackDto>(x => x.AppCode == appCode, x => new LoginCallbackDto { CallbackUrl = x.CallbackUrl, CallbackType = x.CallbackType });
             return url;
         }
-        
+
 
         public Task UserLogout(string token)
         {
@@ -110,9 +113,9 @@ namespace EasyRbac.Application.Login
 
             List<AppResourceDto> appResourceDtos = await this.GetUserAppResourcesAsync(userId, appEntity.Id);
 
-            var userEntity = await this._userRepository.QueryFirstAsync(x=>x.Id == userId);
+            var userEntity = await this._userRepository.QueryFirstAsync(x => x.Id == userId);
 
-            return new UserIdentity(userEntity,appResourceDtos);
+            return new UserIdentity(userEntity, appResourceDtos);
         }
 
         public async Task<List<string>> GetUserRoles(long userId)

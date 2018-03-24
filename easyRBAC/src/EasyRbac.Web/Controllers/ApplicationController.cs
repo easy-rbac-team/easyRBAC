@@ -50,5 +50,10 @@ namespace EasyRbac.Web.Controllers
         {
             return this._applicationService.DisableApp(id);
         }
+
+        public Task<string> ChangeAppSecuret(long id)
+        {
+            return this._applicationService.ChangeAppSecuretAsync(id);
+        }
     }
 }

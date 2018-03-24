@@ -83,5 +83,14 @@ namespace EasyRbac.Application.Application
             PagingList<ApplicationEntity> rsult = await this._appRepository.QueryByPagingAsync(x => x.Enable == true && (x.AppName.StartsWith(appName) || x.AppCode.StartsWith(appName)), x => x.Id, pageIndex, pageSize);
             return this._mapper.Map<PagingList<ApplicationInfoDto>>(rsult);
         }
+
+        public async Task<string> ChangeAppSecuretAsync(long id)
+        {
+            var newSecuret = this._encryptHelper.GenerateSalt();
+            var appInfo = await this._appRepository.GetAppInfoEntityAsync(id);
+            appInfo.ChangeSecuret(newSecuret, this._encryptHelper);
+            await this._appRepository.ChangeAppSecuretAsync(appInfo);
+            return newSecuret;
+        }
     }
 }

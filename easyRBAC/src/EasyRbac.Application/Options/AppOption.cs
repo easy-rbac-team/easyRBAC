@@ -10,5 +10,7 @@ namespace EasyRbac.Web.Options
         public string AppCode { get; set; }
 
         public int UserLoginExpireIn { get; set; }
+
+        public int AppLoginExpireIn { get; set; }
     }
 }

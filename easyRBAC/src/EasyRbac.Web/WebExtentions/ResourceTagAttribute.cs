@@ -34,12 +34,6 @@ namespace EasyRbac.Web.WebExtentions
             }
             var pricipal = context.HttpContext.User;
 
-            if (pricipal.Identity.AuthenticationType == "Application")
-            {
-                context.HttpContext.User = pricipal;
-                return;
-            }
-
             if (!this.ResourceName.Any())
             {
                 var descriptor = context.ActionDescriptor as ControllerActionDescriptor;

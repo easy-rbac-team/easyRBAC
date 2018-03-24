@@ -16,6 +16,8 @@ namespace EasyRbac.Domain.Entity
 
         public int ExpireIn { get; set; }
 
+        public string AppCode { get; set; }
+
         public bool IsExpire()
         {
             return this.CreateOn.AddSeconds(this.ExpireIn) < DateTime.Now;

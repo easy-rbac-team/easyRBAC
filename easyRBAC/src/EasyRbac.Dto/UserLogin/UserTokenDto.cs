@@ -11,5 +11,6 @@ namespace EasyRbac.Dto.UserLogin
         public string Token { get; set; }
 
         public int ExpireIn { get; set; }
+        public string AppCode { get; set; }
     }
 }

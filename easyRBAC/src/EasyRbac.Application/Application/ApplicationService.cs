@@ -95,5 +95,10 @@ namespace EasyRbac.Application.Application
             await this._appRepository.ChangeAppSecuretAsync(appInfo);
             return newSecuret;
         }
+
+        public Task<ApplicationEntity> GetAppByUserId(long userId)
+        {
+            return this._appRepository.QueryFirstAsync(x => x.AppUserId == userId);
+        }
     }
 }

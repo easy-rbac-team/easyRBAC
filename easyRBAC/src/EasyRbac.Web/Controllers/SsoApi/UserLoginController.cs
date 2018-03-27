@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using EasyRbac.Application.Login;
-using EasyRbac.DomainService;
-using EasyRbac.Dto.AppResource;
+﻿using EasyRbac.Application.Login;
 using EasyRbac.Dto.UserLogin;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace EasyRbac.Web.Controllers.SsoApi
 {

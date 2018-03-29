@@ -17,7 +17,7 @@
             | AppSecuret
         div.el-form-item__content()                 
             el-tooltip(class="item",effect="dark",content="重置",placement="top-start")        
-                el-button(size="mini",icon="edit",type="warning",@click="changeAppSecret") 重置
+                el-button(size="mini",icon="el-icon-edit",type="warning",@click="changeAppSecret")
     .el-form-item(v-if="appData.callbackUrl!==null&&appData.callbackUrl!==''")
         label.el-form-item__label
             | 回调地址

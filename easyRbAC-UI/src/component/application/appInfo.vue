@@ -15,13 +15,9 @@
     .el-form-item
         label.el-form-item__label
             | AppSecuret
-        div.el-form-item__content(v-show="appSecuret")      
-            el-tooltip(class="item",effect="dark",content="复制",placement="top-start")
-                el-button(size="mini",icon="document",type="success",v-clipboard:copy="appSecuret",v-clipboard:success="onCopy",v-clipboard:error="onError")
+        div.el-form-item__content()                 
             el-tooltip(class="item",effect="dark",content="重置",placement="top-start")        
-                el-button(size="mini",icon="edit",type="warning",@click="changeAppSecret")      
-        div.el-form-item__content(v-show="!appSecuret")
-            el-button(size="mini",@click="getAppSecuret")  获取                  
+                el-button(size="mini",icon="edit",type="warning",@click="changeAppSecret") 重置
     .el-form-item(v-if="appData.callbackUrl!==null&&appData.callbackUrl!==''")
         label.el-form-item__label
             | 回调地址

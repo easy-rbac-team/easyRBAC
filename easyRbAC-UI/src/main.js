@@ -7,7 +7,6 @@ import { routerCfg } from './router.js'
 import userManage from './component/user/userManage.vue'
 import axios from 'axios'
 import treeMenu from './component/treeMenu.vue'
-import VueClipboard from 'vue-clipboard2'
 import searchLst from './component/commons/searchLst'
 import appResource from './component/commons/appResource'
 import './assets/iconfont.css';
@@ -37,7 +36,6 @@ import './assets/iconfont.css';
 
 Vue.use(ElementUI)
 Vue.use(VueRouter);
-Vue.use(VueClipboard)
 
 
 Vue.component("tree-menu", treeMenu);

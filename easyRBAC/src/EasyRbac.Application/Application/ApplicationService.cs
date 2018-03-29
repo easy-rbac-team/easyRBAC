@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using AutoMapper;
 using EasyRbac.Domain.Entity;
 using EasyRbac.Dto;
@@ -20,23 +21,34 @@ namespace EasyRbac.Application.Application
         private readonly IMapper _mapper;
         private readonly IIdGenerator _idGenerator;
         private readonly IEncryptHelper _encryptHelper;
+        private readonly IRepository<UserEntity> _userRepository;
 
-        public ApplicationService(IApplicationRepository appRepository, IIdGenerator idGenerator, IMapper mapper, IEncryptHelper encryptHelper)
+        public ApplicationService(IApplicationRepository appRepository, IIdGenerator idGenerator, IMapper mapper, IEncryptHelper encryptHelper,IRepository<UserEntity> userRepository)
         {
             this._appRepository = appRepository;
             this._idGenerator = idGenerator;
             this._mapper = mapper;
             this._encryptHelper = encryptHelper;
+            this._userRepository = userRepository;
         }
 
-        public Task DisableApp(long id)
+        public async Task DisableApp(long id)
         {
-            return this._appRepository.UpdateAsync(
-                () => new ApplicationEntity()
+            using (var tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                var app = await this._appRepository.QueryFirstAsync(x => x.Id == id);
+
+                await this._appRepository.UpdateAsync(
+                    () => new ApplicationEntity()
+                    {
+                        Enable = false
+                    },
+                    x => x.Id == id);
+                await this._userRepository.UpdateAsync(() => new UserEntity
                 {
                     Enable = false
-                },
-                x => x.Id == id);
+                }, x => x.Id == app.AppUserId);
+            }                 
         }
 
         public Task EditAsync(long id, ApplicationInfoDto value)

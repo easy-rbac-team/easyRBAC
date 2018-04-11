@@ -1,10 +1,8 @@
-﻿CREATE DATABASE  IF NOT EXISTS `easyrbac` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
-USE `easyrbac`;
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+﻿-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: easyrbac
+-- Host: localhost    Database: easyrbac
 -- ------------------------------------------------------
--- Server version	5.7.19-log
+-- Server version	5.7.21-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -46,7 +44,7 @@ CREATE TABLE `app_resource` (
 
 LOCK TABLES `app_resource` WRITE;
 /*!40000 ALTER TABLE `app_resource` DISABLE KEYS */;
-INSERT INTO `app_resource` VALUES ('07',1202052677035361290,'easyRBAC_root','easyRBAC','',NULL,0,NULL,NULL,NULL),('0701',1202052677035361290,'User','用户','','',2,'','',''),('070101',1202052677035361290,'userManage','用户管理','','/user',2,'','',''),('07010101',1202052677035361290,'CreateUser','创建用户','','',1,'','',''),('07010102',1202052677035361290,'ChangeUserPassword','修改密码','','',1,'','',''),('07010103',1202052677035361290,'DisableUser','删除用户','','',1,'','',''),('07010104',1202052677035361290,'GetUserInfo','获取用户信息','','',1,'','',''),('07010105',1202052677035361290,'SearchUsers','搜索用户','','',1,'','',''),('070102',1202052677035361290,'UserResourceManage','用户资源管理','','/user/resource',2,'','',''),('07010201',1202052677035361290,'ChangeResources','修改用户资源','','',1,'','',''),('07010202',1202052677035361290,'GetUserResourceIds','获取用户资源ID','','',1,'','',''),('0702',1202052677035361290,'Role','角色','','',2,'','',''),('070201',1202052677035361290,'roleManage','角色管理','','/role',2,'','',''),('07020101',1202052677035361290,'AddRole','添加角色','','',1,'','',''),('07020102',1202052677035361290,'DisableRole','删除角色','','',1,'','',''),('07020103',1202052677035361290,'EditRoleInfo','编辑角色信息','','',1,'','',''),('07020104',1202052677035361290,'GetRoleInfo','获取角色信息','','',1,'','',''),('07020105',1202052677035361290,'SearchRoles','搜索角色','','',1,'','',''),('070202',1202052677035361290,'roleResourceManage','角色资源管理','','/role/roleResource',2,'','',''),('07020201',1202052677035361290,'ChangeResouces','修改角色资源','','',1,'','',''),('070203',1202052677035361290,'roleUserManage','角色用户管理','','/role/user',2,'','',''),('07020301',1202052677035361290,'ChangeMember','修改角色成员','','',1,'','',''),('07020302',1202052677035361290,'GetUserIdsInRole','获取角色内用户ID','','',1,'','',''),('0703',1202052677035361290,'app','应用','','',2,'','',''),('070301',1202052677035361290,'appManage','应用管理','','/application',2,'','',''),('070302',1202052677035361290,'appResource','应用资源管理','','/app/resource',2,'','',''),('07030201',1202052677035361290,'AddResource','添加资源','','',1,'','',''),('07030202',1202052677035361290,'DisableResource','删除资源','','',1,'','',''),('07030203',1202052677035361290,'EditResource','编辑资源','','',1,'','',''),('07030204',1202052677035361290,'GetResourceInfo','获取资源信息','','',1,'','',''),('07030205',1202052677035361290,'GetAppResource','获取应用资源','','',1,'','',''),('07030206',1202052677035361290,'GetResourceTree','获取资源树','','',1,'','',''),('07030207',1202052677035361290,'GetRoleResourceIds','获取角色应用资源','','',1,'','',''),('07030208',1202052677035361290,'ChangeRoleResources','修改角色资源','','',1,'','',''),('070303',1202052677035361290,'GetAppInfo','获取应用信息','','/Application/Get',1,'','',''),('070304',1202052677035361290,'AddApp','新增应用','','/Application/AddApp',1,'','',''),('070305',1202052677035361290,'UpdateAppInfo','更新应用信息','','',1,'','',''),('070306',1202052677035361290,'DeleteApp','删除应用','','/Application',1,'','',''),('070307',1202052677035361290,'GetAppSecret','获取AppSecret','','',1,'','',''),('070308',1202052677035361290,'ChangeAppSecret','修改APP Screte','','',1,'','',''),('070309',1202052677035361290,'SearchApp','搜索APP','','',1,'','',''),('0704',1202052677035361290,'manager','负责人管理','','',2,'','',''),('070402',1202052677035361290,'managerManage','负责人权限管理','','/manager',2,'','',''),('07040201',1202052677035361290,'SetManagerScope','设置管理范围','','',1,'','',''),('07040202',1202052677035361290,'GetManagedScopeIds','获取可管理资源范围ID','','',1,'','',''),('07040203',1202052677035361290,'ChangeUserResource','修改用户资源','','',1,'','',''),('07040204',1202052677035361290,'GetManagedResourceAndApp','获取管理的APP和资源','','',1,'','',''),('070403',1202052677035361290,'userAuth','人员授权','','/manager/userAuthorization',2,'','',''),('0705',1202052677035361290,'login','登录','','',1,'','',''),('070501',1202052677035361290,'GetMenu','用户菜单','','',1,'','',''),('0706',1202052677035361290,'AppLogin','应用登录','','',1,'','',''),('070601',1202052677035361290,'AppGetUserInfo','应用获取用户信心','','',1,'','',''),('070602',1202052677035361290,'AppGetUserResources','应用获取用户资源','','',1,'','','');
+INSERT INTO `app_resource` VALUES ('07',1202052677035361290,'easyRBAC_root','easyRBAC','',NULL,0,NULL,NULL,NULL),('0701',1202052677035361290,'User','用户','','',2,'','',''),('070101',1202052677035361290,'userManage','用户管理','','/user',2,'','',''),('07010101',1202052677035361290,'CreateUser','创建用户','','',1,'','',''),('07010102',1202052677035361290,'ChangeUserPassword','修改密码','','',1,'','',''),('07010103',1202052677035361290,'DisableUser','删除用户','','',1,'','',''),('07010104',1202052677035361290,'GetUserInfo','获取用户信息','','',1,'','',''),('07010105',1202052677035361290,'SearchUsers','搜索用户','','',1,'','',''),('070102',1202052677035361290,'UserResourceManage','用户资源管理','','/user/resource',2,'','',''),('07010201',1202052677035361290,'ChangeResources','修改用户资源','','',1,'','',''),('07010202',1202052677035361290,'GetUserResourceIds','获取用户资源ID','','',1,'','',''),('0702',1202052677035361290,'Role','角色','','',2,'','',''),('070201',1202052677035361290,'roleManage','角色管理','','/role',2,'','',''),('07020101',1202052677035361290,'AddRole','添加角色','','',1,'','',''),('07020102',1202052677035361290,'DisableRole','删除角色','','',1,'','',''),('07020103',1202052677035361290,'EditRoleInfo','编辑角色信息','','',1,'','',''),('07020104',1202052677035361290,'GetRoleInfo','获取角色信息','','',1,'','',''),('07020105',1202052677035361290,'SearchRoles','搜索角色','','',1,'','',''),('070202',1202052677035361290,'roleResourceManage','角色资源管理','','/role/roleResource',2,'','',''),('07020201',1202052677035361290,'ChangeResouces','修改角色资源','','',1,'','',''),('070203',1202052677035361290,'roleUserManage','角色用户管理','','/role/user',2,'','',''),('07020301',1202052677035361290,'ChangeMember','修改角色成员','','',1,'','',''),('07020302',1202052677035361290,'GetUserIdsInRole','获取角色内用户ID','','',1,'','',''),('0703',1202052677035361290,'app','应用','','',2,'','',''),('070301',1202052677035361290,'appManage','应用管理','','/application',2,'','',''),('070302',1202052677035361290,'appResource','应用资源管理','','/app/resource',2,'','',''),('07030201',1202052677035361290,'AddResource','添加资源','','',1,'','',''),('07030202',1202052677035361290,'DisableResource','删除资源','','',1,'','',''),('07030203',1202052677035361290,'EditResource','编辑资源','','',1,'','',''),('07030204',1202052677035361290,'GetResourceInfo','获取资源信息','','',1,'','',''),('07030205',1202052677035361290,'GetAppResource','获取应用资源','','',1,'','',''),('07030206',1202052677035361290,'GetResourceTree','获取资源树','','',1,'','',''),('07030207',1202052677035361290,'GetRoleResourceIds','获取角色应用资源','','',1,'','',''),('070303',1202052677035361290,'GetAppInfo','获取应用信息','','/Application/Get',1,'','',''),('070304',1202052677035361290,'AddApp','新增应用','','/Application/AddApp',1,'','',''),('070305',1202052677035361290,'UpdateAppInfo','更新应用信息','','',1,'','',''),('070306',1202052677035361290,'DeleteApp','删除应用','','/Application',1,'','',''),('070307',1202052677035361290,'GetAppSecret','获取AppSecret','','',1,'','',''),('070309',1202052677035361290,'SearchApp','搜索APP','','',1,'','',''),('0704',1202052677035361290,'manager','负责人管理','','',2,'','',''),('070402',1202052677035361290,'managerManage','负责人权限管理','','/manager',2,'','',''),('07040201',1202052677035361290,'SetManagerScope','设置管理范围','','',1,'','',''),('07040202',1202052677035361290,'GetManagedScopeIds','获取可管理资源范围ID','','',1,'','',''),('07040203',1202052677035361290,'ChangeUserResource','修改用户资源','','',1,'','',''),('07040204',1202052677035361290,'GetManagedResourceAndApp','获取管理的APP和资源','','',1,'','',''),('070403',1202052677035361290,'userAuth','人员授权','','/manager/userAuthorization',2,'','',''),('0705',1202052677035361290,'login','登录','','',1,'','',''),('070501',1202052677035361290,'GetMenu','用户菜单','','',1,'','',''),('0706',1202052677035361290,'AppLogin','应用登录','','',1,'','',''),('070601',1202052677035361290,'AppGetUserInfo','应用获取用户信心','','',1,'','',''),('070602',1202052677035361290,'AppGetUserResources','应用获取用户资源','','',1,'','',''),('0801',1225246028714738698,'accountManager','账号管理','','app',2,'solution','',''),('080101',1225246028714738698,'wechat-account','微信账号','','basic',2,'','',''),('080102',1225246028714738698,'account-authorizat','账号授权','','authorizat',2,'','',''),('0802',1225246028714738698,'expand','推广资源管理','','service/expand',2,'notification','',''),('080201',1225246028714738698,'qrcode','二维码管理','','qrcode',2,'','',''),('0803',1225246028714738698,'menu','菜单管理','','service/menu',2,'menu-fold','',''),('080301',1225246028714738698,'wechat','微信菜单管理','','wechat',2,'','',''),('0804',1225246028714738698,'admin_apply','管理员申请','','apply',6,'form','','');
 /*!40000 ALTER TABLE `app_resource` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -60,15 +58,14 @@ DROP TABLE IF EXISTS `application`;
 CREATE TABLE `application` (
   `Id` bigint(20) NOT NULL,
   `AppName` varchar(45) NOT NULL,
-  `AppCode` varchar(45) NOT NULL,
   `Enable` bit(1) NOT NULL DEFAULT b'1',
   `CreateTime` datetime NOT NULL,
   `Descript` varchar(200) DEFAULT NULL,
   `CallbackUrl` varchar(200) DEFAULT NULL,
-  `AppScret` varchar(100) DEFAULT NULL,
   `CallbackType` smallint(6) NOT NULL DEFAULT '1',
+  `AppUserId` bigint(20) NOT NULL,
+  `AppCode` varchar(45) NOT NULL,
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `AppCode_UNIQUE` (`AppCode`),
   UNIQUE KEY `AppName_UNIQUE` (`AppName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -79,7 +76,7 @@ CREATE TABLE `application` (
 
 LOCK TABLES `application` WRITE;
 /*!40000 ALTER TABLE `application` DISABLE KEYS */;
-INSERT INTO `application` VALUES (1202052677035361290,'easyRBAC','easyRBAC','','2017-09-26 13:56:38','easyRBAC','http://localhost:8813/easyRBAC/login','A5341D3F442BCA7C70E5',1);
+INSERT INTO `application` VALUES (1202052677035361290,'easyRBAC','','2017-09-26 13:56:38','easyRBAC','http://localhost:8813/easyRBAC/login',1,1235277682896274442,'easyRBAC');
 /*!40000 ALTER TABLE `application` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,7 +100,7 @@ CREATE TABLE `id_generate` (
 
 LOCK TABLES `id_generate` WRITE;
 /*!40000 ALTER TABLE `id_generate` DISABLE KEYS */;
-INSERT INTO `id_generate` VALUES ('0',7),('07',6),('0701',2),('070101',5),('070102',2),('0702',3),('070201',5),('070202',1),('070203',2),('0703',9),('070302',8),('0704',3),('070402',4),('0705',1),('0706',2);
+INSERT INTO `id_generate` VALUES ('0',8),('07',6),('0701',2),('070101',5),('070102',2),('0702',3),('070201',5),('070202',1),('070203',2),('0703',9),('070302',8),('0704',3),('070402',4),('0705',1),('0706',2);
 /*!40000 ALTER TABLE `id_generate` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,6 +116,7 @@ CREATE TABLE `login_token` (
   `userId` bigint(20) NOT NULL,
   `createOn` datetime NOT NULL,
   `expireIn` int(11) NOT NULL,
+  `appCode` varchar(45) NOT NULL,
   PRIMARY KEY (`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -129,6 +127,7 @@ CREATE TABLE `login_token` (
 
 LOCK TABLES `login_token` WRITE;
 /*!40000 ALTER TABLE `login_token` DISABLE KEYS */;
+INSERT INTO `login_token` VALUES ('User-1202054749357081610-0411222233-cd0d155271c64d64adb6e5b4329dd429',1202054749357081610,'2018-04-11 22:22:33',3600,'easyRBAC');
 /*!40000 ALTER TABLE `login_token` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -155,7 +154,7 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` VALUES (1202058400079283210,'administrator','','2017-09-26 14:41:02','管理员');
+INSERT INTO `role` VALUES (1202058400079283210,'administrator','','2017-09-26 14:41:02','管理员'),(1227849655069443082,'wxadmin','','2018-02-12 14:47:32','微信管理员');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -208,7 +207,7 @@ CREATE TABLE `role_user_rel` (
 
 LOCK TABLES `role_user_rel` WRITE;
 /*!40000 ALTER TABLE `role_user_rel` DISABLE KEYS */;
-INSERT INTO `role_user_rel` VALUES (1202058436586505226,1202054749357081610,1202058400079283210);
+INSERT INTO `role_user_rel` VALUES (1202058436586505226,1202054749357081610,1202058400079283210),(1227849693724148746,1225245702297224202,1227849655069443082);
 /*!40000 ALTER TABLE `role_user_rel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,6 +227,7 @@ CREATE TABLE `user` (
   `Enable` bit(1) NOT NULL DEFAULT b'1',
   `MobilePhone` varchar(30) DEFAULT NULL,
   `CreateTime` datetime NOT NULL,
+  `AccountType` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Id`),
   UNIQUE KEY `UserName_UNIQUE` (`UserName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -239,7 +239,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1202054749357081610,'admin','3DAE8974A1432DECDD04071F084FB55DAF93B99DAF13820074497247C9645C0A','6CA314B9DFAAC9BE29583F835285DEEBFC620EE129DC904FBDE7DE4DAE37BAEC1C5FD019AF731A997891502D73C48610E50269D401D465D2C1DE916813A6BA6E','管理员','','15199999999','2017-09-26 14:12:42');
+INSERT INTO `user` VALUES (1202054749357081610,'admin','3DAE8974A1432DECDD04071F084FB55DAF93B99DAF13820074497247C9645C0A','6CA314B9DFAAC9BE29583F835285DEEBFC620EE129DC904FBDE7DE4DAE37BAEC1C5FD019AF731A997891502D73C48610E50269D401D465D2C1DE916813A6BA6E','管理员','','15199999999','2017-09-26 14:12:42',0),(1225245702297224202,'uliian','F8B8EAA47FE341558ED02AFEB528BB552FCCC53048E2A12918621961D50A6370','AED5E6415E64B381E03CB8A6BCF3C429A92132BE26E65EAE1788C10F97A6A44A827DE54CC0171EFEBC36DBF4C3349DCDE2C3D13C5CB3B0BA7F648CDF55115464','陈慎远','','18516560743','2018-01-29 13:58:11',0),(1235277682896274442,'easyRBAC','2C6DD425BB689F0B608C4AD587FE90EEE436B2C0A780E0B92668CFF9DB070B22','4A4B3A88732F81F934BFD6CE60751B896219CF4FE48F3440CDE247AC0F76F6B13218DC8E10BE8EC8EAA6E6F7B0F80C1CF0F406828CBAD97C863C3D91966BC996','easyRBAC','','','2018-03-24 15:36:36',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -293,6 +293,7 @@ CREATE TABLE `user_resource_rel` (
 
 LOCK TABLES `user_resource_rel` WRITE;
 /*!40000 ALTER TABLE `user_resource_rel` DISABLE KEYS */;
+INSERT INTO `user_resource_rel` VALUES (1235883299054814218,1235277813892776970,'0706',1202052677035361290),(1235883299054815242,1235277813892776970,'070601',1202052677035361290),(1235883299054816266,1235277813892776970,'070602',1202052677035361290);
 /*!40000 ALTER TABLE `user_resource_rel` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -305,4 +306,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-19 14:44:10
+-- Dump completed on 2018-04-11 22:24:23

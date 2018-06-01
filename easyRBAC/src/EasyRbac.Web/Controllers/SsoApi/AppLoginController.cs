@@ -37,6 +37,10 @@ namespace EasyRbac.Web.Controllers.SsoApi
             (var userId, var appId) = await this.GetBaseInfo(userToken);
 
             var userInfo = await this._userService.GetUserInfo(userId);
+            if (!userInfo.Enable)
+            {
+                throw new EasyRbacException("用户被禁用");
+            }
             userInfo.Roles = await this._loginService.GetUserRoles(userId);
             return userInfo;
         }

@@ -18,6 +18,6 @@ namespace EasyRbac.Application.Resources
 
         Task<List<string>> GetRoleResourceIdsAsync(long appId, long roleId);
 
-        Task ChangeRoleResourcesAsync(long roleId, List<string> resourceIds);
+        Task ChangeRoleResourcesAsync(long roleId,long appId, List<string> resourceIds);
     }
 }

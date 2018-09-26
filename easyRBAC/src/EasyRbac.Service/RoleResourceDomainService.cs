@@ -54,11 +54,12 @@ namespace EasyRbac.DomainService
             return appResourceEntities.Select(x => x.Id).ToList();
         }
 
-        public async Task ChangeRoleResource(long roleId,List<string> newResourceIds)
+        public async Task ChangeRoleResource(long roleId,long appId,List<string> newResourceIds)
         {
             using (var tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                IEnumerable<RoleResourceRelation> rels = await this._roleResourceRel.QueryAsync(x => x.RoleId == roleId);
+                var appIds = await this._appResourceRepository.QueryAndSelectAsync<string>(x => x.ApplicationId == appId, x => x.Id);
+                IEnumerable<RoleResourceRelation> rels = await this._roleResourceRel.QueryAsync(x => x.RoleId == roleId && appIds.Contains(x.ResourceId));
                 var resourceIds = rels.Select(x => x.ResourceId);
                 var (addResources,subResources) = resourceIds.CalcluteChange(newResourceIds);
                 await this._roleResourceRel.DeleteAsync(x => subResources.Contains(x.ResourceId)&&x.RoleId == roleId);

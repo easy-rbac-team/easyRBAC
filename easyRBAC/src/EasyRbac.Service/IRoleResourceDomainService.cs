@@ -10,6 +10,6 @@ namespace EasyRbac.DomainService
 
         Task<List<string>> GetRoleResourceIds(long appid, params long[] roleId);
 
-        Task ChangeRoleResource(long roleId,List<string> newResourceIds);
+        Task ChangeRoleResource(long roleId,long appId,List<string> newResourceIds);
     }
 }

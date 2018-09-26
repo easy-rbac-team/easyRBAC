@@ -109,9 +109,9 @@ namespace EasyRbac.Application.Resources
             return this._roleResourceDomainService.GetRoleResourceIds(appId, roleId);
         }
 
-        public Task ChangeRoleResourcesAsync(long roleId, List<string> resourceIds)
+        public Task ChangeRoleResourcesAsync(long roleId, long appId,List<string> resourceIds)
         {
-            return this._roleResourceDomainService.ChangeRoleResource(roleId, resourceIds);
+            return this._roleResourceDomainService.ChangeRoleResource(roleId, appId,resourceIds);
         }
     }
 }

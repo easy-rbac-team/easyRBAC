@@ -43,7 +43,7 @@ export default {
         async setRoleResource(nodes){
             let roleId = this.selectedRoleId;
             let keys = nodes.map(x=>x.id);
-            await resourceService.changeRoleResources(roleId,keys);
+            await resourceService.changeRoleResources(roleId,this.selectedAppId,keys);
             this.$message({type:"success",message:"设置成功！"})           
         }
     },

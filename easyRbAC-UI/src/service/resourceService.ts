@@ -60,8 +60,8 @@ export let resourceService={
         let httpResult = await axios.get(path);        
         return httpResult.data as string[]
     },
-    async changeRoleResources(roleId:string,resourceLst:string[]){
-        let path =`${Config.BaseUrl}/AppResource/role/${roleId}`;
+    async changeRoleResources(roleId:string,appId:string,resourceLst:string[]){
+        let path =`${Config.BaseUrl}/AppResource/role/${roleId}/${appId}`;
         let httpResult = await axios.put(path,resourceLst);        
     },   
     setResourceDisable(tree:TreeStruct[],resourceIds:string[]){

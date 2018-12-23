@@ -4,19 +4,25 @@ div.form-border
             el-form-item(label='应用名',prop="appName")
                 el-input(v-model='form.appName')         
             el-form-item(label='应用代码',prop="appCode")
-                el-input(v-model='form.appCode')     
+                el-input(v-model='form.appCode')                 
+            el-form-item(label="描述",prop="descript")
+                el-input(v-model="form.descript",type="textarea")   
             el-form-item(label="启用SSO",prop="enableSSO")
                 el-checkbox(v-model="form.enableSSO",style="float:left")  
-            el-form-item(v-show="form.enableSSO",label='回调配置',prop="callbackUrl")
-                el-col(:span="11")
-                    el-select(v-model='form.callbackType', placeholder='SSO回调方式')
+            el-form-item(v-show="form.enableSSO",label='回调配置',v-for="(item,ix) in form.callbackConfigs",:key="ix")
+                el-autocomplete(:span="20",:fetch-suggestions="querySearchAsync",v-model="item.enviroment", placeholder='环境',:key="item.id")
+                el-button(type="danger",@click="removeConfig(ix)") 删除
+                el-col(:span="20")
+                    el-select(v-model='item.callbackType', placeholder='SSO回调方式')
                         el-option(label='jsonp', value="1")
                         el-option(label='CORS', value="2")
                         el-option(label='Redirect', value="4")
-                el-col(:span="11")
-                    el-input(v-model='form.callbackUrl')                
-            el-form-item(label="描述",prop="descript")
-                el-input(v-model="form.descript",type="textarea")   
+                el-col(:span="20")
+                    el-input(v-model='item.callbackUrl', placeholder='回调URL')                     
+                el-col(:span="20")
+                    el-input(v-model="item.remark",placeholder="描述")
+                el-col(:span="20" v-if="ix===(form.callbackConfigs.length-1)")
+                    el-button(type="success",@click="addCallbackConfig") 添加
             el-form-item
                 el-button(type='primary', @click='onSubmit') 立即创建
                 el-button(@click="cancel") 取消
@@ -28,13 +34,25 @@ import { appService } from "../../service/appService.ts";
 export default {
   data() {
     return {
+      defaultEnviroments: [
+        { value: "prod" },
+        { value: "dev" },
+        { value: "local" }
+      ],
       form: {
         appName: "",
         appCode: "",
         descript: "",
         enableSSO: false,
-        callbackUrl: "",
-        callbackType: ""
+        callbackConfigs: [
+          {
+            id:"-1",
+            enviroment:"",
+            callbackType: "",
+            callbackUrl: "",
+            remark:""            
+          }
+        ]
       },
       rules: {
         appName: [
@@ -55,11 +73,34 @@ export default {
     };
   },
   methods: {
+    querySearchAsync(queryString, cb) {
+      var restaurants = this.defaultEnviroments;
+      var results = queryString
+        ? restaurants.filter(x=>x.value.startsWith(queryString))
+        : [];
+
+      cb(results);
+    },
+    addCallbackConfig(){
+        this.form.callbackConfigs.push({          
+            id:-1,  
+            enviroment:"",
+            callbackType: "",
+            callbackUrl: "",
+            remark:""
+        })
+    },
+    removeConfig(ix){
+        this.form.callbackConfigs.splice(ix,1)
+        if(this.form.callbackConfigs.length===0){
+            this.addCallbackConfig()
+        }
+    },
     onSubmit() {
       this.$refs["form"].validate(async valid => {
         if (valid) {
           let appResult = await appService.createApp(this.$data.form);
-            debugger;
+          debugger;
           this.$alert(
             `请记住您的AppSecuret:${appResult.appScret}`,
             "应用创建成功",

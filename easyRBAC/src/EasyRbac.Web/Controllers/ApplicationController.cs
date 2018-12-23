@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EasyRbac.Application.Application;
 using EasyRbac.Dto;
 using EasyRbac.Dto.Application;
+using EasyRbac.Dto.User;
 using EasyRbac.Web.WebExtentions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -34,6 +35,9 @@ namespace EasyRbac.Web.Controllers
         [HttpPost]
         public Task<ApplicationInfoDto> Post([FromBody]ApplicationInfoDto app)
         {
+            var user = (this.HttpContext.User.Identity as UserIdentity);
+            var realName = user?.RealName;
+            app.CallbackConfigs.ForEach(x => x.CreateBy = realName);
             return this._applicationService.AddAppAsync(app);
         }
         

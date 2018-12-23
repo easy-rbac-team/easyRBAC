@@ -13,6 +13,7 @@ using EasyRbac.Dto.AppResource;
 using EasyRbac.Dto.Exceptions;
 using EasyRbac.Dto.User;
 using EasyRbac.Dto.UserLogin;
+using EasyRbac.Reponsitory;
 using EasyRbac.Reponsitory.BaseRepository;
 using EasyRbac.Utils;
 using EasyRbac.Web.Options;
@@ -31,12 +32,12 @@ namespace EasyRbac.Application.Login
         private IEncryptHelper _encryptHelper;
         private IOptions<AppOption> _appOptions;
         private IUserResourceDomainService _userResourceDomainService;
-        private IRepository<ApplicationEntity> _appRepository;
+        private IApplicationRepository _appRepository;
         private IUserRoleDomainService userRoleDomainService;
         private IMapper _mapper;
 
 
-        public LoginService(IRepository<LoginTokenEntity> loginTokenRepository, INumberConvert numberConvert, IRepository<UserEntity> userRepository, IEncryptHelper encryptHelper, IUserResourceDomainService userResourceDomainService, IMapper mapper, IRepository<ApplicationEntity> appRepository, IOptions<AppOption> appOptions, IUserRoleDomainService userRoleDomainService)
+        public LoginService(IRepository<LoginTokenEntity> loginTokenRepository, INumberConvert numberConvert, IRepository<UserEntity> userRepository, IEncryptHelper encryptHelper, IUserResourceDomainService userResourceDomainService, IMapper mapper, IApplicationRepository appRepository, IOptions<AppOption> appOptions, IUserRoleDomainService userRoleDomainService)
         {
             this._loginTokenRepository = loginTokenRepository;
             this._numberConvert = numberConvert;
@@ -78,10 +79,17 @@ namespace EasyRbac.Application.Login
             };
         }
 
-        public async Task<LoginCallbackDto> GetAppLoginCallback(string appCode)
+        public async Task<LoginCallbackDto> GetAppLoginCallback(string appCode,String env)
         {
-            var url = await this._appRepository.QueryAndSelectFirstAsync<LoginCallbackDto>(x => x.AppCode == appCode, x => new LoginCallbackDto { CallbackUrl = x.CallbackUrl, CallbackType = x.CallbackType });
-            return url;
+            //var url = await this._appRepository.QueryAndSelectFirstAsync<LoginCallbackDto>(x => x.AppCode == appCode, x => new LoginCallbackDto { CallbackUrl = x.CallbackUrl, CallbackType = x.CallbackType });
+            //return url;
+            var appInfo = await this._appRepository.GetAppInfoEntityAsync(x => x.AppCode == appCode);
+            var callbackInfo = appInfo.CallbackConfigs.Where(x => x.Enviroment == env).FirstOrDefault();
+            return new LoginCallbackDto()
+            {
+                CallbackType = callbackInfo?.CallbackType,
+                CallbackUrl = callbackInfo?.CallbackUrl
+            };
         }
 
 

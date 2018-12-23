@@ -18,27 +18,41 @@
         div.el-form-item__content()                 
             el-tooltip(class="item",effect="dark",content="重置",placement="top-start")        
                 el-button(size="mini",icon="el-icon-edit",type="warning",@click="changeAppSecret")
-    .el-form-item(v-if="appData.callbackUrl!==null&&appData.callbackUrl!==''")
-        label.el-form-item__label
-            | 回调地址
-        div.el-form-item__content
-            span 
-                | {{appData.callbackUrl}}
-    .el-form-item(v-if="appData.callbackUrl!==null&&appData.callbackUrl!==''")
-        label.el-form-item__label
-            | 回调方式
-        div.el-form-item__content
-            span 
-                | {{callbackTypeStr}}
     .el-form-item
         label.el-form-item__label
             | APP描述
         div.el-form-item__content
             span 
                 | {{appData.descript}}    
+    .el-form-item(v-for="config in appData.callbackConfigs" )       
+        label.el-form-item__label
+            | 环境:
+        div.el-form-item__content
+            span {{config.enviroment}}
+        label.el-form-item__label
+            | 回调方式:
+        div.el-form-item__content
+            span {{getCallbackTypeStr(config.callbackType)}}
+        label.el-form-item__label
+            | 回调URL:
+        div.el-form-item__content
+            span {{config.callbackUrl}}
+    //- .el-form-item(v-if="appData.callbackUrl!==null&&appData.callbackUrl!==''")
+    //-     label.el-form-item__label
+    //-         | 回调地址
+    //-     div.el-form-item__content
+    //-         span 
+    //-             | {{appData.callbackUrl}}
+    //- .el-form-item(v-if="appData.callbackUrl!==null&&appData.callbackUrl!==''")
+    //-     label.el-form-item__label
+    //-         | 回调方式
+    //-     div.el-form-item__content
+    //-         span 
+    //-             | {{callbackTypeStr}}
+    
 </template>
 <script>
-import { appService } from '../../service/appService.ts'
+import { appService } from '../../service/appService'
 
 export default {
     props: ["appId"],
@@ -72,6 +86,18 @@ export default {
         }
     },
     methods: {
+        getCallbackTypeStr(type){
+            switch(type){
+                case 0:
+                    return 'Null';
+                case 1:
+                    return 'jsonp';
+                case 2:
+                    return 'CORS';
+                case 4: 
+                    return 'Redirect'
+            }
+        },
         async getAppSecuret() {
             let result = await appService.getAppsecrete(this.appId);
             this.appSecuret = result;

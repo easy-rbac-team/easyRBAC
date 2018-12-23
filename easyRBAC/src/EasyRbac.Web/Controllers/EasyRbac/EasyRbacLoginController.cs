@@ -34,6 +34,7 @@ namespace EasyRbac.Web.Controllers.EasyRbac
         }
 
         [HttpGet()]
+        [AllowAnonymous]
         public async Task<string> LoginCheck(string token,string callback)
         {
             var tokenResult = await this._loginService.GetTokenEntityByTokenAsync(token);

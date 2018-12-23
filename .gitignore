@@ -13,3 +13,4 @@ dist/
 .vscode
 *.user
 *.pubxml
+application.Home.json

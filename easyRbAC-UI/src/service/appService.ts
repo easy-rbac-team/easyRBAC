@@ -8,6 +8,17 @@ enum CallbackType{
     redirect=4
 }
 
+interface CallbackConfig{
+    id:string
+    appId:string
+    enviroment:string
+    callbackUrl:string
+    callbackType:CallbackType
+    remark:string
+    createBy:string
+    createTime:Date
+}
+
 interface Application{
     id:string,
     appName:string,
@@ -17,7 +28,8 @@ interface Application{
     descript:string,
     callbackUrl:string,
     callbackType:CallbackType,
-    appScret:string
+    appScret:string,
+    callbackConfigs:CallbackConfig[]
 }
 
 export let appService={

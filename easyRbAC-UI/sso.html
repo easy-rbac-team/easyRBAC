@@ -274,7 +274,7 @@
             "retina_detect": true
         });
 
-        const ssoApiBaseUrl = "http://localhost:8813/sso/UserLogin"
+        const ssoApiBaseUrl = "http://easyrbac.uliian.com/sso/UserLogin"
 
         let existResult = getTokenInfo();
 
@@ -284,6 +284,7 @@
 
         async function login() {
             let appCode = getParameterByName("appCode");
+            let env = getParameterByName("env")
             let tokenResult = getTokenInfo();
             if (tokenResult == null) {
                 tokenResult = await getToken()
@@ -292,7 +293,7 @@
                 }
             }
 
-            fetch(`${ssoApiBaseUrl}/callbackUrl?appCode=${appCode}`).then(response => {
+            fetch(`${ssoApiBaseUrl}/callbackUrl?appCode=${appCode}&env=${env}`).then(response => {
                 if (response.ok) {
                     response.json().then(appCallbackUrl => {
                         debugger;

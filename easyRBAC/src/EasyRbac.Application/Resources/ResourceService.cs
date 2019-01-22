@@ -92,7 +92,10 @@ namespace EasyRbac.Application.Resources
             var newId = this._keyedIdGenerate.NewId(parentId);
             var new62Id = this._numberConvert.ToString(newId).PadLeft(2, '0');
             var appResourceEntity = this._mapper.Map<AppResourceEntity>(Resource);
-            appResourceEntity.Id = Convert.ToInt32(parentId) == 0 ? new62Id : (parentId + new62Id);
+
+            var success = int.TryParse(parentId, out int result);
+
+            appResourceEntity.Id = (success && result == 0) ? new62Id : (parentId + new62Id);
             return this._resourceRepository.InsertAsync(appResourceEntity);
         }
 

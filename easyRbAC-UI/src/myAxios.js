@@ -13,6 +13,16 @@ const customAxios = axios.create({
     withCredentials: true
 });
 
+function getEnv(){
+    if(window.location.hostname.startsWith("localhost")){
+        return "dev"
+    }
+
+    if(window.location.host.startsWith("easyrbac.ui.uliian.com")){
+        return "prod"
+    }
+}
+
 function showErro(msg) {
     Message.Message.error(msg);
 }
@@ -37,7 +47,7 @@ customAxios.interceptors.response.use(function(response) {
     if (code === 401) {
         //goTo(ssoUrl);
         debugger;
-        window.location.href = ssoUrl + window.location.href;
+        window.location.href = ssoUrl + window.location.href+"&env="+getEnv();
     }
 
     if (code === 403) {

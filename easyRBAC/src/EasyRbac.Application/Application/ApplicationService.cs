@@ -59,6 +59,7 @@ namespace EasyRbac.Application.Application
                 if (x.Id == -1)
                 {
                     x.Id = this._idGenerator.NewId();
+                    x.AppId = value.Id;
                 }
             });
             return this._appRepository.UpdateApplicationConfigInfo(appEntity);

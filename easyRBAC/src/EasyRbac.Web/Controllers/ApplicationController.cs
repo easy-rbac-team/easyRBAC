@@ -45,6 +45,7 @@ namespace EasyRbac.Web.Controllers
         [HttpPut("{id}")]
         public Task Put(long id, [FromBody]ApplicationInfoDto value)
         {
+            value.CallbackConfigs?.ForEach(x => x.CreateBy = this.User.Identity.Name);
             return this._applicationService.EditAsync(id, value);
         }
         

@@ -18,6 +18,7 @@
     },
     "EasyRbac.Web": {
       "commandName": "Project",
+      "commandLineArgs": "--urls=\"http://localhost:8010\"",
       "launchUrl": "api/values",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Home"

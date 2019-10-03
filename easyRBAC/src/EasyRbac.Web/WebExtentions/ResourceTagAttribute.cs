@@ -13,6 +13,8 @@ namespace EasyRbac.Web.WebExtentions
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
     public class ResourceTagAttribute : Attribute, IAuthorizationFilter
     {
+        public bool CheckPermission { get; set; } = true;
+
         /// <inheritdoc />
         /// <summary>Initializes a new instance of the <see cref="T:System.Attribute"></see> class.</summary>
         public ResourceTagAttribute(params string[] resourceName)
@@ -32,6 +34,7 @@ namespace EasyRbac.Web.WebExtentions
             {
                 return;
             }
+
             var pricipal = context.HttpContext.User;
 
             if (!this.ResourceName.Any())
@@ -46,11 +49,14 @@ namespace EasyRbac.Web.WebExtentions
                 return;
             }
 
-            var success = Authentica(pricipal);
-            if (!success)
+            if (this.CheckPermission)
             {
-                Forbid(context);
-                return;
+                var success = Authentica(pricipal);
+                if (!success)
+                {
+                    Forbid(context);
+                    return;
+                }
             }
 
             context.HttpContext.User = pricipal;

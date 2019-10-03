@@ -29,6 +29,10 @@ namespace EasyRbac.Dto.Application
 
         public string AppScret { get; set; }
 
+        public string HomePageUrl { get; set; }
+
+        public string IconUrl { get; set; }
+
         public List<ApplicationCallbackConfig> CallbackConfigs { get; set; }
     }
 }

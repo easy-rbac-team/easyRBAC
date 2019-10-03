@@ -44,7 +44,7 @@ namespace EasyRbac.Web.Controllers.EasyRbac
             }
 
             if (tokenResult.IsExpire())
-            {
+            {                
                 return string.Format("{0}({1})", callback, "{\"success\":false,\"message\":\"token is expired\"}");
             }
 
@@ -54,6 +54,12 @@ namespace EasyRbac.Web.Controllers.EasyRbac
             });
             
             return string.Format("{0}({1})", callback, "{\"success\":true}");
+        }
+
+        [HttpGet("logout")]
+        public void LogoutEasyRbac()
+        {
+            this.Response.Cookies.Delete("token");
         }
 
         [HttpGet("userMenu")]

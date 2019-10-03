@@ -32,6 +32,10 @@ namespace EasyRbac.Domain.Entity
         [SQLinqColumn(Ignore =true)]
         public List<ApplicationCallbackConfig> CallbackConfigs { get; set; }
 
+        public string HomePageUrl { get; set; }
+
+        public string IconUrl { get; set; }
+
         public void ChangeSecuret(string newPassword, IEncryptHelper encryptHelper)
         {
             this.Account.ChangePassword(newPassword, encryptHelper);

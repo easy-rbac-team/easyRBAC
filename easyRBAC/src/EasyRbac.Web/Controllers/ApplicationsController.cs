@@ -6,6 +6,7 @@ using EasyRbac.Application.Application;
 using EasyRbac.Dto;
 using EasyRbac.Dto.Application;
 using EasyRbac.Web.WebExtentions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyRbac.Web.Controllers
@@ -20,7 +21,8 @@ namespace EasyRbac.Web.Controllers
             this._applicationService = applicationService;
         }
 
-        [ResourceTag("SearchApp")]
+        [ResourceTag("SearchApp",CheckPermission =false)]
+        //[AllowAnonymous]
         [HttpGet]
         public Task<PagingList<ApplicationInfoDto>> Get(string appName, int pageIndex, int pageSize)
         {

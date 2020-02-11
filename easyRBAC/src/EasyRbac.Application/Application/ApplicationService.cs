@@ -22,14 +22,16 @@ namespace EasyRbac.Application.Application
         private readonly IIdGenerator _idGenerator;
         private readonly IEncryptHelper _encryptHelper;
         private readonly IRepository<UserEntity> _userRepository;
+        private readonly IRepository<RoleEntity> _userRoleRelRepository;
 
-        public ApplicationService(IApplicationRepository appRepository, IIdGenerator idGenerator, IMapper mapper, IEncryptHelper encryptHelper, IRepository<UserEntity> userRepository)
+        public ApplicationService(IApplicationRepository appRepository, IIdGenerator idGenerator, IMapper mapper, IEncryptHelper encryptHelper, IRepository<UserEntity> userRepository,IRepository<RoleEntity> roleRepository)
         {
             this._appRepository = appRepository;
             this._idGenerator = idGenerator;
             this._mapper = mapper;
             this._encryptHelper = encryptHelper;
             this._userRepository = userRepository;
+            this._userRoleRelRepository = roleRepository;
         }
 
         public async Task DisableApp(long id)
@@ -76,7 +78,7 @@ namespace EasyRbac.Application.Application
         public async Task<ApplicationInfoDto> AddAppAsync(ApplicationInfoDto app)
         {
             var applicationEntity = this._mapper.Map<ApplicationEntity>(app);
-
+            var role = await this._userRoleRelRepository.QueryFirstAsync(x => x.RoleName == "application");
 
             var pwd = this._encryptHelper.GenerateSalt(10);
 
@@ -91,6 +93,7 @@ namespace EasyRbac.Application.Application
                 x.Id = this._idGenerator.NewId();
                 x.AppId = applicationEntity.Id;
                 });
+            applicationEntity.UserRole.Add(role);
             await this._appRepository.InsertAsync(applicationEntity);
             app.AppScret = pwd;
             return app;

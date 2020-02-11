@@ -22,15 +22,18 @@ namespace EasyRbac.Domain.Entity
         public string Descript { get; set; }
 
         [SQLinqColumn(Ignore = true)]
-        public List<AppResourceEntity> AppResouce { get; set; }
+        public List<AppResourceEntity> AppResouce { get; set; } = new List<AppResourceEntity>();
 
         public long AppUserId { get; set; }
 
         [SQLinqColumn(Ignore =true)]
         public UserEntity Account { get; set; }
 
-        [SQLinqColumn(Ignore =true)]
-        public List<ApplicationCallbackConfig> CallbackConfigs { get; set; }
+        [SQLinqColumn(Ignore = true)]
+        public List<ApplicationCallbackConfig> CallbackConfigs { get; set; } = new List<ApplicationCallbackConfig>();
+
+        [SQLinqColumn(Ignore = true)]
+        public List<RoleEntity> UserRole { get; set; } = new List<RoleEntity>();
 
         public string HomePageUrl { get; set; }
 

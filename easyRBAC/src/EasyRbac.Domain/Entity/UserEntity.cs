@@ -26,10 +26,7 @@ namespace EasyRbac.Domain.Entity
         public string MobilePhone { get; set; }
 
         public DateTime CreateTime { get; set; } = DateTime.Now;
-
-        [SQLinqColumn(Ignore = true)]
-        public List<RoleEntity> Roles { get; set; }
-
+        
         [SQLinqColumn(Ignore = true)]
         public List<ApplicationEntity> Applications { get; set; }
 

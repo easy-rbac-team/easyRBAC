@@ -1,8 +1,10 @@
 ﻿using Dapper;
 using EasyRbac.Domain.Entity;
+using EasyRbac.Domain.Relations;
 using EasyRbac.Reponsitory.BaseRepository;
 using Microsoft.Extensions.Logging;
 using MyUtility.CollectionExtentions;
+using MyUtility.Commons.IdGenerate;
 using SQLinq;
 using System;
 using System.Collections.Generic;
@@ -18,9 +20,11 @@ namespace EasyRbac.Reponsitory
     public class ApplicationRepository : BaseRepository<ApplicationEntity>, IApplicationRepository
     {
         private IRepository<ApplicationCallbackConfig> _applicationCallbackConfigRepository;
-        public ApplicationRepository(IDbConnection connection, ISqlDialect sqlDialect, ILoggerFactory loggerFactory, IRepository<ApplicationCallbackConfig> applicationCallbackConfigRepository)
+        private readonly IIdGenerator _idGenerator;
+        public ApplicationRepository(IDbConnection connection, ISqlDialect sqlDialect, ILoggerFactory loggerFactory, IRepository<ApplicationCallbackConfig> applicationCallbackConfigRepository,IIdGenerator idGenerator)
             : base(connection, sqlDialect, loggerFactory)
         {
+            this._idGenerator = idGenerator;
             this._applicationCallbackConfigRepository = applicationCallbackConfigRepository;
         }
 
@@ -132,6 +136,17 @@ namespace EasyRbac.Reponsitory
                 await base.InsertAsync(obj);
                 var sql = obj.Account.ToSQLinqInsert(dialect: base.SqlDialect).ToSQL();
                 await this.Connection.ExecuteAsync(sql.ToQuery(), sql.Parameters);
+                var role = obj.UserRole.First();
+                var rel = new UserRoleRelation()
+                {
+                    Id = this._idGenerator.NewId(),
+                    RoleId = role.Id,
+                    UserId = obj.Account.Id
+                };
+
+                var relInsert = rel.ToSQLinqInsert(dialect: base.SqlDialect);
+                var relSql = relInsert.ToSQL();
+                await this.Connection.ExecuteAsync(relSql.ToQuery(), relSql.Parameters);
                 obj.CallbackConfigs.ForEach(async x =>
                 {
                     sql = x.ToSQLinqInsert(dialect: base.SqlDialect).ToSQL();

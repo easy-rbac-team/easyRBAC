@@ -19,9 +19,9 @@ namespace EasyRbac.Reponsitory
 {
     public class ApplicationRepository : BaseRepository<ApplicationEntity>, IApplicationRepository
     {
-        private IRepository<ApplicationCallbackConfig> _applicationCallbackConfigRepository;
+        private readonly IRepository<ApplicationCallbackConfig> _applicationCallbackConfigRepository;
         private readonly IIdGenerator _idGenerator;
-        public ApplicationRepository(IDbConnection connection, ISqlDialect sqlDialect, ILoggerFactory loggerFactory, IRepository<ApplicationCallbackConfig> applicationCallbackConfigRepository,IIdGenerator idGenerator)
+        public ApplicationRepository(IDbConnection connection, ISqlDialect sqlDialect, ILoggerFactory loggerFactory, IRepository<ApplicationCallbackConfig> applicationCallbackConfigRepository, IIdGenerator idGenerator)
             : base(connection, sqlDialect, loggerFactory)
         {
             this._idGenerator = idGenerator;
@@ -44,7 +44,7 @@ namespace EasyRbac.Reponsitory
 
 
 
-        public async Task<ApplicationEntity> GetAppInfoEntityAsync(Expression<Func<ApplicationEntity,bool>> condition)
+        public async Task<ApplicationEntity> GetAppInfoEntityAsync(Expression<Func<ApplicationEntity, bool>> condition)
         {
             var app = await base.QueryFirstAsync(condition);
             var sqlGenerator = new SQLinq<UserEntity>(base.SqlDialect);
@@ -87,9 +87,9 @@ namespace EasyRbac.Reponsitory
                     Descript = entity.Descript
                 }, x => x.Id == entity.Id);
                 var configs = await this.GetApplicationCallbackConfigsAsync(entity.Id);
-                var (newItems,removeItems) = configs.CalcluteChange(entity.CallbackConfigs,(a,b)=>a.Id==b.Id);
+                var (newItems, removeItems) = configs.CalcluteChange(entity.CallbackConfigs, (a, b) => a.Id == b.Id);
 
-                foreach(var config in removeItems)
+                foreach (var config in removeItems)
                 {
                     await this._applicationCallbackConfigRepository.DeleteAsync(x => x.Id == config.Id);
                 }
@@ -111,6 +111,7 @@ namespace EasyRbac.Reponsitory
                         }, x => x.Id == config.Id);
                     }
                 }
+                transaction.Complete();
             }
         }
 
@@ -129,7 +130,7 @@ namespace EasyRbac.Reponsitory
             await this.Connection.ExecuteAsync(updateSql, updateSqlResult.Parameters);
         }
 
-        public override async Task InsertAsync(ApplicationEntity obj)
+        public override async Task<int> InsertAsync(ApplicationEntity obj)
         {
             using (var transaction = new TransactionScope(TransactionScopeOption.Required, TransactionScopeAsyncFlowOption.Enabled))
             {
@@ -146,13 +147,14 @@ namespace EasyRbac.Reponsitory
 
                 var relInsert = rel.ToSQLinqInsert(dialect: base.SqlDialect);
                 var relSql = relInsert.ToSQL();
-                await this.Connection.ExecuteAsync(relSql.ToQuery(), relSql.Parameters);
+                var count = await this.Connection.ExecuteAsync(relSql.ToQuery(), relSql.Parameters);
                 obj.CallbackConfigs.ForEach(async x =>
                 {
                     sql = x.ToSQLinqInsert(dialect: base.SqlDialect).ToSQL();
-                    await this.Connection.ExecuteAsync(sql.ToQuery(), sql.Parameters);
+                    count += await this.Connection.ExecuteAsync(sql.ToQuery(), sql.Parameters);
                 });
                 transaction.Complete();
+                return count;
             }
         }
 

@@ -10,7 +10,7 @@ namespace EasyRbac.Reponsitory.BaseRepository
 {
     public interface IRepository<T>
     {
-        Task InsertAsync(T obj);
+        Task<int> InsertAsync(T obj);
         
         Task DeleteAsync(Expression<Func<T, bool>> expression);        
 

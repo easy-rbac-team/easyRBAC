@@ -14,4 +14,4 @@ jobs:
       with:
         dotnet-version: 2.2.108
     - name: Build with dotnet
-      run: cd easyRBAC & dotnet build --configuration Release
+      run: dotnet build easyRBAC/easyRBAC.sln --configuration Release

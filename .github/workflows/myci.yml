@@ -14,12 +14,5 @@ jobs:
       with:
         dotnet-version: 2.2.108
     - name: Build with dotnet
-      run: dotnet build easyRBAC/easyRBAC.sln --configuration Release
-    - name: publish
-      run: dotnet publish .\easyRBAC\src\EasyRbac.Web\ -c Release  --self-contained -r linux-x64
-    - name: remove settings
-      run: rm -f ./easyRBAC/src/EasyRbac.Web/bin/Release/netcoreapp2.2/linux-x64/publish/appsettings.*
-    - name: remove pdb
-      run: rm -f ./easyRBAC/src/EasyRbac.Web/bin/Release/netcoreapp2.2/linux-x64/publish/*.pdb
-    - name: package
-      rum: tar -czvf easyRBAC.tar.gz easyRBAC/src/EasyRbac.Web/bin/Release/netcoreapp2.2/linux-x64/publish
+      run: |
+        sh ./.github/workflows/build.sh

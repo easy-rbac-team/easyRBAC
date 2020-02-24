@@ -16,10 +16,11 @@ jobs:
       run: |
         sh ./.github/workflows/build.sh
     - name: Push Result To Server
-      uses: garygrossgarten/github-action-scp@release
+      uses: appleboy/scp-action@master
       env:
-        privateKey : ${{ secrets.SERVER_SSH_KEY }}
-        local: "./easyRBAC.tar.gz"
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
-        remote: ${{ secrets.REMOTE_TARGET }}
+        KEY: ${{ secrets.SERVER_SSH_KEY }}        
+        HOST: ${{ secrets.REMOTE_HOST }}
+        USERNAME: ${{ secrets.REMOTE_USER }}        
+      with:
+        source: "./easyRBAC.tar.gz"
+        target:  ${{ secrets.REMOTE_TARGET }}

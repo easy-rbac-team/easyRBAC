@@ -15,11 +15,11 @@ jobs:
     - name: Build with dotnet
       run: |
         sh ./.github/workflows/build.sh
-    - name: Deploy to Server
-      uses: easingthemes/ssh-deploy@v2.0.7
+    - name: Push Result To Server
+      uses: garygrossgarten/github-action-scp@release
       env:
-          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-          SOURCE: "./easyRBAC.tar.gz"
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: ${{ secrets.REMOTE_TARGET }}
+        privateKey : ${{ secrets.SERVER_SSH_KEY }}
+        local: "./easyRBAC.tar.gz"
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        remote: ${{ secrets.REMOTE_TARGET }}

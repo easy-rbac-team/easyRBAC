@@ -30,6 +30,7 @@ pipeline {
                         remote.identityFile = id_rsa
 
                         sshPut remote: remote, from: 'easyRBAC.tar.gz', into: '/home/function/tmp'
+                        sshCommand remote: remote, command: "tar -xzvf /home/function/tmp/easyRBAC.tar.gz -C /tmp/"
                         // sshCommand remote: remote, command: "systemctl --user stop easyrbac"
                         // sshCommand remote: remote, command: "cp -f /home/function/java_apps/xin-an-api/api.jar /home/function/java_apps/xin-an-api/api.jar.bak"
                         // sshCommand remote: remote, command: "cp -f /home/function/tmp/api.jar /home/function/java_apps/xin-an-api/"

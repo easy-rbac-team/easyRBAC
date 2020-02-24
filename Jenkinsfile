@@ -31,6 +31,10 @@ pipeline {
 
                         sshPut remote: remote, from: 'easyRBAC.tar.gz', into: '/home/function/tmp'
                         sshCommand remote: remote, command: "tar -xzvf /home/function/tmp/easyRBAC.tar.gz -C /tmp/"
+                        sshCommand remote: remote, command: "systemctl --user stop easyrbac"
+                        sshCommand remote: remote, command: "cp -f /tmp/easyRBAC/src/EasyRbac.Web/bin/Release/netcoreapp2.2/linux-x64/publish/* /home/function/dotnet_apps/easyRBAC"
+                        sshCommand remote: remote, command: "systemctl --user start easyrbac"
+                        sshRemove remote: remote, path: '/tmp/easyRBAC'
                         // sshCommand remote: remote, command: "systemctl --user stop easyrbac"
                         // sshCommand remote: remote, command: "cp -f /home/function/java_apps/xin-an-api/api.jar /home/function/java_apps/xin-an-api/api.jar.bak"
                         // sshCommand remote: remote, command: "cp -f /home/function/tmp/api.jar /home/function/java_apps/xin-an-api/"

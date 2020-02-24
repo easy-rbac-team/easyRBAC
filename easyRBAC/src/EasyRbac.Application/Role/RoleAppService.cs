@@ -109,5 +109,26 @@ namespace EasyRbac.Application.Role
             var rels = await this._userRoleRel.GetUserIdsAsync(roleId);
             return rels;
         }
+
+        public async Task RoleAddOneUser(long roleId, long userId)
+        {
+            var rel = await this._userRoleRel.QueryFirstAsync(x => x.RoleId == roleId && x.UserId == userId);
+            if(rel != null)
+            {
+                return;
+            }
+            rel = new UserRoleRelation
+            {
+                Id = this._idGenerator.NewId(),
+                UserId = userId,
+                RoleId = roleId
+            };
+            await this._userRoleRel.InsertAsync(rel);
+        }
+
+        public async Task RoleRemoveOneUser(long roleId,long userId)
+        {
+            await this._userRoleRel.DeleteAsync(x => x.RoleId == roleId && x.UserId == userId);
+        }
     }
 }

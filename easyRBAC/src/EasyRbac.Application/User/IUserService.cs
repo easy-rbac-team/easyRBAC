@@ -7,7 +7,7 @@ namespace EasyRbac.Application.User
 {
     public interface IUserService
     {
-        Task AddUser(CreateUserDto user);
+        Task<long> AddUser(CreateUserDto user);
 
         Task ChangePwd(long userId, ChangePwd change);
 

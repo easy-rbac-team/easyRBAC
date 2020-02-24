@@ -35,11 +35,12 @@ namespace EasyRbac.Application.User
             this._userResourceDomainService = userResourceDomainService;
         }
 
-        public Task AddUser(CreateUserDto user)
+        public async Task<long> AddUser(CreateUserDto user)
         {
             var userEntity = UserEntity.NewUser(this._idGenerate.NewId(), user.UserName, user.Password, user.RealName,this._encryptHelper);
             userEntity.MobilePhone = user.MobilePhone;
-            return this._userRepository.InsertAsync(userEntity);
+            var changeCount = await this._userRepository.InsertAsync(userEntity);
+            return userEntity.Id;
         }
 
         public async Task ChangePwd(long userId, ChangePwd change)

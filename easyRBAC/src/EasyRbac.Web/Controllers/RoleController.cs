@@ -62,6 +62,20 @@ namespace EasyRbac.Web.Controllers
             return this._roleService.GetUserIdsInRole(roleId);
         }
 
+        [HttpPost("{roleId}/user/{userId}")]
+        [ResourceTag]
+        public Task RoleAddOneUser(long roleId,long userId)
+        {
+            return this._roleService.RoleAddOneUser(roleId, userId);
+        }
+
+        [HttpDelete("{roleId}/user/{userId}")]
+        [ResourceTag]
+        public Task ReoleRemoveOneUser(long roleId,long userId)
+        {
+            return this._roleService.RoleRemoveOneUser(roleId, userId);
+        }
+
         [HttpPut("{roleId}/resource")]
         [ResourceTag]
         public Task ChangeResouces(long roleId, [FromBody]List<long> resouceList)

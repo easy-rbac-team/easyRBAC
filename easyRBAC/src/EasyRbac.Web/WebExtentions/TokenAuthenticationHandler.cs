@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using EasyRbac.Application.Application;
 using EasyRbac.Application.Login;
 using EasyRbac.Domain.Entity;
 using EasyRbac.DomainService;
 using EasyRbac.Dto.Application;
+using EasyRbac.Dto.Exceptions;
 using EasyRbac.Dto.User;
 using EasyRbac.Web.Options;
 using Microsoft.AspNetCore.Authentication;
@@ -110,19 +112,26 @@ namespace EasyRbac.Web.WebExtentions
         /// <returns>A Task.</returns>
 
 
-        public Task ChallengeAsync(AuthenticationProperties properties)
+        public async Task ChallengeAsync(AuthenticationProperties properties)
         {
             this.context.Response.StatusCode = 401;
-            return Task.CompletedTask;
+            var error = new ErroResponse() { Message = "登陆验证失败" };
+            var bytes = Encoding.UTF8.GetBytes(error.ToJson());
+            this.context.Response.ContentType = "application/json;charset=utf-8";
+            await this.context.Response.Body.WriteAsync(bytes);            
         }
 
         /// <summary>Forbid behavior.</summary>
         /// <param name="properties">The <see cref="T:Microsoft.AspNetCore.Authentication.AuthenticationProperties" /> that contains the extra meta-data arriving with the authentication.</param>
         /// <returns>A task.</returns>
-        public Task ForbidAsync(AuthenticationProperties properties)
+        public async Task ForbidAsync(AuthenticationProperties properties)
         {
             this.context.Response.StatusCode = 403;
-            return Task.CompletedTask;
+            var error = new ErroResponse() { Message = "没有操作权限" };
+            var bytes = Encoding.UTF8.GetBytes(error.ToJson());
+            this.context.Response.ContentType = "application/json;charset=utf-8";
+            await this.context.Response.Body.WriteAsync(bytes);
+            
         }
 
     }

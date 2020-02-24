@@ -25,7 +25,7 @@ namespace EasyRbac.Web.Controllers
 
         [HttpPost]
         [ResourceTag]
-        public Task CreateUser([FromBody]CreateUserDto dto)
+        public Task<long> CreateUser([FromBody]CreateUserDto dto)
         {
            return this._userService.AddUser(dto);
         }

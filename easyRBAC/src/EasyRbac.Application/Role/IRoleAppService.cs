@@ -20,5 +20,8 @@ namespace EasyRbac.Application.Role
         Task ChangeMember(long roleId, List<long> memberList);
         Task ChangeResouces(long roleId, List<long> resouceList);
         Task<List<long>> GetUserIdsInRole(long roleId);
+        Task RoleAddOneUser(long roleId, long userId);
+
+        Task RoleRemoveOneUser(long roleId, long userId);
     }
 }

@@ -58,12 +58,17 @@ namespace EasyRbac.Application.Login
 
         public async Task<UserTokenDto> UserLoginAsync(UserLoginDto login)
         {
-            UserEntity userEntity = await this._userRepository.QueryFirstAsync(x => x.UserName == login.UserName && x.Enable);
+            UserEntity userEntity = await this._userRepository.QueryFirstAsync(x => x.UserName == login.UserName);
 
             bool loginSucces = userEntity?.PasswordIsMatch(login.Password, this._encryptHelper) ?? false;
             if (!loginSucces)
             {
                 throw new EasyRbacException("用户名/密码错误");
+            }
+
+            if (!userEntity.Enable)
+            {
+                throw new EasyRbacException("用户被禁用，请联系管理员");
             }
 
             var expireIn = userEntity.AccountType == AccountType.User ? _appOptions.Value.UserLoginExpireIn : _appOptions.Value.AppLoginExpireIn;

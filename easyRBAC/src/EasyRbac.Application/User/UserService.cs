@@ -76,6 +76,16 @@ namespace EasyRbac.Application.User
                  x => x.Id == userId);
         }
 
+        public Task EnableUser(long userId)
+        {
+            return this._userRepository.UpdateAsync(
+                 () => new UserEntity()
+                 {
+                     Enable = true
+                 },
+                 x => x.Id == userId);
+        }
+
         public async Task<UserInfoDto> GetUserInfo(long userId)
         {
             var users = await this._userRepository.QueryAsync(x => x.Id == userId);
@@ -106,5 +116,7 @@ namespace EasyRbac.Application.User
                 {nameof(roleResource),roleResource }
             };
         }
+
+        
     }
 }

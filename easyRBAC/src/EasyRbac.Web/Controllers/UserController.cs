@@ -1,15 +1,12 @@
-﻿// Copyright (c) GZNB. All rights reserved.
+﻿// Copyright (c) ULiiAn. All rights reserved.
 
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 using EasyRbac.Application.User;
 using EasyRbac.Dto;
 using EasyRbac.Dto.User;
-using Microsoft.AspNetCore.Mvc;
-using EasyRbac.Dto.Exceptions;
 using EasyRbac.Web.WebExtentions;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EasyRbac.Web.Controllers
 {
@@ -27,12 +24,12 @@ namespace EasyRbac.Web.Controllers
         [ResourceTag]
         public Task<long> CreateUser([FromBody]CreateUserDto dto)
         {
-           return this._userService.AddUser(dto);
+            return this._userService.AddUser(dto);
         }
-       
+
         [HttpPut("{userId:long}/pwd")]
         [ResourceTag]
-        public Task ChangeUserPassword(long userId,[FromBody]ChangePwd dto)
+        public Task ChangeUserPassword(long userId, [FromBody]ChangePwd dto)
         {
             return this._userService.ChangePwd(userId, dto);
         }
@@ -42,6 +39,13 @@ namespace EasyRbac.Web.Controllers
         public Task DisableUser(long userId)
         {
             return this._userService.DisableUser(userId);
+        }
+
+        [HttpPatch("{userId}")]
+        [ResourceTag]
+        public Task EnableUser(long userId)
+        {
+            return this._userService.EnableUser(userId);
         }
 
         [HttpGet("{userId}")]

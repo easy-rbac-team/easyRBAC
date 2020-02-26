@@ -41,7 +41,7 @@ namespace EasyRbac.Web.Controllers.SsoApi
             {
                 throw new EasyRbacException("用户被禁用");
             }
-            userInfo.Roles = await this._loginService.GetUserRoles(userId);
+            //userInfo.Roles = await this._loginService.GetUserRoles(userId);
             return userInfo;
         }
 

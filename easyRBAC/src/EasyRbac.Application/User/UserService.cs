@@ -22,12 +22,20 @@ namespace EasyRbac.Application.User
         private readonly IIdGenerator _idGenerate;
         private readonly IEncryptHelper _encryptHelper;
         private readonly IRepository<UserEntity> _userRepository;
+        private readonly IUserRoleDomainService _userRoleDomainService;
+        
         private readonly IUserResourceDomainService _userResourceDomainService;
         private IMapper _mapper;
 
         /// <summary>Initializes a new instance of the <see cref="T:System.Object"></see> class.</summary>
-        public UserService(IIdGenerator idGenerate, IEncryptHelper encryptHelper, IRepository<UserEntity> userRepository, IMapper mapper, IUserResourceDomainService userResourceDomainService)
+        public UserService(IIdGenerator idGenerate, 
+            IEncryptHelper encryptHelper, 
+            IRepository<UserEntity> userRepository, 
+            IMapper mapper,
+            IUserResourceDomainService userResourceDomainService,
+            IUserRoleDomainService userRoleDomainService)
         {
+            this._userRoleDomainService = userRoleDomainService;
             this._idGenerate = idGenerate;
             this._encryptHelper = encryptHelper;
             this._userRepository = userRepository;
@@ -90,7 +98,14 @@ namespace EasyRbac.Application.User
         {
             var users = await this._userRepository.QueryAsync(x => x.Id == userId);
             var user = users.FirstOrDefault();
-            return this._mapper.Map<UserInfoDto>(user);
+            if (user != null)
+            {
+                var dto =  this._mapper.Map<UserInfoDto>(user);
+                var roles =await this._userRoleDomainService.GetRolesAsync(user.Id);
+                dto.Roles = roles.Select(x=>x.RoleName).ToList();
+                return dto;
+            }
+            return null;
 
         }
 

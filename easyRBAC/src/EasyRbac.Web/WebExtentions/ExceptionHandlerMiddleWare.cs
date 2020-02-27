@@ -2,12 +2,11 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace EasyRbac.Web.WebExtentions
@@ -46,7 +45,9 @@ namespace EasyRbac.Web.WebExtentions
                     Message = ex.Message
                 };
 
-                var json = JsonConvert.SerializeObject(errObj, new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+
+                //var json = JsonConvert.SerializeObject(errObj, new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+                var json = JsonSerializer.Serialize(errObj, typeof(ErroResponse), new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
                 //context.Response.ContentLength = json.Length;
                 var body = Encoding.UTF8.GetBytes(json);
                 context.Response.ContentLength = body.Length;

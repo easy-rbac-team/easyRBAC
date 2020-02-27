@@ -1,39 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Reflection;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 using EasyRbac.Application.User;
-using FluentValidation;
+using EasyRbac.Dto.FluentValidate;
+using EasyRbac.Dto.Mapper;
+using EasyRbac.Reponsitory.BaseRepository;
+using EasyRbac.Reponsitory.Helper;
+using EasyRbac.Utils.Denpendency;
+using EasyRbac.Web.Options;
+using EasyRbac.Web.WebExtentions;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using EasyRbac.Dto.User;
-using EasyRbac.Dto.FluentValidate;
-using EasyRbac.Dto.Mapper;
-using EasyRbac.Web.WebExtentions;
-using EasyRbac.Utils.Denpendency;
-using EasyRbac.Reponsitory.BaseRepository;
-using EasyRbac.Reponsitory.Helper;
-using EasyRbac.Web.Options;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using MySql.Data.MySqlClient;
 using SQLinq;
 using SQLinq.Dialect;
-using Swashbuckle.AspNetCore.Swagger;
+using System.Data;
+using System.Reflection;
 
 namespace EasyRbac.Web
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -44,7 +35,7 @@ namespace EasyRbac.Web
         }
 
         public IConfigurationRoot Configuration { get; }
-
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -56,12 +47,18 @@ namespace EasyRbac.Web
                 }).AddJsonOptions(
                     options =>
                     {
-                        options.SerializerSettings.Converters.Add(new LongToStringConverter());
+                        options.JsonSerializerOptions.Converters.Add(new LongToStringConverter());
+
                     })
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserDtoVerify>());
             services.AddUtils(this.Configuration);
             services.UseDtoAutoMapper();
             services.AddCors();
+            services.AddLogging(config =>
+            {
+                config.AddConsole();
+                config.AddDebug();
+            });
 
 
             services.AddAuthentication(
@@ -75,7 +72,18 @@ namespace EasyRbac.Web
             services.Configure<AppOption>(appConfiguration);
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "EasyRBAC API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "EasyRBAC API", Version = "v1" });
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins, builder =>
+                {
+                    builder.AllowAnyHeader()
+                    .AllowCredentials()
+                    .SetIsOriginAllowed(origin=>true)
+                    .AllowAnyMethod();
+                });
             });
         }
 
@@ -99,32 +107,19 @@ namespace EasyRbac.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
 
-            if (env.IsDevelopment())
-            {
-                //app.UseStatusCodePages();
-                app.UseMiddleware<ExceptionHandlerMiddleware>();
-            }
-            else
-            {
-                app.UseMiddleware<ExceptionHandlerMiddleware>();
-            }
-
-            app.UseCors(
-                builder =>
-                {
-                    builder.WithOrigins("http://localhost:*","http://*.uliian:*")
-                        .AllowAnyOrigin()
-                        .AllowAnyHeader()
-                        .AllowCredentials()
-                        .AllowAnyMethod();
-                });
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseAuthentication();
-            app.UseMvc();
+            //app.UseMvc();
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 
@@ -134,5 +129,5 @@ namespace EasyRbac.Web
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
         }
-    }
+    }    
 }

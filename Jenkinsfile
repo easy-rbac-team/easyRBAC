@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'mcr.microsoft.com/dotnet/core/sdk:3.1'
+            args '-v $HOME:/root'
+        }
+    }
     stages {
         stage('检出') {
             steps {
@@ -10,7 +15,7 @@ pipeline {
         stage('构建') {
             steps {
                 echo '构建中...'
-                sh './.github/workflows/build.sh'
+                sh 'dotnet dotnet publish -r linux-x64 -c Release /p:PublishSingleFile=true'
                 echo 'build完成'               
                 archiveArtifacts(artifacts: 'easyRBAC.tar.gz', fingerprint: true, onlyIfSuccessful: true)
             }
@@ -29,12 +34,12 @@ pipeline {
                     withCredentials([sshUserPrivateKey(credentialsId: "79923990-f24a-4e30-a81d-9e64811b6603", keyFileVariable: 'id_rsa')]) {
                         remote.identityFile = id_rsa
 
-                        sshPut remote: remote, from: 'easyRBAC.tar.gz', into: '/home/function/tmp'
-                        sshCommand remote: remote, command: "tar -xzvf /home/function/tmp/easyRBAC.tar.gz -C /tmp/"
-                        sshCommand remote: remote, command: "systemctl --user stop easyrbac"
-                        sshCommand remote: remote, command: "cp -f -r /tmp/easyRBAC/src/EasyRbac.Web/bin/Release/netcoreapp2.2/linux-x64/publish/* /home/function/dotnet_apps/easyRBAC"
-                        sshCommand remote: remote, command: "systemctl --user start easyrbac"
-                        sshRemove remote: remote, path: '/tmp/easyRBAC'
+                        sshPut remote: remote, from: 'easyRBAC/src/EasyRbac.Web/bin/Release/netcoreapp3.1/linux-x64/publish/EasyRbac.Web', into: '/home/function/tmp'
+                        // sshCommand remote: remote, command: "tar -xzvf /home/function/tmp/easyRBAC.tar.gz -C /tmp/"
+                        // sshCommand remote: remote, command: "systemctl --user stop easyrbac"
+                        // sshCommand remote: remote, command: "cp -f -r /tmp/easyRBAC/src/EasyRbac.Web/bin/Release/netcoreapp2.2/linux-x64/publish/* /home/function/dotnet_apps/easyRBAC"
+                        // sshCommand remote: remote, command: "systemctl --user start easyrbac"
+                        // sshRemove remote: remote, path: '/tmp/easyRBAC'
                         // sshCommand remote: remote, command: "systemctl --user stop easyrbac"
                         // sshCommand remote: remote, command: "cp -f /home/function/java_apps/xin-an-api/api.jar /home/function/java_apps/xin-an-api/api.jar.bak"
                         // sshCommand remote: remote, command: "cp -f /home/function/tmp/api.jar /home/function/java_apps/xin-an-api/"

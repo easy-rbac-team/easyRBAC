@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'mcr.microsoft.com/dotnet/core/sdk:3.1'
+            image 'appsvc/dotnetcore:3.1-latest_20191031.7'
             args '-v $HOME:/root'
         }
     }

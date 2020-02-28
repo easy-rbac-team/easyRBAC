@@ -14,3 +14,4 @@ dist/
 *.user
 *.pubxml
 application.Home.json
+Jenkinsfile

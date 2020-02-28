@@ -11,7 +11,7 @@
 ps:当年要是有个这种小清新多美好啊~
 
 ## Build Status
-![EasyRBAC-CI](https://github.com/easy-rbac-team/easyRBAC/workflows/EasyRBAC-CI/badge.svg)
+![![构建状态](https://ynfunc.coding.net/badges/hospital-schedule-api/job/166472/build.svg)](https://ynfunc.coding.net/p/hospital-schedule-api/ci/job)
 
 ## 文档
 

@@ -15,9 +15,9 @@ pipeline {
         stage('构建') {
             steps {
                 echo '构建中...'
-                sh 'dotnet publish -r linux-x64 -c Release /p:PublishSingleFile=true'
+                sh 'dotnet publish easyRBAC/src/EasyRbac.Web/EasyRbac.Web.csproj -r linux-x64 -c Release /p:PublishSingleFile=true'
                 echo 'build完成'               
-                archiveArtifacts(artifacts: 'easyRBAC.tar.gz', fingerprint: true, onlyIfSuccessful: true)
+                // archiveArtifacts(artifacts: 'easyRBAC.tar.gz', fingerprint: true, onlyIfSuccessful: true)
             }
         }
         stage('部署') {

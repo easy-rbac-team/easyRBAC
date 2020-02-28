@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'mcr.microsoft.com/dotnet/core/sdk:3.1'
+            image 'ynfunc-docker.pkg.coding.net/easyrbac-api/easy-rbac/dotnetcoresdk:3.1'
             args '-v $HOME:/root'
         }
     }

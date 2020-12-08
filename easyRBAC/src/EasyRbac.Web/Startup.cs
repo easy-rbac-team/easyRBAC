@@ -19,6 +19,7 @@ using SQLinq;
 using SQLinq.Dialect;
 using System.Data;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace EasyRbac.Web
 {
@@ -48,6 +49,7 @@ namespace EasyRbac.Web
                     options =>
                     {
                         options.JsonSerializerOptions.Converters.Add(new LongToStringConverter());
+                        //options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 
                     })
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserDtoVerify>());
@@ -81,7 +83,7 @@ namespace EasyRbac.Web
                 {
                     builder.AllowAnyHeader()
                     .AllowCredentials()
-                    .SetIsOriginAllowed(origin=>true)
+                    .SetIsOriginAllowed(origin => true)
                     .AllowAnyMethod();
                 });
             });
@@ -129,5 +131,5 @@ namespace EasyRbac.Web
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
         }
-    }    
+    }
 }

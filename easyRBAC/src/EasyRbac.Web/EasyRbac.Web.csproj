@@ -6,6 +6,7 @@
   <PropertyGroup>
     <RuntimeIdentifiers>centos.7-x64;win10-x64;ubuntu.14.04-x64</RuntimeIdentifiers>
     <Version>1.1.0</Version>
+    <UserSecretsId>e0c4e9f1-86e6-493b-beb1-9166ff1ba5a6</UserSecretsId>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <Optimize>true</Optimize>
@@ -34,5 +35,7 @@
     <ProjectReference Include="..\EasyRbac.Dto\EasyRbac.Dto.csproj" />
     <ProjectReference Include="..\EasyRbac.Service\EasyRbac.DomainService.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

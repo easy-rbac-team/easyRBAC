@@ -50,10 +50,10 @@ namespace EasyRbac.Web.Controllers.EasyRbac
 
             this.Response.Cookies.Append("token",token,new CookieOptions()
             {
-                SameSite = SameSiteMode.None
+                SameSite = SameSiteMode.Lax,
             });
             
-            return string.Format("{0}({1})", callback, "{\"success\":true}");
+            return $"{callback}({{\"success\":true}})";
         }
 
         [HttpGet("logout")]
